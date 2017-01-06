@@ -25,7 +25,7 @@ var blogRoutes      = require("./routes/blogs"),
 // seedDB();
 // print_student();
 // console.log(process.env.BLOG_DATABASE);
-
+console.log(process.env.BLOG_DATABASE);
 var db = process.env.BLOG_DATABASE || "mongodb://localhost/blogData";
 // App config
 mongoose.connect(db, function(err,db){
