@@ -1,0 +1,110 @@
+<html>
+    <head>
+        <title>Mindframe Education</title>
+        <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <link rel = "stylesheet" type = "text/css" href = "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css">
+        <link rel = "stylesheet" type = "text/css" href = https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css>
+        <link rel = "stylesheet" type = "text/css" href = "/stylesheets/app.css">
+        <link rel = "stylesheet" type = "text/css" href = "https://fonts.googleapis.com/css?family=Roboto">
+    </head>
+    <body>
+        <!-- Header using Semantic UI-->
+        <div class = "ui menu grid">
+            <div class = "computer tablet only row">
+                <div class = "ui top fixed menu">
+                    <div class = "ui container" style = "width: 90%;">
+                        <div class = "header item">
+                            <a href = "/">Mindframe Education</a>
+                        </div>
+                        <% if (currentUser) { %>
+                            <a href = "/blogs" class = "item">Blogs</a>
+                            <a href = "/students" class = "item">Students' entries</a>
+                            <% if (currentUser && currentUser.hasAccess('user')) { %>
+                                <div class = "item ui simple dropdown">New
+                                    <i class = "dropdown icon" style = "margin-left: 5px;"></i>
+                                    <div class = "menu">
+                                        <a class = "item" href = "/blogs/new">Blog</a>
+                                        <!--<a class = "item" href = "#">Entry</a>-->
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% } %>
+                        <!--End of left menu section. Right menu section starts-->
+                        <div class = "right menu">
+                            <% if (!currentUser) { %>
+                                <a href = "/login" class = "item"><i class = "sign in icon"></i> 
+                                Log in</a>
+                                <a href = "/register" class = "item"><i class = "add user icon" style = "margin-right: 3px;"></i>
+                                Sign up</a>
+                            <% } else { %>
+                                    <div class = "item ui simple dropdown"><i class = "user icon" style = "margin-right: 3px;"></i><%=currentUser.username %>
+                                        <i class = "dropdown icon" style = "margin-left: 5px;"></i>
+                                        <div class = "menu">
+                                            <a class = "item" href = "/change-password">Change password</a>
+                                            <a class = "item" href = "/logout"><i class = "sign out icon" style = "margin-right: 3px;"></i>Log out</a>
+                                        </div>
+                                    </div>
+                                    
+                                <!--<a href = "#" class = "item">Logged in as <%= currentUser.username %></a>-->
+                                <!--<a href = "/logout" class = "item"><i class = "sign out icon"></i>Log out</a>-->
+                            <% } %>
+                        </div> <!--right menu-->
+                    </div> <!--ui container-->
+                </div> <!--ui top fixed menu-->
+            </div> <!--computer only row-->
+            
+            <div class = "mobile only row">
+                <div class = "ui top fixed menu">
+                    <div class = "ui container" style = "width: 100%;">
+                        <div class = "item header">
+                            <a href = "/">Mindframe Education</a>
+                        </div>
+                        <% if (currentUser) { %>
+                            <div class = "item ui simple dropdown">
+                                <i class = "large angle double down icon"></i>
+                                <div class = "menu">
+                                    <a href = "/blogs" class = "item">Blogs</a>
+                                    <a href = "/students" class = "item">Students' entries</a>
+                                    <% if (currentUser.hasAccess('user')) { %>
+                                        <a class = "item" href = "/blogs/new">New Blog</a>
+                                        <!--<a class = "item" href = "#">New Entry</a>-->
+                                    <% } %>
+                                </div>
+                            </div>
+                        <% } %>
+                        <div class = "right menu ">
+                            <div class = "item ui simple dropdown" style = "width: 100%;">
+                                <i class = "large angle double down icon" aria-hidden = "true"></i>
+                                <div class = "menu">
+                                    <% if(!currentUser) { %>
+                                        <a href = "/login" class = "item"><i class = "sign in icon" style = "margin-right: 3px;"></i>Log in</a>
+                                        <a href = "/register" class = "item"><i class = "add user icon" style = "margin-right: 3px;"></i>Sign up</a>
+                                    <% } else { %>
+                                        <span class = "item"><i class = "user icon" style = "margin-right: 3px;"></i><%=currentUser.username %></span>
+                                        <a class = "item" href = "/change-password">Change password</a>
+                                        <a href = "/logout" class = "item"><i class = "sign out icon" style = "margin-right: 3px;"></i>Log out</a>
+                                    <% } %>
+                                </div> <!--menu-->
+                            </div> <!--item ui simple dropdown-->
+                        </div> <!--right menu-->
+                    </div> <!--ui container-->
+                </div> <!--ui top fixed menu-->
+            </div> <!--mobile tablet only row-->
+        </div> <!--ui menu grid-->
+        
+        
+        <!--END OF NAV BAR SECTION. BEGINNING OF FLASH MESSAGES-->
+        
+        <% if (error && error.length > 0) { %>
+            <div class="container alert alert-danger text-center" role="alert" >
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <strong><%=error %></strong>
+            </div>
+        <% } %>
+        
+        <% if (success && success.length > 0){  %>
+            <div class="container alert alert-success text-center" role="alert" >
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <strong><%=success %></strong>
+            </div>
+        <% } %>

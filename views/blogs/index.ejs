@@ -1,0 +1,60 @@
+<% include ../partials/header %>
+<div class = "ui main text container">
+    <div class = "ui huge header">All blog posts</div>
+    <div class = "ui top raised segment">
+        <div class = "ui divided items">
+            <% if (currentUser) { %> <!-- If the user is logged in -->
+                <% if (blogs.length === 0) { %>
+                    <div class = "item">
+                        We do not have any post now. Please check back in the future!
+                    </div>
+                <% } else { %>
+                    <% blogs.forEach(function(blog){ %>
+                    <div class = "item">
+                        <% if(blog.image.length !== 0) { %>
+                            <div class = "image">
+                                <img class = "resize" src = "<%= blog.image %>">
+                            </div>
+                        <% } else { %>
+                            <div>
+                                <img class = "resize" src = "<%= blog.image %>">
+                            </div>
+                        <%  } %>
+                        
+                        <div class = "content" style = "margin-left: 20px;">
+                            <a class = "header" href = "/blogs/<%=blog._id%>"><%= blog.title %></a>
+                            <div clas = "meta">
+                                <span>Created by: <%= blog.author.username %></span>
+                            </div>
+                            
+                            <div class = "description">
+                                <p> 
+                                    <% if (typeof blog.body !== 'undefined' && blog.body.length > 100) { %>
+                                    <%- blog.body.substring(0,100) %>...
+                                    <% } else { %>
+                                    <%= blog.body %>
+                                    <% } %>
+                                </p>
+                            </div>
+                            
+                            <div class = "extra">
+                                <a class = "tagline ui floated basic blue button" href = "/blogs/<%=blog._id%>">
+                                    Read More
+                                    <!--<i class = "right chevron icon"></i>-->
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <% })%> <!-- End of for-each function -->
+                <% } %>
+                
+            <% } else { %> <!-- End of if statement -->
+                <p>Please <a class = "tagline" href = "/login">log in</a> to see our blog posts!</p>
+            <% } %>
+            
+        </div>
+    </div> <!--Ending of all posts container-->
+    
+</div>
+
+<% include ../partials/footer %>

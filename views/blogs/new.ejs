@@ -1,0 +1,29 @@
+<% include ../partials/header %>
+<div class = "ui main text container" style = "margin-bottom: 0px; margin-top: 120px;padding-left: 0;">
+    <a href = "/blogs"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+</div>
+<div class = "ui main text container segment" style = "margin-top: 10px;">
+    <div class = "ui huge header">New Blog</div>
+    <form class = "ui form" action = "/blogs" method = "POST">
+        <div class = "field">
+            <label>Title</label>
+            <input type ="text" name = "title" placeholder = "title">
+        </div>
+        
+        <div class = "field">
+            <label>Image</label>
+            <input type ="text" name = "image" placeholder = "image link">
+        </div>
+        
+        <div class = "field">
+            <label>Blog Content</label>
+            <textarea name = "body" placeholder = "body"></textarea>
+        </div>
+        
+        <div class = "field" >
+            <input class="ui blue basic button" type = "Submit"Save>
+        </div>
+
+    </form>
+</div> 
+<% include ../partials/footer %>

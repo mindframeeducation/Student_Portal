@@ -1,0 +1,18 @@
+var mongoose = require("mongoose");
+var studentSchema = mongoose.Schema({
+    name: {
+        first: {type: String, trim: true},
+        last: {type: String, trim: true}
+    },
+    grade: Number,
+    
+    // Each students will have a list of entries
+    entries: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Entry"
+        }
+    ]
+});
+
+module.exports = mongoose.model("Student", studentSchema);

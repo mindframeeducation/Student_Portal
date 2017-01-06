@@ -1,0 +1,74 @@
+<% include ../partials/header %>
+    <div class = "ui main text container" style = "padding-bottom: 10px; margin-top: 100px;">
+        <!--<a href = "/students">Go back</a>-->
+        <a href = "/students"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+        <div class = "ui raised segment" style = "padding-left: 35px;">
+            <p class = "student_name">
+                <strong>Student's name:</strong> <%=foundStudent.name.first %> <%= foundStudent.name.last %> | <strong>Grade:</strong> <%= foundStudent.grade %>
+            </p>
+            
+            <!-- If the user is logged in and is a staff or an admin-->
+            <% if ((currentUser && currentUser.hasAccess('user'))) { %>
+                <a class="ui primary basic button" href = "/students/<%=foundStudent._id%>/entries/new">
+                    Add entry
+                </a>
+                <a class="ui orange basic button" href = "/students/<%=foundStudent._id%>/edit">
+                    Edit student's info
+                </a>
+            <% } %>
+        </div>
+    </div>
+    
+    <div class = "ui main text container" style = "margin-bottom: 50px; margin-top: 0px;">
+        <div class = "ui top raised segment">
+            <div class = "ui divided items">
+                <% if (foundStudent.entries.length > 0) { %>
+                    <% foundStudent.entries.forEach(function(entry) { %>
+                        <div class = "item">
+                            <div class = "content" style = "margin-left: 20px;">
+                                <!-- New edit and delete buttons-->
+                                <% if (currentUser && currentUser.hasAccess('user') && currentUser._id.equals(entry.author.id) || (currentUser && currentUser.hasAccess('admin')) )  {%>
+                                    <div style = "float: right; font-size: 0.75em;">
+                                        <a href = "/students/<%=foundStudent._id%>/entries/<%=entry._id%>/edit">Edit | </a>
+                                        <form id = "delete" action = "/students/<%=foundStudent._id%>/entries/<%=entry._id%>?_method=DELETE" method = "POST">
+                                            <button class = "delete-button">Delete</button>
+                                        </form>
+                                    </div>
+                                <% } %>
+                                <p> <strong>Class: <%= entry.class_name %></strong> 
+                                </p>
+                                
+                                <div clas = "meta">
+                                    <span>Created by: <%= entry.author.username %></span>
+                                </div>
+                                
+                                <div class = "description">
+                                    <% if (entry.summary.length > 200) { %>
+                                        <p> <%= entry.summary.substring(0,201) %>... </p>
+                                    <% } else { %>
+                                        <p> <%= entry.summary %> </p>
+                                    <% } %>
+                                </div>
+                                <!--/students/:id/entries-->
+                                <% if (entry.summary.length > 200) { %>
+                                    <div class = "extra">
+                                        <a class = "tagline ui left floated basic blue button" href = "/students/<%=foundStudent._id%>/entries/<%=entry._id%>">
+                                            Read More
+                                        </a>
+                                    </div>
+                                <% } %>
+                                
+                            </div>
+                        </div> <!--Ending of item div-->
+                    <% }); %>
+                <% } else {%> 
+                    <div class = "item">
+                        This student does not have any entry yet :(
+                    </div>
+                <% } %>
+                
+            </div>
+        </div> 
+    </div> <!--Ending of ui main text container div-->
+    
+<% include ../partials/footer %>

@@ -1,0 +1,28 @@
+<% include ../partials/header %>
+<div class = "ui main text container" style = "margin-bottom: 0px; margin-top: 120px; padding-left: 0;">
+    <a href = "/students/<%=foundStudent.id%>"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+</div>
+
+<div class = "ui main text container segment" style = "margin-top: 10px;">
+    <form class = "ui form" action = "/students/<%=foundStudent.id%>?_method=PUT" method = "POST">
+        <div class = "field">
+            <label>First name</label>
+            <input type ="text" name = "first_name" value = "<%=foundStudent.name.first %>">
+        </div>
+        
+        <div class = "field">
+            <label>Last name</label>
+            <input type ="text" name = "last_name" value = "<%=foundStudent.name.last %>">
+        </div>
+        
+        <div class = "field">
+            <label>Grade</label>
+            <input type ="text" name = "grade" value = "<%=foundStudent.grade %>">
+        </div>
+        
+        <div class = "field">
+            <input class="ui blue basic button" type = "Submit"Save>
+        </div>
+    </form>
+</div> 
+<% include ../partials/footer %>

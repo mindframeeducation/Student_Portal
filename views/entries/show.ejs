@@ -1,0 +1,27 @@
+<% include ../partials/header %>
+<div class = "ui main text container" style = "margin-bottom: 0px; margin-top: 120px;padding-left: 0;">
+    <a href = "/students/<%=student_id%>"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+</div>
+
+<div class = "ui main text container segment" style = "margin-top: 10px;">
+    <div class = "ui huge header"><%=entry.class_name%></div>
+    <div class = "ui top attached">
+        <div class = "item">
+            <div class = "description">
+                <p> <%=entry.summary%> </p>
+            </div>
+            <div style = "margin-top: 25px;">
+                <!-- If the user is logged in and is a staff member, or if the user is logged in and is an admin-->
+                <% if((currentUser && currentUser._id.equals(entry.author.id) && currentUser.hasAccess('user')) || (currentUser && currentUser.hasAccess('admin'))) { %>
+                    <a href = "/students/<%=student_id%>/entries/<%=entry._id%>/edit">
+                        <button class = "ui orange basic button">Edit</button>
+                    </a>
+                    <form id = "delete" action = "/students/<%=student_id%>/entries/<%=entry._id%>?_method=DELETE" method = "POST">
+                        <button class = "ui red basic button">Delete</button>
+                    </form>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div> 
+<% include ../partials/footer %>

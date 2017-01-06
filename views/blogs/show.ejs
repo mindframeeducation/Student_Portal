@@ -1,0 +1,31 @@
+<% include ../partials/header %>
+<div class = "ui main text container" style = "margin-bottom: 0px; margin-top: 120px;padding-left: 0;">
+    <a href = "/blogs"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+</div>
+<div class = "ui main text container segment" style = "margin-top: 10px;">
+    <div class = "ui huge header"><%= blog.title %></div>
+    <div class = "ui top attached">
+        <div class = "item">
+            <img class = "ui centered rounded image" src = "<%= blog.image %>">
+            <div class = "content">
+                <span> <%= blog.created.toDateString() %> </span>
+            </div>
+            <div class = "description">
+                <p> <%- blog.body %> </p>
+            </div>
+            <div style = "margin-top: 25px;">
+                <!-- If the user is logged in and is a staff member, or if the user is logged in and is an admin-->
+                <% if((currentUser && currentUser._id.equals(blog.author.id)) || (currentUser && currentUser.hasAccess('admin'))) {  %>
+                    <a class = "tagline" href = "/blogs/<%=blog._id%>/edit">
+                        <button class = "ui orange basic button">Edit</button>
+                    </a>
+                    <form id = "delete" action = "/blogs/<%=blog._id%>?_method=DELETE" method = "POST">
+                        <button class = "ui red basic button">Delete</button>
+                    </form>
+                <% } %>
+            </div>
+            
+        </div>
+    </div>
+</div> 
+<% include ../partials/footer %>
