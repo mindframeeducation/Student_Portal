@@ -26,6 +26,7 @@ var blogRoutes      = require("./routes/blogs"),
 // print_student();
 // console.log(process.env.BLOG_DATABASE);
 console.log(process.env.BLOG_DATABASE);
+// export ENV_VAR=value in command line
 var db = process.env.BLOG_DATABASE || "mongodb://localhost/blogData";
 // App config
 mongoose.connect(db, function(err,db){
