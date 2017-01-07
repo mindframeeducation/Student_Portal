@@ -47,7 +47,7 @@ app.use(flash()); // Need this for flash messages
 
 // CONFIGURATION FOR PASSPORT ======================
 app.use(require("express-session")({
-    secret: "Once again, I will be working at one of the big 4 tech companies in 2017!",
+    secret: "Mindframe",
     resave: false,
     saveUninitialized: false
 }));
