@@ -5,6 +5,7 @@ var User        = require("../models/user");
 var nodemailer  = require("nodemailer");
 var crypto      = require("crypto");
 var Async       = require("async");
+var mg          = require("nodemailer-mailgun-transport");
 
 // Display log-in page
 router.get("/login", isLoggedOut, function(req ,res){
@@ -129,63 +130,97 @@ router.get("/forget", function(req,res){
 });
 
 router.post("/forget", function(req,res,next){
-    Async.waterfall([
-        function(done){
-            crypto.randomBytes(20,function(err,buf){
+    var transporter = nodemailer.createTransport({
+        service: "Gmail", 
+        auth: {
+            user: "mfeducationmail",
+            pass: "mindframeAdm1n"
+        }
+    })
+    // Create a random to token for password reset
+    crypto.randomBytes(20, function(err, buff){
+        if (err){
+            console.log(err);
+        } else {
+            var token = buff.toString("hex");
+            User.findByUsername(req.body.username, function(err, user){
                 if (err){
-                    console.log(err);
-                    return res.redirect("/blogs");
+                    console.log("User not found");
                 } else {
-                    var token = buf.toString("hex");
-                }
-            });
-        },
-        
-        function(token, done){
-            User.findByUsername(req.body.username, function(err, foundUser){
-                if (err){
-                    console.log("Error! Cannot find the user: " + err);
-                } else {
-                    // Generate the token for the user that request password reset
-                    foundUser.resetPasswordToken = token;
-                    foundUser.resetPasswordExpires = Date.now() + 3600000; // This password token is valid for 1 hour
+                    user.resetPasswordToken = token;
+                    user.resetPasswordExpires = Date.now() + 36000000; // Password link will expires in 1 hour
+                    user.save();
+                    var mailOptions = {
+                        from: "Mindframe Education",
+                        to: req.body.email,
+                        subject: "Hello there",
+                        text: "You are receiving this because you (or someone else) " + 
+                        "have requested a password reset for the username " + req.body.username + 
+                        ". Please click on the following link, or paste this into your browser " + 
+                        "to complete the password reset process: " + 
+                        "https://" + req.headers.host + "/reset/" + token + "\n\n" + 
+                        "If you did not request this, please ignore this email and your password will " +
+                        "remain unchanged." + "\n\n" +
+                        "Mindframe Dev. team"
+                        
+                    };
                     
-                    // Save that info to the user's database
-                    foundUser.save(function(err){
-                        done(err, token, foundUser);
+                    transporter.sendMail(mailOptions, function(err, info){
+                        if (err){
+                            return console.log("Error: " + err);
+                        }
+                        console.log("Success!");
+                        req.flash("success", "An email with detailed instructions has been sent to: " + req.body.email);
+                        res.redirect("/blogs");
                     });
                 }
-            });
-        },
-        
-        function(token, user, done){
-            var smtpTransport = nodemailer.createTransport('SMTP', {
-                service: "Gmail",
-                auth: {
-                    user: "mfeducationmail@gmail.com",
-                    pass: "mindframeAdm1n"
-                }
-            });
-            
-            var mailOptions = {
-                to: req.body.email,
-                from: "passwordreset@demo.com",
-                subject: "Password reset",
-                text: "Please click on this link: " + 'http://' + req.headers.host + '/reset/' + token
-            };
-            smtpTransport.sendMail(mailOptions, function(err){
-                req.flash("success", "An email has been sent to " + req.body.email + " with further instructions");
-                done(err, "done");
-            });
+            })
         }
-    ], function(err){
+    });
+    
+});
+// =================================
+
+// PASSWORD RESET ROUTE =================
+router.get("/reset/:token", function(req,res){
+    User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}}, function(err, user){
         if (err){
-            return next(err);
+            console.log("There is an error: " + err);
+            req.flash("error", "The reset password link is invalid or has expired");
+            res.redirect("/blogs");
+        } else {
+            res.render("reset", {token: req.params.token});
         }
-        
+    });
+});
+
+router.post("/reset/:token", function(req,res){
+    User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}}, function(err, user){
+        if (err){
+            console.log("There is an error: " + err);
+            req.flash("error", "The reset password link is invalid or has expired");
+            res.redirect("/blogs");
+        } else {
+            if (req.body.password === req.body.confirm_password){
+                user.setPassword(req.body.password, function(err){
+                    if (err){
+                        console.log("Error: " + err);
+                        res.redirect("/blogs");
+                    } else {
+                        user.save();
+                        req.flash("Password reset successfully! Please login with your new password!");
+                        res.redirect("/login");
+                    }
+                })
+            } else {
+                req.flash("Password do not match! Please try again!");
+                res.redirect("back");
+            }
+        }
     })
 })
-// =================================
+
+// ======================================
 
 // Check if there is a user currently logged in
 function isLoggedOut(req,res,next){
