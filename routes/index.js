@@ -123,7 +123,68 @@ router.get("/logout", isLoggedIn, function(req, res){
 });
 
 // FORGET PASSWORD ROUTES ==========
+router.get("/forget", function(req,res){
+    console.log("The user is: " + req.user);
+    res.render("forget");
+});
 
+router.post("/forget", function(req,res,next){
+    Async.waterfall([
+        function(done){
+            crypto.randomBytes(20,function(err,buf){
+                if (err){
+                    console.log(err);
+                    return res.redirect("/blogs");
+                } else {
+                    var token = buf.toString("hex");
+                }
+            });
+        },
+        
+        function(token, done){
+            User.findByUsername(req.body.username, function(err, foundUser){
+                if (err){
+                    console.log("Error! Cannot find the user: " + err);
+                } else {
+                    // Generate the token for the user that request password reset
+                    foundUser.resetPasswordToken = token;
+                    foundUser.resetPasswordExpires = Date.now() + 3600000; // This password token is valid for 1 hour
+                    
+                    // Save that info to the user's database
+                    foundUser.save(function(err){
+                        done(err, token, foundUser);
+                    });
+                }
+            });
+        },
+        
+        function(token, user, done){
+            var smtpTransport = nodemailer.createTransport('SMTP', {
+                service: "Gmail",
+                auth: {
+                    user: "mfeducationmail@gmail.com",
+                    pass: "mindframeAdm1n"
+                }
+            });
+            
+            var mailOptions = {
+                to: req.body.email,
+                from: "passwordreset@demo.com",
+                subject: "Password reset",
+                text: "Please click on this link: " + 'http://' + req.headers.host + '/reset/' + token
+            };
+            smtpTransport.sendMail(mailOptions, function(err){
+                req.flash("success", "An email has been sent to " + req.body.email + " with further instructions");
+                done(err, "done");
+            });
+        }
+    ], function(err){
+        if (err){
+            return next(err);
+        }
+        
+    })
+})
 // =================================
 
 // Check if there is a user currently logged in
