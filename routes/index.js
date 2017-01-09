@@ -2,6 +2,9 @@ var express     = require("express");
 var router      = express.Router();
 var passport    = require("passport");
 var User        = require("../models/user");
+var nodemailer  = require("nodemailer");
+var crypto      = require("crypto");
+var Async       = require("async");
 
 // Display log-in page
 router.get("/login", isLoggedOut, function(req ,res){
@@ -118,6 +121,10 @@ router.get("/logout", isLoggedIn, function(req, res){
     req.flash("success", "You have successfully logged out!");
     res.redirect("/blogs");
 });
+
+// FORGET PASSWORD ROUTES ==========
+
+// =================================
 
 // Check if there is a user currently logged in
 function isLoggedOut(req,res,next){
