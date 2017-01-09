@@ -4,14 +4,8 @@ var passport    = require("passport");
 var User        = require("../models/user");
 
 // Display log-in page
-router.get("/login", function(req ,res){
-    if (req.user){ // If there is a user that is currently logged in, prompt an error message
-        req.flash("error", "Please log out first!");
-        res.redirect("/blogs");
-    } else {
-        res.render("login");
-    }
-    
+router.get("/login", isLoggedOut, function(req ,res){
+   res.render("login");
 });
 
 // WORKING VERSION
@@ -26,12 +20,12 @@ router.post("/login", passport.authenticate("local",
 
 
 // Display the register page
-router.get("/register", function(req, res){
+router.get("/register", isLoggedOut, function(req, res){
     res.render("register");
 });
 
 // With password confirmation. Working just fine :)
-router.post("/register", function(req,res){
+router.post("/register", isLoggedOut, function(req,res){
     var password = req.body.password;
     var confirm_password = req.body.confirm_password;
     if (password !== confirm_password){
@@ -54,12 +48,12 @@ router.post("/register", function(req,res){
 });
 
 // Register page for staff
-router.get("/register/Iyq8UTvzCU/m1ndFrameStaff", function(req,res){
+router.get("/register/Iyq8UTvzCU/m1ndFrameStaff", isLoggedOut, function(req,res){
     res.render("staff_register");
 });
 
 // Register page post request for staff
-router.post("/register/Iyq8UTvzCU/m1ndFrameStaff", function(req,res){
+router.post("/register/Iyq8UTvzCU/m1ndFrameStaff", isLoggedOut, function(req,res){
     var password = req.body.password;
     var confirm_password = req.body.confirm_password;
     if (password !== confirm_password){
@@ -119,11 +113,32 @@ router.post("/change-password", function(req,res){
 })
 
 // Handle logic for logging out
-router.get("/logout", function(req, res){
+router.get("/logout", isLoggedIn, function(req, res){
     req.logout();
     req.flash("success", "You have successfully logged out!");
     res.redirect("/blogs");
 });
+
+// Check if there is a user currently logged in
+function isLoggedOut(req,res,next){
+    if (req.user){
+        req.flash("error", "Please log out first");
+        res.redirect("/blogs");
+    } else {
+        next();
+    }
+}
+
+// ==========================================
+// Function to check if the user is logged in
+// ==========================================
+function isLoggedIn(req, res, next){
+    if (req.isAuthenticated()){
+        return next();
+    }
+    req.flash("error", "You are not logged in!");
+    res.redirect("/login");
+}
 
 module.exports = router;
 
