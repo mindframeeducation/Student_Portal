@@ -150,7 +150,7 @@ router.post("/forget", function(req,res,next){
                     var mailOptions = {
                         from: "Mindframe Education",
                         to: req.body.email,
-                        subject: "Hello there",
+                        subject: "Password reset",
                         text: "You are receiving this because you (or someone else) " + 
                         "have requested a password reset for the username " + req.body.username + 
                         ". Please click on the following link, or paste this into your browser " + 
