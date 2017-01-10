@@ -4,8 +4,6 @@ var passport    = require("passport");
 var User        = require("../models/user");
 var nodemailer  = require("nodemailer");
 var crypto      = require("crypto");
-var Async       = require("async");
-var mg          = require("nodemailer-mailgun-transport");
 
 // Display log-in page
 router.get("/login", isLoggedOut, function(req ,res){
