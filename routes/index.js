@@ -113,8 +113,8 @@ router.post("/change-password", function(req,res){
                 res.redirect("back");
             }
         }
-    })
-})
+    });
+});
 
 // Handle logic for logging out
 router.get("/logout", isLoggedIn, function(req, res){
@@ -125,7 +125,6 @@ router.get("/logout", isLoggedIn, function(req, res){
 
 // FORGET PASSWORD ROUTES ==========
 router.get("/forget", function(req,res){
-    console.log("The user is: " + req.user);
     res.render("forget");
 });
 
@@ -157,10 +156,10 @@ router.post("/forget", function(req,res,next){
                         text: "You are receiving this because you (or someone else) " + 
                         "have requested a password reset for the username " + req.body.username + 
                         ". Please click on the following link, or paste this into your browser " + 
-                        "to complete the password reset process: " + 
+                        "to complete the password reset process: \n" + 
                         "https://" + req.headers.host + "/reset/" + token + "\n\n" + 
                         "If you did not request this, please ignore this email and your password will " +
-                        "remain unchanged." + "\n\n" +
+                        "remain unchanged." + "\n\n\n" +
                         "Mindframe Dev. team"
                         
                     };
@@ -184,8 +183,8 @@ router.post("/forget", function(req,res,next){
 // PASSWORD RESET ROUTE =================
 router.get("/reset/:token", function(req,res){
     User.findOne({resetPasswordToken: req.params.token, resetPasswordExpires: {$gt: Date.now()}}, function(err, user){
-        if (err){
-            console.log("There is an error: " + err);
+        if (!user){ // If no such user exists
+            console.log(err);
             req.flash("error", "The reset password link is invalid or has expired");
             res.redirect("/blogs");
         } else {
@@ -202,6 +201,10 @@ router.post("/reset/:token", function(req,res){
             res.redirect("/blogs");
         } else {
             if (req.body.password === req.body.confirm_password){
+                // Nullify the reset password fields. Making them undefined will have
+                // them now showing up when showing the database
+                user.resetPasswordToken = undefined;
+                user.resetPasswordExpires = undefined;
                 user.setPassword(req.body.password, function(err){
                     if (err){
                         console.log("Error: " + err);
