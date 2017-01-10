@@ -81,18 +81,6 @@ app.get("/", function(req,res){
     res.redirect("/blogs");
 });
 
-// User.find({}, function(err,users){
-//     if(err){
-//         console.log("There is an error");
-//     } else {
-//         console.log("User database");
-//         users.forEach(function(user){
-//             console.log("The user id is: " + user._id);
-//             console.log("The type is " + typeof(user._id.toString()));
-//         });
-//     }
-// });
-
 // =================================================================
 // CREATING ADMIN USER. Only do it once!
 // var testUser = new User({username: "admin", role: 'admin'});
@@ -104,17 +92,6 @@ app.get("/", function(req,res){
 //         console.log(user);
 //     }
 // });
-// ================================================================
-
-// ================================================================
-// TESTING PERMISSION
-// console.log(testUser.hasAccess('public')); // true 
-// console.log(testUser.hasAccess('anon')); // false 
-// console.log(testUser.hasAccess('user')); // true 
-// console.log(testUser.hasAccess('admin')); // false 
-// console.log(testUser.hasAccess([ 'public', 'user' ])); // true 
-// console.log(testUser.hasAccess([ 'public', 'anon' ])); // false (because the user isn't a part of 'anon' access level) 
-// ================================================================
 
 app.listen(process.env.PORT, process.env.IP, function(){
    console.log("Blog app is running!");
