@@ -10,7 +10,7 @@
     <body>
         <!-- Header using Semantic UI-->
         <div class = "ui menu grid">
-            <div class = "computer tablet only row">
+            <div class = "computer only row">
                 <div class = "ui top fixed menu">
                     <div class = "ui container" style = "width: 90%;">
                         <div class = "header item">
@@ -53,34 +53,28 @@
                 </div> <!--ui top fixed menu-->
             </div> <!--computer only row-->
             
-            <div class = "mobile only row">
+            <div class = "tablet mobile only row">
                 <div class = "ui top fixed menu">
                     <div class = "ui container" style = "width: 100%;">
                         <div class = "item header">
                             <a href = "/">Mindframe Education</a>
                         </div>
-                        <% if (currentUser) { %>
-                            <div class = "item ui simple dropdown">
-                                <i class = "large angle double down icon"></i>
-                                <div class = "menu">
-                                    <a href = "/blogs" class = "item">Blogs</a>
-                                    <a href = "/students" class = "item">Students' entries</a>
-                                    <% if (currentUser.hasAccess('user')) { %>
-                                        <a class = "item" href = "/blogs/new">New Blog</a>
-                                        <!--<a class = "item" href = "#">New Entry</a>-->
-                                    <% } %>
-                                </div>
-                            </div>
-                        <% } %>
                         <div class = "right menu ">
                             <div class = "item ui simple dropdown" style = "width: 100%;">
-                                <i class = "large angle double down icon" aria-hidden = "true"></i>
+                                <% if (currentUser) { %>
+                                    <i class = "user icon" style = "margin-right: 3px;"></i><%=currentUser.username %>
+                                <% } %>
+                                <i class="dropdown icon" aria-hidden="true" style = "margin-left: 5px;"></i>
                                 <div class = "menu">
                                     <% if(!currentUser) { %>
                                         <a href = "/login" class = "item"><i class = "sign in icon" style = "margin-right: 3px;"></i>Log in</a>
                                         <a href = "/register" class = "item"><i class = "add user icon" style = "margin-right: 3px;"></i>Sign up</a>
                                     <% } else { %>
-                                        <span class = "item"><i class = "user icon" style = "margin-right: 3px;"></i><%=currentUser.username %></span>
+                                        <a href = "/blogs" class = "item">Blogs</a>
+                                        <a href = "/students" class = "item">Students' entries</a>
+                                        <% if (currentUser.hasAccess('user')) { %>
+                                            <a class = "item" href = "/blogs/new">New Blog</a>
+                                        <% } %>
                                         <a class = "item" href = "/change-password">Change password</a>
                                         <a href = "/logout" class = "item"><i class = "sign out icon" style = "margin-right: 3px;"></i>Log out</a>
                                     <% } %>
