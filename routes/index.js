@@ -79,7 +79,7 @@ router.post("/register/Iyq8UTvzCU/m1ndFrameStaff", isLoggedOut, function(req,res
     }
 });
 
-// Change password routes
+// CHANGE PASSWORD ROUTES
 router.get("/change-password", function(req, res){
     if (req.user){
         res.render("change-password");
