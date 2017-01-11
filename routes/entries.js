@@ -93,7 +93,7 @@ router.delete("/:entry_id",isAuthorized, function(req,res){
                 if (err){
                     console.log("There is an error removing this entry from student's entry array");
                 } else {
-                     req.flash("success", "Entry successfully removed!");
+                    req.flash("success", "Entry successfully removed!");
                     res.redirect("/students/" + req.params.id);
                 }
             });

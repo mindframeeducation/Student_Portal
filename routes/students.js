@@ -2,6 +2,26 @@ var express     = require("express"),
     router      = express.Router(),
     Student     = require("../models/student");
     
+// ROUTES TO ADD A NEW STUDENT
+router.get("/students/new", isLoggedIn, isAStaff, function(req,res){
+    res.render("students/new");
+});
+
+router.post("/students", isLoggedIn, isAStaff, function(req,res){
+    var newStudent = {"name.first" : req.body.first_name, "name.last": req.body.last_name, entries: [],  grade: req.body.grade};
+    Student.create(newStudent, function(err, student){
+        if (err){
+            console.log("There is an error creating the student: " + err);
+            req.flash("error", "Error! Please try again!");
+            res.redirect("/students");
+        } else {
+            req.flash("success", "New student created successfully!");
+            res.redirect("/students");
+        }
+    })
+});
+    
+
 // SHOW SEARCH PAGE FOR THE STUDENTS
 router.get("/students", isLoggedIn, function(req, res){
     Student.find({}).populate("entries").exec(function(err, student_list){
@@ -10,7 +30,7 @@ router.get("/students", isLoggedIn, function(req, res){
         } else {
             res.render("students/index", {students: student_list});
         }
-    })
+    });
 });
 
 // SHOW PAGE FOR A SPECIFIC STUDENT
@@ -66,13 +86,11 @@ function isLoggedIn(req, res, next){
 
 // Function to check if the user is a staff member
 function isAStaff(req,res,next){
-    if(req.isAuthenticated()){ // If the user is logged in
-        if (req.user.hasAccess('user')){ // If the user is a staff member
-            next();
-        } else {
-            req.flash("error", "Permission denied!");
-            res.redirect("/students");
-        }
+    if (req.user.hasAccess("user")) {
+        next();
+    } else {
+        req.flash("error", "Permission denied");
+        res.redirect("/students");
     }
 }
 

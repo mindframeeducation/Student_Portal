@@ -93,6 +93,8 @@ router.post("/change-password", function(req,res){
     User.findByUsername(req.user.username, function(err, foundUser){
         if (err){
             console.log(err);
+            req.flash("error", "No such username found!");
+            res.redirect("/change-password");
         } else {
             if (req.body.password === req.body.confirm_password){
                 foundUser.setPassword(req.body.password, function(err){

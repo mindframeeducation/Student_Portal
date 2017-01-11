@@ -1,0 +1,30 @@
+<% include ../partials/header %>
+<div class = "ui main text container" style = "margin-bottom: 0px; margin-top: 120px;padding-left: 0;">
+    <a href = "/students"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+</div>
+<div class = "ui main text container segment" style = "margin-top: 10px;">
+    <div class = "ui huge header">New Student</div>
+    <form class = "ui form" action = "/students" method = "POST">
+        <div class = "field">
+            <label>First name</label>
+            <input type ="text" name = "first_name" placeholder = "First name">
+        </div>
+        
+        <div class = "field">
+            <label>Last name</label>
+            <input type ="text" name = "last_name" placeholder = "Last name">
+        </div>
+        
+        <div class = "field">
+            <label>Grade</label>
+            <input type ="text" name = "grade" placeholder = "Grade">
+        </div>
+        
+        <div class = "field" >
+            <input class="ui blue basic button" type = "Submit"Save>
+        </div>
+
+    </form>
+</div> 
+
+<% include ../partials/footer %>
