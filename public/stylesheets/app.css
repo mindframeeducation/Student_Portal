@@ -91,3 +91,6 @@ body {
 }
 
 /*Testing stuff*/
+.hidden{
+    display: none!important;
+}

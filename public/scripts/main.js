@@ -18,6 +18,13 @@ $('.message .close').on('click', function() {
   $(this).closest('.message').fadeOut();
 });
 
-searchBtn.addEventListener("click", function(){
-  alert("Student's name: "+ $('.ui.dropdown').dropdown('get text') + "\n" + "Student's id: " + $('.ui.dropdown').dropdown('get value'));
-});
+// searchBtn.addEventListener("click", function(){
+//   alert("Student's name: "+ $('.ui.dropdown').dropdown('get text') + "\n" + "Student's id: " + $('.ui.dropdown').dropdown('get value'));
+// });
+
+// $("#openmodal").click(function () {
+//     $('.small.modal').modal('show');
+// });
+
+$(".small.modal").modal('setting', {observeChanges: true}).modal('setting', 'transition', "Horizontal Flip").modal("attach events", "#editBlog", "show");
+$(".small.modal.student").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Horizontal Flip").modal("attach events", "#editStudent", "show");
