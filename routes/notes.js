@@ -2,7 +2,7 @@ var express     = require("express"),
     router      = express.Router({mergeParams: true}),
     Student     = require("../models/student"),
     Note        = require("../models/note");
-    
+  
 router.get("/new", function(req,res){
     Student.findById(req.params.id, function(err, foundStudent){
         if (err){
@@ -47,5 +47,16 @@ router.post("/", function(req,res){
         }
     });
 });
+
+router.get("/", function(req,res){
+    Student.findById(req.params.id).populate("notes").exec(function(err, foundStudent){
+        if (err){
+            req.flash("error", "ERROR LOOKING UP STUDENT");
+            res.redirect("/students/" + req.params.id);
+        } else {
+            res.render("notes/index");
+        }
+    })
+})
 
 module.exports = router;

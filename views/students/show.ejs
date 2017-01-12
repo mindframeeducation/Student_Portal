@@ -7,7 +7,8 @@
                 <strong>Student's name:</strong> <%=foundStudent.name.first %> <%= foundStudent.name.last %> | <strong>Grade:</strong> <%= foundStudent.grade %>
             </p>
             <p>
-                Notes go here  Notes go here  Notes go here  Notes go here  Notes go here  Notes go here  Notes go here  Notes go here  Notes go here  Notes go here  Notes go here  Notes go here 
+                <strong>Note:</strong> <%= foundStudent.notes[foundStudent.notes.length -1].body %>
+                <a style = "font-size: 0.8em;" href = "/students/<%=foundStudent.id%>/notes">...View more notes</a>
             </p>
             
             <!-- If the user is logged in and is a staff or an admin-->
@@ -42,11 +43,10 @@
                                         </form>
                                     </div>
                                 <% } %>
-                                <p> <strong>Class: <%= entry.class_name %></strong> 
-                                </p>
+                                <p> <strong>Class: <%= entry.class_name %></strong> </p>
                                 
-                                <div clas = "meta">
-                                    <span>Created by: <%= entry.author.username %> | Created on: <%= entry.created.toDateString() %></span>
+                                <div class = "meta">
+                                    Created by: <%= entry.author.username %> | Created on: <%= entry.created.toDateString() %>
                                 </div>
                                 
                                 <div class = "description">
@@ -74,8 +74,8 @@
                     </div>
                 <% } %>
                 
-            </div>
-        </div> 
+            </div> <!--ui divided items-->
+        </div> <!--ui top raised segment-->
     </div> <!--Ending of ui main text container div-->
 
 <!--Modal to update student's info-->
