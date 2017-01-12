@@ -4,11 +4,6 @@
 </div>
 <div class = "ui main text container segment" style = "margin-top: 10px;">
     <form class = "ui form" action = "/students/<%=student_id%>/entries/<%=entry._id%>?_method=PUT" method = "POST">
-        <!--<div class = "field">-->
-        <!--    <label>Class Name</label>-->
-        <!--    <input type ="text" name = "entry[class_name]" value = "<%=entry.class_name %>">-->
-        <!--</div>-->
-        
         <div class="field" style = "width: 40%;">
             <label>Class name</label>
             <div class="ui selection dropdown">
@@ -31,7 +26,6 @@
                     </div>
             </div>
         </div>
-        
         <div class = "field">
             <label>Summary</label>
             <textarea name = "entry[summary]"><%=entry.summary%></textarea>
