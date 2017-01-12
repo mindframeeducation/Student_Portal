@@ -16,6 +16,9 @@
                         <div class = "header item">
                             <a href = "/">Mindframe Education</a>
                         </div>
+                        <!--<div class = "item">-->
+                        <!--    <button class="ui button" id="openmodal">Open modal</button>-->
+                        <!--</div>-->
                         <% if (currentUser) { %>
                             <a href = "/blogs" class = "item">Blogs</a>
                             <a href = "/students" class = "item">Students' entries</a>
@@ -86,7 +89,6 @@
             </div> <!--mobile tablet only row-->
         </div> <!--ui menu grid-->
         
-        
         <!--END OF NAV BAR SECTION. BEGINNING OF FLASH MESSAGES-->
         
         <% if (error && error.length > 0) { %>
@@ -102,3 +104,6 @@
               <strong><%=success %></strong>
             </div>
         <% } %>
+        
+        
+        

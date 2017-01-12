@@ -16,9 +16,10 @@
             <div style = "margin-top: 25px;">
                 <!-- If the user is logged in and is a staff member, or if the user is logged in and is an admin-->
                 <% if((currentUser && currentUser._id.equals(blog.author.id)) || (currentUser && currentUser.hasAccess('admin'))) {  %>
-                    <a class = "tagline" href = "/blogs/<%=blog._id%>/edit">
-                        <button class = "ui orange basic button">Edit</button>
-                    </a>
+                    <!--<a class = "tagline" href = "/blogs/<%=blog._id%>/edit">-->
+                    <!--    <button class = "ui orange basic button">Edit</button>-->
+                    <!--</a>-->
+                    <button class = "ui orange basic button" id="openmodal">Edit</button>
                     <form id = "delete" action = "/blogs/<%=blog._id%>?_method=DELETE" method = "POST">
                         <button class = "ui red basic button">Delete</button>
                     </form>
@@ -28,4 +29,31 @@
         </div>
     </div>
 </div> 
+
+<!--Testing modal-->
+        <div class="ui small modal" style = "margin-bottom: 50px;"> <i class="close icon"></i>
+            <div class="header">New blog</div>
+            <div class="content">
+                <form class = "ui form" action = "/blogs" method = "POST">
+                    <div class = "field">
+                        <label>Title</label>
+                        <input type ="text" name = "title" placeholder = "title">
+                    </div>
+                    
+                    <div class = "field">
+                        <label>Image</label>
+                        <input type ="text" name = "image" placeholder = "image link">
+                    </div>
+                    
+                    <div class = "field">
+                        <label>Blog Content</label>
+                        <textarea name = "body" placeholder = "body"></textarea>
+                    </div>
+                    
+                    <div class = "field" >
+                        <input class="ui blue basic button" type = "Submit"Save>
+                    </div>
+            </form>
+            </div>
+        </div> <!--ui small modal-->
 <% include ../partials/footer %>

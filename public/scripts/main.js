@@ -18,6 +18,12 @@ $('.message .close').on('click', function() {
   $(this).closest('.message').fadeOut();
 });
 
-searchBtn.addEventListener("click", function(){
-  alert("Student's name: "+ $('.ui.dropdown').dropdown('get text') + "\n" + "Student's id: " + $('.ui.dropdown').dropdown('get value'));
-});
+// searchBtn.addEventListener("click", function(){
+//   alert("Student's name: "+ $('.ui.dropdown').dropdown('get text') + "\n" + "Student's id: " + $('.ui.dropdown').dropdown('get value'));
+// });
+
+// $("#openmodal").click(function () {
+//     $('.small.modal').modal('show');
+// });
+
+$(".small.modal").modal("attach events", "#openmodal", "show");
