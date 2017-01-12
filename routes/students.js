@@ -8,7 +8,7 @@ router.get("/students/new", isLoggedIn, isAStaff, function(req,res){
 });
 
 router.post("/students", isLoggedIn, isAStaff, function(req,res){
-    var newStudent = {"name.first" : req.body.first_name, "name.last": req.body.last_name, entries: [],  grade: req.body.grade};
+    var newStudent = {"name.first" : req.body.first_name, "name.last": req.body.last_name, entries: [], notes: [],  grade: req.body.grade};
     Student.create(newStudent, function(err, student){
         if (err){
             console.log("There is an error creating the student: " + err);
