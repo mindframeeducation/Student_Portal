@@ -6,11 +6,17 @@
             <p class = "student_name">
                 <strong>Student's name:</strong> <%=foundStudent.name.first %> <%= foundStudent.name.last %> | <strong>Grade:</strong> <%= foundStudent.grade %>
             </p>
+            <p>
+                Notes go here  Notes go here  Notes go here  Notes go here  Notes go here  Notes go here  Notes go here  Notes go here  Notes go here  Notes go here  Notes go here  Notes go here 
+            </p>
             
             <!-- If the user is logged in and is a staff or an admin-->
             <% if ((currentUser && currentUser.hasAccess('user'))) { %>
                 <a class="ui primary basic button" href = "/students/<%=foundStudent._id%>/entries/new">
                     Add entry
+                </a>
+                <a class="ui primary basic button" href = "/students/<%=foundStudent._id%>/notes/new">
+                    Add note
                 </a>
                 <!--<a id = "editStudent" class="ui orange basic button" href = "/students/<%=foundStudent._id%>/edit">-->
                 <!--    Edit student's info-->
@@ -40,7 +46,7 @@
                                 </p>
                                 
                                 <div clas = "meta">
-                                    <span>Created by: <%= entry.author.username %></span>
+                                    <span>Created by: <%= entry.author.username %> | Created on: <%= entry.created.toDateString() %></span>
                                 </div>
                                 
                                 <div class = "description">
