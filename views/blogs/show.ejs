@@ -19,7 +19,7 @@
                     <!--<a class = "tagline" href = "/blogs/<%=blog._id%>/edit">-->
                     <!--    <button class = "ui orange basic button">Edit</button>-->
                     <!--</a>-->
-                    <button class = "ui orange basic button" id="openmodal">Edit</button>
+                    <button class = "ui orange basic button" id="editBlog">Edit</button>
                     <form id = "delete" action = "/blogs/<%=blog._id%>?_method=DELETE" method = "POST">
                         <button class = "ui red basic button">Delete</button>
                     </form>
@@ -30,30 +30,30 @@
     </div>
 </div> 
 
-<!--Testing modal-->
-        <div class="ui small modal" style = "margin-bottom: 50px;"> <i class="close icon"></i>
-            <div class="header">New blog</div>
-            <div class="content">
-                <form class = "ui form" action = "/blogs" method = "POST">
-                    <div class = "field">
-                        <label>Title</label>
-                        <input type ="text" name = "title" placeholder = "title">
-                    </div>
-                    
-                    <div class = "field">
-                        <label>Image</label>
-                        <input type ="text" name = "image" placeholder = "image link">
-                    </div>
-                    
-                    <div class = "field">
-                        <label>Blog Content</label>
-                        <textarea name = "body" placeholder = "body"></textarea>
-                    </div>
-                    
-                    <div class = "field" >
-                        <input class="ui blue basic button" type = "Submit"Save>
-                    </div>
-            </form>
+<!--Modal to update the blog-->
+<div class="ui small modal" style = "margin-bottom: 50px;"> <i class="close icon"></i>
+    <div class="header">Editing: <%= blog.title %></div>
+    <div class="content">
+        <form class = "ui form" action = "/blogs/<%=blog._id%>?_method=PUT" method = "POST">
+            <div class = "field">
+                <label>Title</label>
+                <input type ="text" name = "blog[title]" value = "<%=blog.title%>">
             </div>
-        </div> <!--ui small modal-->
+                    
+            <div class = "field">
+                <label>Image</label>
+                <input type ="text" name = "blog[image]" value = "<%=blog.image%>">
+            </div>
+                
+            <div class = "field">
+                <label>Blog Content</label>
+                <textarea name = "blog[body]"><%=blog.body%></textarea>
+            </div>
+                    
+            <div class = "field" >
+                <input class="ui blue basic button" type = "Submit"Save>
+            </div>
+        </form>
+    </div>
+</div> <!--ui small modal-->
 <% include ../partials/footer %>

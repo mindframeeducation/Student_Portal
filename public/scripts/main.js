@@ -26,4 +26,4 @@ $('.message .close').on('click', function() {
 //     $('.small.modal').modal('show');
 // });
 
-$(".small.modal").modal("attach events", "#openmodal", "show");
+$(".small.modal").modal("attach events", "#editBlog", "show");

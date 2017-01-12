@@ -56,16 +56,16 @@ router.get("/:id", function(req,res){
    });
 });
 
-// EDIT ROUTE
-router.get("/:id/edit", isAuthorized, function(req,res){
-    Blog.findById(req.params.id, function(err, foundBlog){
-       if (err){
-           res.redirect("/blogs");
-       } else {
-           res.render("blogs/edit", {blog: foundBlog});
-       }
-   }); 
-});
+// EDIT ROUTE. DISABLED SINCE THIS IS NO LONGER NEEDED
+// router.get("/:id/edit", isAuthorized, function(req,res){
+//     Blog.findById(req.params.id, function(err, foundBlog){
+//       if (err){
+//           res.redirect("/blogs");
+//       } else {
+//           res.render("blogs/edit", {blog: foundBlog});
+//       }
+//   }); 
+// });
 
 // UPDATE ROUTE
 router.put("/:id", isAuthorized, function(req,res){
