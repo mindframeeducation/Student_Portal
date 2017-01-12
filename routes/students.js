@@ -51,16 +51,16 @@ router.get("/students/:id", isLoggedIn, function(req,res){
     });
 });
 
-// EDIT PAGE FOR A SPECIFIC STUDENT (GET REQUEST)
-router.get("/students/:id/edit", isLoggedIn, isAStaff, function(req,res){
-    Student.findById(req.params.id, function(err,foundStudent){
-        if (err){
-            console.log("Student cannot be found! " + err);
-        } else {
-            res.render("students/edit", {foundStudent: foundStudent});
-        }
-    });
-});
+// EDIT PAGE FOR A SPECIFIC STUDENT (GET REQUEST). TAKING OUT SINCE WE ARE USING MODAL
+// router.get("/students/:id/edit", isLoggedIn, isAStaff, function(req,res){
+//     Student.findById(req.params.id, function(err,foundStudent){
+//         if (err){
+//             console.log("Student cannot be found! " + err);
+//         } else {
+//             res.render("students/edit", {foundStudent: foundStudent});
+//         }
+//     });
+// });
 
 // EDIT PAGE FOR A SPECIFIC STUDENT (POST REQUEST). CURRENTLY BEING WORKED ON
 router.put("/students/:id", isLoggedIn, isAStaff, function(req,res){

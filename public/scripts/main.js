@@ -26,4 +26,5 @@ $('.message .close').on('click', function() {
 //     $('.small.modal').modal('show');
 // });
 
-$(".small.modal").modal("attach events", "#editBlog", "show");
+$(".small.modal").modal('setting', {observeChanges: true}).modal('setting', 'transition', "Horizontal Flip").modal("attach events", "#editBlog", "show");
+$(".small.modal.student").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Horizontal Flip").modal("attach events", "#editStudent", "show");
