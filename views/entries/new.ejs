@@ -6,7 +6,7 @@
     <div class = "ui medium header">New entry for: <%=foundStudent.name.first %> <%=foundStudent.name.last %></div>
     <form class = "ui form" action = "/students/<%=foundStudent.id%>/entries" method = "POST">
         
-        <div class="field">
+        <div class="field" style = "width: 40%;">
             <label>Class</label>
             <div class="ui selection dropdown">
                 <input type="hidden" name="entry[class_name]">
