@@ -46,7 +46,7 @@ router.post("/", isLoggedIn, isAStaff, function(req, res){
 });
 
 // Show route
-router.get("/:id", function(req,res){
+router.get("/:id", isLoggedIn, function(req,res){
    Blog.findById(req.params.id, function(err, foundBlog){
        if (err){
            res.redirect("/blogs");
