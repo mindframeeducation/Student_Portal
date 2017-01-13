@@ -4,6 +4,7 @@ var passport    = require("passport");
 var User        = require("../models/user");
 var nodemailer  = require("nodemailer");
 var crypto      = require("crypto");
+var emails      = require("../emails");
 
 // Display log-in page
 router.get("/login", isLoggedOut, function(req ,res){
@@ -22,9 +23,51 @@ router.post("/login", passport.authenticate("local",
 
 
 // Display the register page
-// router.get("/register", isLoggedOut, function(req, res){
-//     res.render("register");
-// });
+router.get("/register", isLoggedOut, function(req, res){
+    res.render("register");
+});
+
+router.post("/register", isLoggedOut, function(req,res){
+    var username = req.body.username;
+    var password = req.body.password;
+    var confirm_password = req.body.confirm_password;
+    for (var i = 0; i < emails.length; i++){
+        if (username.toLowerCase() == emails[i].toLowerCase()){
+            username = username.toLowerCase(); 
+            if (password != confirm_password){
+                req.flash("error", "Passwords do not match!");
+                return res.redirect("/register");
+            } else {
+                console.log("Password matches! Signing up now");
+                console.log("Type of username is " + typeof req.body.username);
+                console.log("Type of username after lowercase: " + typeof req.body.username.toLowerCase());
+                var newUser = new User({username: username, role: "public"});
+                User.register(newUser, req.body.password, function(err, user){
+                    if (err){
+                        console.log("There is an error in registration: " + err);
+                        req.flash("error", err.message);
+                        return res.redirect("/register");
+                    }
+                    passport.authenticate("local")(req, res, function(err){
+                        if (err){
+                            console.log("ERROR IN AUTHENTICATE!: " + err);
+                        }
+                        req.flash("success", "Welcome to Mindframe Education!");
+                        return res.redirect("/blogs");
+                    });
+                });
+            }
+        }
+        else {
+            if (i == emails.length - 1){
+                console.log("Email is not in system");
+                req.flash("error", "Your email is not in our system!");
+                return res.redirect("/register");
+            } 
+        }
+    }
+    
+});
 
 // With password confirmation. Working just fine :)
 // router.post("/register", isLoggedOut, function(req,res){
