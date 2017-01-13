@@ -53,6 +53,7 @@ var emails = [
     "Danawelti@gmail.com",
     "charlenekwilliams@yahoo.com",
     "carolinewizeman@gmail.com",
+    "blacklist2412@gmail.com",
     "wojtkielo@hotmail.com",
 ];
 
