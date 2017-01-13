@@ -22,32 +22,32 @@ router.post("/login", passport.authenticate("local",
 
 
 // Display the register page
-router.get("/register", isLoggedOut, function(req, res){
-    res.render("register");
-});
+// router.get("/register", isLoggedOut, function(req, res){
+//     res.render("register");
+// });
 
 // With password confirmation. Working just fine :)
-router.post("/register", isLoggedOut, function(req,res){
-    var password = req.body.password;
-    var confirm_password = req.body.confirm_password;
-    if (password !== confirm_password){
-        req.flash("error", "Passwords do not match!");
-        return res.redirect("/register");
-    } else {
-        var newUser = new User({username: req.body.username, role: "public"});
-        User.register(newUser, req.body.password, function(err, user){
-            if (err){
-                console.log("There is an error in registration");
-                req.flash("error", err.message);
-                return res.redirect("/register");
-            }
-            passport.authenticate("local")(req, res, function(){
-                req.flash("success", "Welcome to Mindframe Education!");
-                res.redirect("/blogs");
-            });
-        });
-    }
-});
+// router.post("/register", isLoggedOut, function(req,res){
+//     var password = req.body.password;
+//     var confirm_password = req.body.confirm_password;
+//     if (password !== confirm_password){
+//         req.flash("error", "Passwords do not match!");
+//         return res.redirect("/register");
+//     } else {
+//         var newUser = new User({username: req.body.username, role: "public"});
+//         User.register(newUser, req.body.password, function(err, user){
+//             if (err){
+//                 console.log("There is an error in registration");
+//                 req.flash("error", err.message);
+//                 return res.redirect("/register");
+//             }
+//             passport.authenticate("local")(req, res, function(){
+//                 req.flash("success", "Welcome to Mindframe Education!");
+//                 res.redirect("/blogs");
+//             });
+//         });
+//     }
+// });
 
 // Register page for staff
 router.get("/register/Iyq8UTvzCU/m1ndFrameStaff", isLoggedOut, function(req,res){
