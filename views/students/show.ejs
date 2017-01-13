@@ -7,10 +7,13 @@
                 <strong>Student's name:</strong> <%=foundStudent.name.first %> <%= foundStudent.name.last %> | <strong>Grade:</strong> <%= foundStudent.grade %>
             </p>
             <% if (currentUser && currentUser.hasAccess('user')) { %>
-                <p>
-                    <strong>Note:</strong> <%= foundStudent.notes[foundStudent.notes.length -1].body %> | 
-                    <a style = "font-size: 0.8em;" href = "/students/<%=foundStudent.id%>/notes"> View more notes</a>
-                </p>
+                <% if (foundStudent.notes.length > 0) { %>
+                    <p>
+                        <strong>Note:</strong> <%= foundStudent.notes[foundStudent.notes.length -1].body %> | 
+                        <a style = "font-size: 0.8em;" href = "/students/<%=foundStudent.id%>/notes"> View more notes</a>
+                    </p>
+                <% } %>
+                
             <% } %>
             
             <!-- If the user is logged in and is a staff or an admin-->
