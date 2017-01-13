@@ -114,9 +114,9 @@ function isAuthorized(req, res, next) {
     if(req.isAuthenticated()){
         Entry.findById(req.params.entry_id, function(err, foundEntry){
             if (err){
-                console.log("There is an error looking for a specific blog");
+                req.flash("error", "Error looking up an entry");
+                res.redirect("back");
             } else {
-                console.log("The found entry is " + foundEntry);
                 if (foundEntry.author.id.equals(req.user._id) || req.user.hasAccess("admin")){
                     next();
                 } else {

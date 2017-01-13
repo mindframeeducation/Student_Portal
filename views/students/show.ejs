@@ -6,11 +6,20 @@
             <p class = "student_name">
                 <strong>Student's name:</strong> <%=foundStudent.name.first %> <%= foundStudent.name.last %> | <strong>Grade:</strong> <%= foundStudent.grade %>
             </p>
+            <% if (currentUser && currentUser.hasAccess('user')) { %>
+                <p>
+                    <strong>Note:</strong> <%= foundStudent.notes[foundStudent.notes.length -1].body %> | 
+                    <a style = "font-size: 0.8em;" href = "/students/<%=foundStudent.id%>/notes"> View more notes</a>
+                </p>
+            <% } %>
             
             <!-- If the user is logged in and is a staff or an admin-->
             <% if ((currentUser && currentUser.hasAccess('user'))) { %>
                 <a class="ui primary basic button" href = "/students/<%=foundStudent._id%>/entries/new">
                     Add entry
+                </a>
+                <a class="ui primary basic button" href = "/students/<%=foundStudent._id%>/notes/new">
+                    Add note
                 </a>
                 <!--<a id = "editStudent" class="ui orange basic button" href = "/students/<%=foundStudent._id%>/edit">-->
                 <!--    Edit student's info-->
@@ -18,7 +27,7 @@
                 <button class = "ui orange basic button" id="editStudent">Edit student's info</button>
             <% } %>
         </div>
-    </div>
+    </div> <!--ui main text container-->
     
     <div class = "ui main text container" style = "margin-bottom: 50px; margin-top: 0px;">
         <div class = "ui top raised segment">
@@ -36,22 +45,21 @@
                                         </form>
                                     </div>
                                 <% } %>
-                                <p> <strong>Class: <%= entry.class_name %></strong> 
-                                </p>
+                                <p> <strong>Class: <%= entry.class_name %></strong> </p>
                                 
-                                <div clas = "meta">
-                                    <span>Created by: <%= entry.author.username %> | Created on: <%=entry.created.toDateString() %></span>
+                                <div class = "meta">
+                                    Created by: <%= entry.author.username %> | Created on: <%= entry.created.toDateString() %>
                                 </div>
                                 
                                 <div class = "description">
-                                    <% if (entry.summary.length > 200) { %>
+                                    <% if (entry.summary.length > 500) { %>
                                         <p> <%= entry.summary.substring(0,201) %>... </p>
                                     <% } else { %>
                                         <p> <%= entry.summary %> </p>
                                     <% } %>
                                 </div>
                                 <!--/students/:id/entries-->
-                                <% if (entry.summary.length > 200) { %>
+                                <% if (entry.summary.length > 500) { %>
                                     <div class = "extra">
                                         <a class = "tagline ui left floated basic blue button" href = "/students/<%=foundStudent._id%>/entries/<%=entry._id%>">
                                             Read More
@@ -68,8 +76,8 @@
                     </div>
                 <% } %>
                 
-            </div>
-        </div> 
+            </div> <!--ui divided items-->
+        </div> <!--ui top raised segment-->
     </div> <!--Ending of ui main text container div-->
 
 <!--Modal to update student's info-->

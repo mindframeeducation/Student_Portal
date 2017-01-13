@@ -19,6 +19,7 @@ var express             = require("express"),
 var blogRoutes      = require("./routes/blogs"),
     studentRoutes   = require("./routes/students"),
     entryRoutes     = require("./routes/entries"),
+    noteRoutes      = require("./routes/notes"),
     indexRoutes     = require("./routes/index");
 
 // Seed the student's database. ONLY DO IT ONCE!
@@ -72,6 +73,7 @@ app.use(function(req,res,next){
 app.use("/blogs", blogRoutes);
 app.use(indexRoutes);
 app.use(studentRoutes);
+app.use("/students/:id/notes", noteRoutes);
 app.use("/students/:id/entries", entryRoutes);
 
 

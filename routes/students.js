@@ -8,7 +8,7 @@ router.get("/students/new", isLoggedIn, isAStaff, function(req,res){
 });
 
 router.post("/students", isLoggedIn, isAStaff, function(req,res){
-    var newStudent = {"name.first" : req.body.first_name, "name.last": req.body.last_name, entries: [],  grade: req.body.grade};
+    var newStudent = {"name.first" : req.body.first_name, "name.last": req.body.last_name, entries: [], notes: [],  grade: req.body.grade};
     Student.create(newStudent, function(err, student){
         if (err){
             console.log("There is an error creating the student: " + err);
@@ -36,10 +36,11 @@ router.get("/students", isLoggedIn, function(req, res){
 // SHOW PAGE FOR A SPECIFIC STUDENT
 router.get("/students/:id", isLoggedIn, function(req,res){
     // NEED TO HAVE POPULATE(), OR IT WILL ONLY STORES OBJECT IDs 
-    Student.findById(req.params.id).populate("entries").exec(function(err, foundStudent){
+    Student.findById(req.params.id).populate("entries notes").exec(function(err, foundStudent){
         if (err){
             console.log("Error: " + err);
         } else {
+            // console.log("The student is: \n" + foundStudent);
             Student.find({}, function(err,student_list){
                 if (err){
                     console.log(err);

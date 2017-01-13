@@ -12,6 +12,12 @@ var studentSchema = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Entry"
         }
+    ],
+    notes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Note"
+        }
     ]
 });
 

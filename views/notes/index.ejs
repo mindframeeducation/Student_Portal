@@ -1,0 +1,47 @@
+<% include ../partials/header %>
+<div class = "ui main text container" style = "padding-bottom: 10px; margin-top: 100px;">
+    <!--<a href = "/students">Go back</a>-->
+    <a href = "/students/<%=foundStudent.id%>"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+    <div class = "ui raised segment" style = "padding-left: 35px;">
+        <p class = "student_name">
+            <strong>Student's name:</strong> <%=foundStudent.name.first %> <%= foundStudent.name.last %> | <strong>Grade:</strong> <%= foundStudent.grade %>
+        </p>
+        <!-- If the user is logged in and is a staff or an admin-->
+    </div>
+</div> <!--ui main text container-->
+
+<div class = "ui main text container" style = "margin-bottom: 50px; margin-top: 0px;">
+    <div class = "ui top raised segment">
+        <div class = "ui divided items">
+            <% if (foundStudent.notes.length > 0) { %>
+                <% foundStudent.notes.forEach(function(note) { %>
+                    <div class = "item">
+                        <div class = "content" style = "margin-left: 20px;">
+                            
+                            <div style = "float: right; font-size: 0.75em;">
+                                <% if ((currentUser && currentUser.hasAccess("user") && currentUser._id.equals(note.author.id)) || (currentUser && currentUser.hasAccess("admin"))) { %>
+                                    <a href = "/students/<%=foundStudent.id%>/notes/<%=note.id%>/edit">Edit | </a>
+                                    <form id = "delete" action = "/students/<%=foundStudent.id%>/notes/<%=note.id%>?_method=DELETE" method = "POST">
+                                        <button class = "delete-button">Delete</button>
+                                    </form>
+                                <% } %>
+                                
+                            </div>
+                            
+                            <div class = "meta">
+                                Create by: <%= note.author.username %> | Created on: <%= note.created.toDateString() %>
+                            </div>
+                                        
+                            <div class = "description">
+                                <%= note.body %>
+                            </div>
+                        </div>
+                    </div> <!--Ending of item div-->
+                <% }); %>
+                
+            <% } %>
+        </div> <!--ui divided items-->
+    </div> <!--ui top raised segment-->
+</div> <!--Ending of ui main text container div-->
+
+<% include ../partials/footer %>
