@@ -6,10 +6,12 @@
             <p class = "student_name">
                 <strong>Student's name:</strong> <%=foundStudent.name.first %> <%= foundStudent.name.last %> | <strong>Grade:</strong> <%= foundStudent.grade %>
             </p>
-            <p>
-                <strong>Note:</strong> <%= foundStudent.notes[foundStudent.notes.length -1].body %>
-                <a style = "font-size: 0.8em;" href = "/students/<%=foundStudent.id%>/notes">...View more notes</a>
-            </p>
+            <% if (currentUser && currentUser.hasAccess('user')) { %>
+                <p>
+                    <strong>Note:</strong> <%= foundStudent.notes[foundStudent.notes.length -1].body %> | 
+                    <a style = "font-size: 0.8em;" href = "/students/<%=foundStudent.id%>/notes"> View more notes</a>
+                </p>
+            <% } %>
             
             <!-- If the user is logged in and is a staff or an admin-->
             <% if ((currentUser && currentUser.hasAccess('user'))) { %>
@@ -25,7 +27,7 @@
                 <button class = "ui orange basic button" id="editStudent">Edit student's info</button>
             <% } %>
         </div>
-    </div>
+    </div> <!--ui main text container-->
     
     <div class = "ui main text container" style = "margin-bottom: 50px; margin-top: 0px;">
         <div class = "ui top raised segment">
@@ -50,7 +52,7 @@
                                 </div>
                                 
                                 <div class = "description">
-                                    <% if (entry.summary.length > 200) { %>
+                                    <% if (entry.summary.length > 500) { %>
                                         <p> <%= entry.summary.substring(0,201) %>... </p>
                                     <% } else { %>
                                         <p> <%= entry.summary %> </p>
