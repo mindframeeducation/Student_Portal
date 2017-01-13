@@ -38,7 +38,7 @@ router.post("/register", isLoggedOut, function(req,res){
                 return res.redirect("/register");
             } else {
                 // username = username.toLowerCase(); doing this will trigger Unauthorized error. Not sure why yet
-                var newUser = new User({username: username, role: "public"});
+                var newUser = new User({username: username, email: username.toLowerCase(), role: "public"});
                 User.register(newUser, req.body.password, function(err, user){
                     if (err){
                         console.log("There is an error in registration: " + err);
@@ -181,9 +181,10 @@ router.post("/forget", function(req,res,next){
             console.log(err);
         } else {
             var token = buff.toString("hex");
-            User.findByUsername(req.body.username, function(err, user){
+            User.findOne({email: req.body.username.toLowerCase()}, function(err, user){
                 if (err){
                     console.log("Username not found");
+                    req.flash("error", "Username or email not found");
                     res.redirect("/forget");
                 } else {
                     user.resetPasswordToken = token;
@@ -191,7 +192,7 @@ router.post("/forget", function(req,res,next){
                     user.save();
                     var mailOptions = {
                         from: "Mindframe Education",
-                        to: req.body.username,
+                        to: user.email,
                         subject: "Password reset",
                         text: "You are receiving this because you (or someone else) " + 
                         "have requested a password reset for the username " + req.body.username + 
@@ -208,7 +209,7 @@ router.post("/forget", function(req,res,next){
                             return console.log("Error: " + err);
                         }
                         console.log("Success!");
-                        req.flash("success", "An email with detailed instructions has been sent to: " + req.body.email);
+                        req.flash("success", "An email with detailed instructions has been sent to: " + user.email);
                         res.redirect("/blogs");
                     });
                 }
