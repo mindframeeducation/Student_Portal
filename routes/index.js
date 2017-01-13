@@ -229,13 +229,13 @@ router.post("/reset/:token", function(req,res){
                         res.redirect("/blogs");
                     } else {
                         user.save();
-                        req.flash("Password reset successfully! Please login with your new password!");
+                        req.flash("success", "Password reset successfully! Please login with your new password!");
                         res.redirect("/login");
                     }
                 })
             } else {
-                req.flash("Password do not match! Please try again!");
-                res.redirect("back");
+                req.flash("error", "Password do not match! Please try again!");
+                res.redirect("/login");
             }
         }
     })
