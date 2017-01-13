@@ -19,10 +19,13 @@
                         <div class = "content" style = "margin-left: 20px;">
                             
                             <div style = "float: right; font-size: 0.75em;">
-                                <a href = "/students/<%=foundStudent.id%>/notes/<%=note.id%>/edit">Edit | </a>
+                                <% if ((currentUser && currentUser.hasAccess("user") && currentUser._id.equals(note.author.id)) || (currentUser && currentUser.hasAccess("admin"))) { %>
+                                    <a href = "/students/<%=foundStudent.id%>/notes/<%=note.id%>/edit">Edit | </a>
                                     <form id = "delete" action = "/students/<%=foundStudent.id%>/notes/<%=note.id%>?_method=DELETE" method = "POST">
                                         <button class = "delete-button">Delete</button>
                                     </form>
+                                <% } %>
+                                
                             </div>
                             
                             <div class = "meta">

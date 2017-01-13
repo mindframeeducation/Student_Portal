@@ -45,7 +45,7 @@ router.post("/", isAStaff, function(req,res){
     });
 });
 
-router.get("/", isAStaff,  function(req,res){
+router.get("/", isAStaff, function(req,res){
     Student.findById(req.params.id).populate("notes").exec(function(err, foundStudent){
         if (err){
             req.flash("error", "ERROR LOOKING UP STUDENT");
@@ -57,7 +57,7 @@ router.get("/", isAStaff,  function(req,res){
 });
 
 // UPDATE ROUTES FOR NOTE
-router.get("/:note_id/edit", isAStaff, function(req,res){
+router.get("/:note_id/edit", isAStaff, isAuthorized, function(req,res){
     Note.findById(req.params.note_id, function(err, foundNote){
         if (err){
             req.flash("error", "Notes cannot be found");
@@ -68,7 +68,7 @@ router.get("/:note_id/edit", isAStaff, function(req,res){
     });
 });
 
-router.put("/:note_id", isAStaff, function(req,res){
+router.put("/:note_id", isAStaff, isAuthorized, function(req,res){
     Note.findByIdAndUpdate(req.params.note_id, req.body.note, function(err, updatedNote){
         if (err){
             req.flash("error", "Error updating note");
@@ -81,7 +81,7 @@ router.put("/:note_id", isAStaff, function(req,res){
 });
 
 // DELETE NOTE ROUTE
-router.delete("/:note_id", isAStaff, function(req,res){
+router.delete("/:note_id", isAStaff, isAuthorized, function(req,res){
     Note.findByIdAndRemove(req.params.note_id, function(err){
         if (err){
             req.flash("error", "Can't delete note");
@@ -111,6 +111,29 @@ function isAStaff(req,res,next){
     } else {
         req.flash("Please log in first!");
         res.redirect("/login");
+    }
+}
+
+function isAuthorized(req, res, next) {
+    if(req.isAuthenticated()){
+        Note.findById(req.params.note_id, function(err, foundNote){
+            if (err){
+                console.log(err);
+                req.flash("error", "Error looking up a note");
+                res.redirect("back");
+            } else {
+                console.log("The found note is: " + foundNote);
+                if (foundNote.author.id.equals(req.user._id) || req.user.hasAccess("admin")){
+                    next();
+                } else {
+                    req.flash("error", "You do not have permission to do that!");
+                    res.redirect("/blogs");
+                }
+            }
+        });
+    } else {
+        req.flash("error", "Please log in first!");
+        res.redirect("back");
     }
 }
 
