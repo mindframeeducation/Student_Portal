@@ -159,11 +159,12 @@ router.post("/forget", function(req,res,next){
         } else {
             var token = buff.toString("hex");
             User.findOne({email: req.body.username.toLowerCase()}, function(err, user){
-                if (err){
-                    console.log("Username not found");
+                if (!user){
+                    console.log(err); // To prevent the warning
                     req.flash("error", "Username or email not found");
                     res.redirect("/forget");
                 } else {
+                    console.log("The user is: " + user);
                     user.resetPasswordToken = token;
                     user.resetPasswordExpires = Date.now() + 36000000; // Password link will expires in 1 hour
                     user.save();
