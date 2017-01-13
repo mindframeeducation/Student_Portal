@@ -65,29 +65,6 @@ router.post("/register", isLoggedOut, function(req,res){
     
 });
 
-// With password confirmation. Working just fine :)
-// router.post("/register", isLoggedOut, function(req,res){
-//     var password = req.body.password;
-//     var confirm_password = req.body.confirm_password;
-//     if (password !== confirm_password){
-//         req.flash("error", "Passwords do not match!");
-//         return res.redirect("/register");
-//     } else {
-//         var newUser = new User({username: req.body.username, role: "public"});
-//         User.register(newUser, req.body.password, function(err, user){
-//             if (err){
-//                 console.log("There is an error in registration");
-//                 req.flash("error", err.message);
-//                 return res.redirect("/register");
-//             }
-//             passport.authenticate("local")(req, res, function(){
-//                 req.flash("success", "Welcome to Mindframe Education!");
-//                 res.redirect("/blogs");
-//             });
-//         });
-//     }
-// });
-
 // Register page for staff
 router.get("/register/Iyq8UTvzCU/m1ndFrameStaff", isLoggedOut, function(req,res){
     res.render("staff_register");
@@ -289,25 +266,6 @@ function isLoggedIn(req, res, next){
 module.exports = router;
 
 // OLD CODE FOR REFERENCE ======================================================
-// Handle the logic for registering
-// Original and working route!
-// router.post("/register", function(req,res){
-//     var newUser = new User({username: req.body.username, role: "user"});
-//     User.register(newUser, req.body.password, function(err, user){
-//         if (err){
-//             console.log("The error is " + err);
-//             req.flash("error", err.message);
-//             return res.redirect("/register");
-//         }
-//         passport.authenticate("local")(req, res, function(){
-//             console.log("The user signed up successfully!");
-//             req.flash("success", "Welcome to Mindframe Education!");
-//             res.redirect("/blogs");
-//         });
-//     });
-// });
-
-// OLD (still working !!!)
 // router.post('/login', 
 //   passport.authenticate('local', { failureRedirect: "/login" }),
 //   function(req, res) {
@@ -315,11 +273,3 @@ module.exports = router;
 //       res.redirect("/blogs");
 //   });
   
-
-
-// router.post('/login', passport.authenticate('local'), function(req, res) {
-//     res.redirect('/');
-//     console.log(req.user);
-//     console.log("The requested username is " + req.user.username);
-//     console.log("The reqeusted password is " + req.user.password);
-// });
