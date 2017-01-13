@@ -33,14 +33,11 @@ router.post("/register", isLoggedOut, function(req,res){
     var confirm_password = req.body.confirm_password;
     for (var i = 0; i < emails.length; i++){
         if (username.toLowerCase() == emails[i].toLowerCase()){
-            username = username.toLowerCase(); 
             if (password != confirm_password){
                 req.flash("error", "Passwords do not match!");
                 return res.redirect("/register");
             } else {
-                console.log("Password matches! Signing up now");
-                console.log("Type of username is " + typeof req.body.username);
-                console.log("Type of username after lowercase: " + typeof req.body.username.toLowerCase());
+                // username = username.toLowerCase(); doing this will trigger Unauthorized error. Not sure why yet
                 var newUser = new User({username: username, role: "public"});
                 User.register(newUser, req.body.password, function(err, user){
                     if (err){
@@ -48,21 +45,20 @@ router.post("/register", isLoggedOut, function(req,res){
                         req.flash("error", err.message);
                         return res.redirect("/register");
                     }
-                    passport.authenticate("local")(req, res, function(err){
-                        if (err){
-                            console.log("ERROR IN AUTHENTICATE!: " + err);
-                        }
+                    passport.authenticate("local")(req, res, function(){
                         req.flash("success", "Welcome to Mindframe Education!");
                         return res.redirect("/blogs");
                     });
                 });
             }
+            return; // Need this, otherwise when the matched email is the second to last, the last one
+            // will trigger the else block and will yield an error in the console logs
         }
         else {
             if (i == emails.length - 1){
                 console.log("Email is not in system");
                 req.flash("error", "Your email is not in our system!");
-                return res.redirect("/register");
+                res.redirect("/register");
             } 
         }
     }
@@ -187,14 +183,15 @@ router.post("/forget", function(req,res,next){
             var token = buff.toString("hex");
             User.findByUsername(req.body.username, function(err, user){
                 if (err){
-                    console.log("User not found");
+                    console.log("Username not found");
+                    res.redirect("/forget");
                 } else {
                     user.resetPasswordToken = token;
                     user.resetPasswordExpires = Date.now() + 36000000; // Password link will expires in 1 hour
                     user.save();
                     var mailOptions = {
                         from: "Mindframe Education",
-                        to: req.body.email,
+                        to: req.body.username,
                         subject: "Password reset",
                         text: "You are receiving this because you (or someone else) " + 
                         "have requested a password reset for the username " + req.body.username + 
@@ -204,7 +201,6 @@ router.post("/forget", function(req,res,next){
                         "If you did not request this, please ignore this email and your password will " +
                         "remain unchanged." + "\n\n\n" +
                         "Mindframe Dev. team"
-                        
                     };
                     
                     transporter.sendMail(mailOptions, function(err, info){
