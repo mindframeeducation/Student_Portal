@@ -54,8 +54,6 @@ var emails = [
     "charlenekwilliams@yahoo.com",
     "carolinewizeman@gmail.com",
     "wojtkielo@hotmail.com",
-    "blacklist2412@gmail.com",
-    "test@gmail.com"
 ];
 
 module.exports = emails;
