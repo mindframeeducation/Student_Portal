@@ -127,7 +127,7 @@ function isAuthorized(req, res, next) {
         });
     } else {
         req.flash("error", "Please log in first!");
-        res.redirect("back");
+        res.redirect("/login");
     }
 }
 

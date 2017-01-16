@@ -5,6 +5,9 @@ var User        = require("../models/user");
 var nodemailer  = require("nodemailer");
 var crypto      = require("crypto");
 var emails      = require("../emails");
+var Student     = require("../models/student");
+var mongoose    = require("mongoose");
+var Entry       = require("../models/entry");
 
 // Display log-in page
 router.get("/login", isLoggedOut, function(req ,res){
@@ -21,6 +24,42 @@ router.post("/login", passport.authenticate("local",
         res.redirect("/blogs");
 });
 
+// Routes for creating entry from the nav bar
+router.get("/new-entry", isLoggedIn, isAStaff, function(req,res){
+    Student.find({}, function(err, students){
+        if (err){
+            req.flash("error", "Internal error. Please try again");
+            res.redirect("/students");
+        } else {
+            res.render("entries/new-from-nav", {students: students});
+        }
+    });
+});
+
+router.post("/new-entry", isLoggedIn, isAStaff, function(req,res){
+    var student_id = mongoose.Types.ObjectId(req.body.student_id);
+    Student.findById(student_id, function(err, foundStudent){
+        if (err){
+            req.flash("error", "There is an error: " + err);
+            res.redirect("/students");
+        } else {
+            Entry.create(req.body.entry, function(err, entry){
+                if (err){
+                    req.flash("error", "Error creating entry: " + err);
+                    res.redirect("/students");
+                } else {
+                    entry.author.id = req.user.id;
+                    entry.author.username = req.user.username;
+                    entry.save();
+                    foundStudent.entries.push(entry);
+                    foundStudent.save();
+                    req.flash("success", "Entry successfully created");
+                    res.redirect("/students/" + foundStudent._id);
+                }
+            })
+        }
+    })
+});
 
 // Display the register page
 router.get("/register", isLoggedOut, function(req, res){
@@ -262,6 +301,19 @@ function isLoggedIn(req, res, next){
     }
     req.flash("error", "You are not logged in!");
     res.redirect("/login");
+}
+
+
+// Function to check if the user is a staff member
+function isAStaff(req,res,next){
+    if(req.isAuthenticated()){ // If the user is logged in
+        if (req.user.hasAccess('user')){ // If the user is a staff member
+            next();
+        } else {
+            req.flash("error", "Permission denied!");
+            res.redirect("/blogs");
+        }
+    }
 }
 
 module.exports = router;

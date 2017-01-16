@@ -1,0 +1,64 @@
+<% include ../partials/header%>
+<div class = "ui main text container" style = "margin-bottom: 0px; margin-top: 120px; padding-left: 0;">
+    <a href = "/students"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+</div>
+<div class = "ui main text container segment" style = "margin-top: 10px;">
+    <div class = "ui medium header">New entry</div>
+    <form class = "ui form" action = "/new-entry" method = "POST">
+        <!--Select a student search box-->
+        <div class = "field" style = "width: 40%;">
+            <label>Student</label>
+            <div class="ui fluid search selection dropdown">
+                <input type="hidden" name="student_id">
+                <i class="dropdown icon"></i>
+                <div class="default text">Select student</div>
+                <div class="menu">
+                    <% students.forEach(function(student) { %>
+                        <div class = "item" data-value = "<%=student._id%>">
+                            <%= student.name.first %> <%= student.name.last %>
+                        </div>
+                        <!--<a class="item" href="/students/<%=student._id%>">-->
+                        <!--    <%= student.name.first %> <%= student.name.last %>-->
+                        <!--</a>-->
+                    <% }); %>
+                    
+                </div>
+            </div>
+        </div>
+        
+        <!--Select a class search box -->
+        <div class="field" style = "width: 40%;">
+            <label>Class</label>
+            <div class="ui selection dropdown">
+                <input type="hidden" name="entry[class_name]">
+                <i class="dropdown icon"></i>
+                <div class="default text">Class</div>
+                    <div class="menu">
+                        <div class="item" data-value="Python">Python</div>
+                        <div class="item" data-value="Java">Java</div>
+                        <div class="item" data-value="Robotics">Robotics</div>
+                        <div class="item" data-value="Engineering">Engineering</div>
+                        <div class="item" data-value="Science">Science</div>
+                        <div class="item" data-value="Digital Arts">Digital Arts</div>
+                        <div class="item" data-value="Game Design">Game Design</div>
+                        <div class="item" data-value="Game Design & Digital Arts">Game Design & Digital Arts</div>
+                        <div class="item" data-value="Robotics & Engineering">Robotics & Engineering</div>
+                        <div class="item" data-value="Jr. Robotics & Engineering">Jr. Robotics & Engineering</div>
+                        <div class="item" data-value="Math & Digital Literacy">Math & Digital Literacy</div>
+                        <div class="item" data-value="Mobile App Development">Mobile App Development</div>
+                        <div class="item" data-value="Other">Other</div>
+                    </div>
+            </div>
+        </div>
+        
+        <div class = "field">
+            <label>Summary</label>
+            <textarea name = "entry[summary]" placeholder = "Summary"></textarea>
+        </div>
+        <div class = "field">
+            <input class="ui blue basic button" type = "Submit"Save>
+            <input id = "delete" class="ui orange basic button" type = "Reset"Save>
+        </div>
+    </form>
+</div> 
+<% include ../partials/footer %>

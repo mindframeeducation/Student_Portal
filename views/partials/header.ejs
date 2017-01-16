@@ -26,6 +26,7 @@
                                 <div class = "item ui simple dropdown">New
                                     <i class = "dropdown icon" style = "margin-left: 5px;"></i>
                                     <div class = "menu">
+                                        <a class = "item" id = "newEntry" href = "/new-entry">Entry</a>
                                         <a class = "item" href = "/blogs/new">Blog</a>
                                         <a class = "item" href = "/students/new">Student</a>
                                     </div>
@@ -89,8 +90,9 @@
                 </div> <!--ui top fixed menu-->
             </div> <!--mobile tablet only row-->
         </div> <!--ui menu grid-->
-        
-        <!--END OF NAV BAR SECTION. BEGINNING OF FLASH MESSAGES-->
+        <!--END OF NAV BAR SECTION. BEGINNING OF NEW ENTRY MODAL -->
+
+        <!--BEGINNING OF FLASH MESSAGES-->
         
         <% if (error && error.length > 0) { %>
             <div class="container alert alert-danger text-center" role="alert" >
