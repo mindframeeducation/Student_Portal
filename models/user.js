@@ -7,7 +7,13 @@ var UserSchema = new mongoose.Schema({
     password: String,
     email: String,
     resetPasswordToken: String,
-    resetPasswordExpires: Date
+    resetPasswordExpires: Date,
+    students: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Student"
+        }
+    ]
 });
 
 UserSchema.plugin(passportLocalMongoose);

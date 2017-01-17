@@ -77,7 +77,7 @@ router.post("/register", isLoggedOut, function(req,res){
                 return res.redirect("/register");
             } else {
                 // username = username.toLowerCase(); doing this will trigger Unauthorized error. Not sure why yet
-                var newUser = new User({username: username, email: username.toLowerCase(), role: "public"});
+                var newUser = new User({username: username, email: username.toLowerCase(), students: [], role: "public"});
                 User.register(newUser, req.body.password, function(err, user){
                     if (err){
                         console.log("There is an error in registration: " + err);
