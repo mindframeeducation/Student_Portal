@@ -51,7 +51,10 @@
                                 <p> <strong>Class: <%= entry.class_name %></strong> </p>
                                 
                                 <div class = "meta">
-                                    Created by: <%= entry.author.username %> | Created on: <%= entry.created.toDateString() %>
+                                    <% if (currentUser && currentUser.hasAccess('user')) { %>
+                                        Created by: <%= entry.author.username %> |
+                                    <% } %>
+                                    Created on: <%= entry.created.toDateString() %>
                                 </div>
                                 
                                 <div class = "description">
