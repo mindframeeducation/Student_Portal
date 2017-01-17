@@ -22,7 +22,10 @@
                         <% if (currentUser) { %>
                             <a href = "/blogs" class = "item">Blogs</a>
                             <a href = "/students" class = "item">Students' entries</a>
-                            <% if (currentUser && currentUser.hasAccess('user')) { %>
+                            <% if (currentUser.hasAccess('user')) { %>
+                                <a href = "/parents" class = "item">Manage parents</a>
+                            <% } %>
+                            <% if (currentUser.hasAccess('user')) { %>
                                 <div class = "item ui simple dropdown">New
                                     <i class = "dropdown icon" style = "margin-left: 5px;"></i>
                                     <div class = "menu">

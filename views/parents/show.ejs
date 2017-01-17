@@ -1,0 +1,47 @@
+<%include ../partials/header%>
+    <div class = "ui main text container" style = "padding-bottom: 10px; margin-top: 100px;">
+        <!--<a href = "/students">Go back</a>-->
+        <a href = "/parents"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+        <div class = "ui raised segment" style = "padding-left: 35px;">
+            <p class = "student_name">
+                <strong>Parent's email/username:</strong> <%=parent.username%>
+            </p>
+            <a class="ui primary basic button" href = "/parents/<%=parent._id%>/students/new">
+                Add student
+            </a>
+            <!-- If the user is logged in and is a staff or an admin-->
+        </div>
+    </div> <!--ui main text container-->
+    
+    <div class = "ui main text container" style = "margin-bottom: 50px; margin-top: 0px;">
+        <div class = "ui top raised segment">
+            <div class = "ui divided items">
+                <% if (parent.students) { %>
+                    <% if (parent.students.length != 0) { %>
+                        <% parent.students.forEach(function(student) { %>
+                            <div class = "item">
+                                <div class = "content">
+                                    <div style = "float: right; font-size: 0.75em;">
+                                        <!--/parents/:id/students/:student_id-->
+                                        <form id = "delete" action = "/parents/<%=parent.id%>/students/<%=student.id%>?_method=DELETE" method = "POST">
+                                            <button class = "delete-button">Remove</button>
+                                        </form>
+                                    </div>
+                                    <div class = "description">
+                                        <%= student.name.first %> <%= student.name.last %>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        No student for this parent
+                    <% } %>
+                <% } else { %>
+                    No student for this parent
+                <% } %>
+                
+                
+            </div> <!--ui divided items-->
+        </div> <!--ui top raised segment-->
+    </div> <!--ui main text container-->
+<%include ../partials/footer%>

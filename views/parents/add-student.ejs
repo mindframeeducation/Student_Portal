@@ -1,0 +1,30 @@
+<% include ../partials/header %>
+<div class = "ui text container" style = "margin-bottom: 0px; margin-top: 120px;padding-left: 0; width: 30%;">
+    <a href = "/parents"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
+</div>
+<div class = "ui text container segment" style = "margin-top: 10px; width: 30%;">
+    <div class = "ui huge header">Add student</div>
+    <form class = "ui form" action = "/parents/<%=parent.id%>/students" method = "POST">
+        <div class = "field">
+            <label>Student</label>
+            <div class="ui fluid search selection dropdown">
+                <input type="hidden" name="student_id">
+                <i class="dropdown icon"></i>
+                <div class="default text">Select student</div>
+                <div class="menu">
+                    <% students.forEach(function(student) { %>
+                        <div class = "item" data-value = "<%=student._id%>">
+                            <%= student.name.first %> <%= student.name.last %>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div> <!--field-->
+        
+        <div class = "field" >
+            <input class="ui blue basic button" type = "Submit"Save>
+        </div>
+    </form>
+</div> 
+
+<% include ../partials/footer %>

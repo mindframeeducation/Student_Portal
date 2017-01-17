@@ -1,0 +1,41 @@
+<%include ../partials/header%>
+<!--Semantic UI table-->
+<div class = "container-fluid" style = "width: 60%; padding-top: 10px; margin-top: 10px;">
+    <table class="ui striped large celled blue table">
+        <thead>
+            <tr class = "text-center" style = "font-size: 100%;">
+                <th style = "width: 50%;">Parent's username/email</th>
+                <th>Students</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% parents.forEach(function(parent) { %>
+                <% if (!parent.hasAccess('user')) { %>
+                    <tr>
+                        <td>
+                            <a href = "/parents/<%=parent._id%>/students"><%=parent.username %></a>
+                        </td>
+                        <td>
+                            <% if (parent.students) { %>
+                                <% if (parent.students.length != 0) { %>
+                                    <% parent.students.forEach(function(student) { %>
+                                        <a href = "/students/<%=student.id%>">
+                                            <%=student.name.first %> <%=student.name.last %>
+                                        </a>
+                                    <% });%>
+                                <% } else { %>
+                                    This parent does not have any student
+                                <% } %>
+                            <% } else { %>
+                                This parent does not have any student
+                            <% } %>
+                        </td>
+                    </tr>
+                <% } %>
+                
+            <% }); %>
+            
+        </tbody>
+    </table>
+</div>
+<%include ../partials/footer%> 

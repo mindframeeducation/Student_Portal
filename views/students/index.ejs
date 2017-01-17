@@ -3,28 +3,30 @@
     <h1 class = "student-title">All Entries</h1>
 </div>
 
-<div class = "container text-center student-list">
-    <div class="ui fluid search selection dropdown">
-        <input type="hidden" name="country">
-        <i class="dropdown icon"></i>
-        <div class="default text">Select student</div>
-        <div class="menu">
-            <% students.forEach(function(student) { %>
-                <a class="item" href="/students/<%=student._id%>">
-                    <%= student.name.first %> <%= student.name.last %>
-                </a>
-            <% }); %>
-            
+<% if (currentUser.hasAccess('user')) { %> 
+    <div class = "container text-center student-list">
+        <div class="ui fluid search selection dropdown">
+            <input type="hidden" name="country">
+            <i class="dropdown icon"></i>
+            <div class="default text">Select student</div>
+            <div class="menu">
+                <% students.forEach(function(student) { %>
+                    <a class="item" href="/students/<%=student._id%>">
+                        <%= student.name.first %> <%= student.name.last %>
+                    </a>
+                <% }); %>
+                
+            </div>
         </div>
     </div>
-</div>
+<% } %>
 
 
 <!-- Semantic UI table-->
 <div class = "container-fluid" style = "width: 60%; padding-top: 10px; margin-top: 10px;">
     <table class="ui striped large celled blue table">
         <thead>
-            <tr class = "text-center" style = "font-size: 110%;">
+            <tr class = "text-center" style = "font-size: 100%;">
                 <th>Name</th>
                 <th>Class</th>
                 <th>Latest entry</th>
@@ -32,26 +34,68 @@
         </thead>
         <tbody>
             <% students.forEach(function(student) { %>
-                <% if (student.entries.length > 0) { %>
-                    <tr>
-                        <% var latest_entry = student.entries[student.entries.length - 1] %>
-                        <td>
-                            <a  href="/students/<%=student._id%>">
-                                <%=student.name.first%> <%=student.name.last %> 
-                            </a>
-                            
-                        </td>
-                        <td><%=latest_entry.class_name%></td>
-                        <td>
-                            <% if (latest_entry.summary.length > 100) { %>
-                                <%= latest_entry.summary.substring(0,100) %>...
+                <!--if the user is a staff, he/she will see all students-->
+                <% if (currentUser && currentUser.hasAccess('user')) { %> 
+                    <% if (student.entries.length > 0) { %>
+                        <tr>
+                            <% var latest_entry = student.entries[student.entries.length - 1] %>
+                            <td>
+                                <a  href="/students/<%=student._id%>">
+                                    <%=student.name.first%> <%=student.name.last %> 
+                                </a>
+                                
+                            </td>
+                            <td><%=latest_entry.class_name%></td>
+                            <td>
+                                <% if (latest_entry.summary.length > 100) { %>
+                                    <%= latest_entry.summary.substring(0,100) %>...
+                                <% } else { %>
+                                    <%=latest_entry.summary %>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% } %>
+                <% } else { %>
+                    <% if (currentUser) { %>
+                        <% if (currentUser.students && currentUser.students.indexOf(student.id) > -1) { %>
+                            <% if (student.entries.length > 0) { %>
+                                <% var latest_entry = student.entries[student.entries.length - 1] %>
+                                <tr>
+                                    <td>
+                                        <a  href="/students/<%=student._id%>">
+                                            <%=student.name.first%> <%=student.name.last %> 
+                                        </a>
+                                        
+                                    </td>
+                                    <td><%=latest_entry.class_name%></td>
+                                    <td>
+                                        <% if (latest_entry.summary.length > 100) { %>
+                                            <%= latest_entry.summary.substring(0,100) %>...
+                                        <% } else { %>
+                                            <%=latest_entry.summary %>
+                                        <% } %>
+                                    </td>
+                                </tr>
                             <% } else { %>
-                                <%=latest_entry.summary %>
-                            <% } %>
-                        </td>
-                    </tr>
+                                <tr>
+                                    <td>
+                                        <a  href="/students/<%=student._id%>">
+                                            <%=student.name.first%> <%=student.name.last %> 
+                                        </a>
+                                        
+                                    </td>
+                                    <td></td>
+                                    <td>
+                                        
+                                    </td>
+                                </tr>
+                            <% } %>  <!--else-->
+                        <% } %>  <!--indexOf(student.id)-->
+                    <% } %> <!--if (currentUser) -->
+                    
                 <% } %>
-            <% }); %>
+            <% }); %> <!--forEach function -->
+            
         </tbody>
     </table>
 </div>
