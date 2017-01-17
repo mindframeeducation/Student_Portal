@@ -1,7 +1,11 @@
 <%include ../partials/header%>
+<div class = "container-fluid text-center" style = "margin-top: 100px;">
+    <h1>
+        Registered parents
+    </h1>
 <!--Semantic UI table-->
-<div class = "container-fluid" style = "width: 60%; padding-top: 10px; margin-top: 10px;">
-    <table class="ui striped large celled blue table">
+<div class = "container-fluid" style = "width: 48%; padding-top: 10px; margin-top: 10px;">
+    <table class="ui compact striped large celled blue table">
         <thead>
             <tr class = "text-center" style = "font-size: 100%;">
                 <th style = "width: 50%;">Parent's username/email</th>
@@ -18,16 +22,19 @@
                         <td>
                             <% if (parent.students) { %>
                                 <% if (parent.students.length != 0) { %>
-                                    <% parent.students.forEach(function(student) { %>
+                                    <% parent.students.forEach(function(student, index) { %>
                                         <a href = "/students/<%=student.id%>">
                                             <%=student.name.first %> <%=student.name.last %>
                                         </a>
+                                        <% if (index !== parent.students.length - 1) { %>
+                                            ,
+                                        <% } %>
                                     <% });%>
                                 <% } else { %>
-                                    This parent does not have any student
+                                    No student assigned to this parent
                                 <% } %>
                             <% } else { %>
-                                This parent does not have any student
+                                No student assigned to this parent
                             <% } %>
                         </td>
                     </tr>

@@ -4,7 +4,7 @@ var express     = require("express"),
     mongoose    = require("mongoose"),
     User        = require("../models/user");
     
-router.get("/parents", function(req,res){
+router.get("/parents", isAuthorized, function(req,res){
     User.find().populate("students").exec(function(err, parents){
         if (err){
             console.log("There is an error");
@@ -17,7 +17,7 @@ router.get("/parents", function(req,res){
     
 });
 
-router.get("/parents/:id/students", function(req,res){
+router.get("/parents/:id/students", isAuthorized, function(req,res){
     User.findById(req.params.id).populate("students").exec(function(err, parent){
         if (err){
             
@@ -28,7 +28,7 @@ router.get("/parents/:id/students", function(req,res){
 });
 
 // Routes to add student to a parent
-router.get("/parents/:id/students/new", function(req,res){
+router.get("/parents/:id/students/new", isAuthorized, function(req,res){
     Student.find({}, function(err, students){
         if (err){
             req.flash("error", "There is an error");
@@ -46,7 +46,7 @@ router.get("/parents/:id/students/new", function(req,res){
     });
 });
 
-router.post("/parents/:id/students", function(req,res){
+router.post("/parents/:id/students", isAuthorized, function(req,res){
     User.findById(req.params.id, function(err, parent){
         if (err){
             req.flash("error", "Error looking up parent");
@@ -69,7 +69,7 @@ router.post("/parents/:id/students", function(req,res){
     });
 });
 
-router.delete("/parents/:id/students/:student_id", function(req,res){
+router.delete("/parents/:id/students/:student_id", isAuthorized, function(req,res){
     User.findByIdAndUpdate(req.params.id, {$pull: {students: req.params.student_id}}, function(err, updatedUser){
         if (err){
             req.flash("error", "Error removing student");
@@ -77,7 +77,21 @@ router.delete("/parents/:id/students/:student_id", function(req,res){
         } 
         req.flash("success", "Successfully removed student!");
         res.redirect("/parents/" + req.params.id + "/students");
-    })
-})
+    });
+});
+
+function isAuthorized(req,res,next){
+    if (req.isAuthenticated()){
+        if (req.user.hasAccess('admin')) {
+            next();
+        } else {
+            req.flash("error", "You do not have permission!");
+            res.redirect("back");
+        }
+    } else {
+        req.flash("error", "Please log in first!");
+        res.redirect("/login");
+    }
+}
 
 module.exports = router;

@@ -1,9 +1,14 @@
 <% include ../partials/header %>
 <div class = "container-fluid text-center" style = "margin-top: 100px;">
-    <h1 class = "student-title">All Entries</h1>
+    <% if (currentUser && currentUser.hasAccess('user')) { %>
+        <h1 class = "student-title">All entries</h1>
+    <% } else { %>
+        <h1 class = "student-title">Entries for your children</h1>
+    <% } %>
+    
 </div>
 
-<% if (currentUser.hasAccess('user')) { %> 
+<% if (currentUser && currentUser.hasAccess('user')) { %> 
     <div class = "container text-center student-list">
         <div class="ui fluid search selection dropdown">
             <input type="hidden" name="country">
@@ -24,7 +29,7 @@
 
 <!-- Semantic UI table-->
 <div class = "container-fluid" style = "width: 60%; padding-top: 10px; margin-top: 10px;">
-    <table class="ui striped large celled blue table">
+    <table class="ui striped compact large selectable blue table">
         <thead>
             <tr class = "text-center" style = "font-size: 100%;">
                 <th>Name</th>

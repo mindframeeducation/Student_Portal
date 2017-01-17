@@ -22,7 +22,7 @@
                         <% if (currentUser) { %>
                             <a href = "/blogs" class = "item">Blogs</a>
                             <a href = "/students" class = "item">Students' entries</a>
-                            <% if (currentUser.hasAccess('user')) { %>
+                            <% if (currentUser.hasAccess('admin')) { %>
                                 <a href = "/parents" class = "item">Manage parents</a>
                             <% } %>
                             <% if (currentUser.hasAccess('user')) { %>
