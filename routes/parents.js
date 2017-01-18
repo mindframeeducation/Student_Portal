@@ -54,15 +54,21 @@ router.post("/parents/:id/students", isAuthorized, function(req,res){
         } else {
             var student_id = mongoose.Types.ObjectId(req.body.student_id);
             if (parent.students){ // if there is a student list
-                parent.students.push(student_id);
-                parent.save();
-                req.flash("student added to parent successfully!");
-                res.redirect("/parents/" + req.params.id + "/students");
+                if (parent.students.indexOf(student_id) === -1) {
+                    parent.students.push(student_id);
+                    parent.save();
+                    req.flash("success", "Student successfully assigned to parent!");
+                    res.redirect("/parents/" + req.params.id + "/students");
+                } else {
+                    req.flash("error", "Student already assigned to this parent");
+                    res.redirect("/parents/" + req.params.id + "/students");
+                }
+                
             } else {
                 parent.students = [{type: mongoose.Schema.Types.ObjectId,ref: "Student"}];
                 parent.students.push(student_id);
                 parent.save();
-                req.flash("student added to parent!");
+                req.flash("success", "Student successfully assigned to parent!");
                 res.redirect("/parents/" + req.params.id + "/students");
             }
         }
