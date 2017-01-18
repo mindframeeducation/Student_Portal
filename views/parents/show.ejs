@@ -28,18 +28,18 @@
                                         </form>
                                     </div>
                                     <div class = "description">
-                                        <%= student.name.first %> <%= student.name.last %>
+                                        <strong>Name: </strong><%= student.name.first %> <%= student.name.last %> |
+                                        <strong>Grade: </strong><%= student.grade %>
                                     </div>
                                 </div>
                             </div>
                         <% }); %>
                     <% } else { %>
-                        No student for this parent
+                        No student assigned to this parent
                     <% } %>
                 <% } else { %>
-                    No student for this parent
+                    No student assigned to this parent
                 <% } %>
-                
                 
             </div> <!--ui divided items-->
         </div> <!--ui top raised segment-->
