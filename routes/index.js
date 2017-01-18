@@ -316,6 +316,10 @@ function isAStaff(req,res,next){
     }
 }
 
+router.get("/progress", function(req,res){
+    res.render("progress");
+})
+
 module.exports = router;
 
 // OLD CODE FOR REFERENCE ======================================================

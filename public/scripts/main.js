@@ -3,6 +3,8 @@
 var searchBtn = document.querySelector(".search-button");
 $(document).ready(function(){
   $('.ui.dropdown').dropdown();
+  $('#example1').progress();
+  $('#example4').progress();
 });
 
 // Auto timeout messages
