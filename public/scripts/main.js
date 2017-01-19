@@ -12,7 +12,7 @@ window.setTimeout(function() {
     // });
     $(".ui.success.message.small.overlay").transition();
     $(".ui.negative.message.small.overlay").transition();
-}, 2000);
+}, 1500);
 
 $('#ddl').dropdown();
 
