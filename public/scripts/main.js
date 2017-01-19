@@ -9,10 +9,12 @@ $(document).ready(function(){
 
 // Auto timeout messages
 window.setTimeout(function() {
-    $(".alert").fadeTo(500, 0).slideUp(500, function(){
-        $(this).remove(); 
-    });
-}, 1500);
+    // $(".alert").fadeTo(500, 0).slideUp(500, function(){
+    //     $(this).remove(); 
+    // });
+    $(".ui.success.message.small.overlay").transition();
+    $(".ui.negative.message.small.overlay").transition();
+}, 2000);
 
 $('#ddl').dropdown();
 

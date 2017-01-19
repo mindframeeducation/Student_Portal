@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>Mindframe Education</title>
-        <link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <!--<link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">-->
         <link rel = "stylesheet" type = "text/css" href = "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.6/semantic.min.css">
         <link rel = "stylesheet" type = "text/css" href = https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css>
         <link rel = "stylesheet" type = "text/css" href = "/stylesheets/app.css">
@@ -99,16 +99,14 @@
         <!--BEGINNING OF FLASH MESSAGES-->
         
         <% if (error && error.length > 0) { %>
-            <div class="container alert alert-danger text-center" role="alert" >
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <strong><%=error %></strong>
+            <div class="ui negative message small overlay" role="alert" >
+                <strong><%=error %></strong>
             </div>
         <% } %>
         
         <% if (success && success.length > 0){  %>
-            <div class="container alert alert-success text-center" role="alert" >
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-              <strong><%=success %></strong>
+            <div class="ui success message small overlay center aligned" role="alert" >
+                <strong><%=success %></strong>
             </div>
         <% } %>
         

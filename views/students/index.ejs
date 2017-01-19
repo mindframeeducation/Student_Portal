@@ -1,5 +1,6 @@
 <% include ../partials/header %>
-<div class = "container-fluid text-center" style = "margin-top: 100px;">
+<!--<div class = "container-fluid text-center" style = "margin-top: 100px;"> OLD BOOTSTRAP-->
+<div class = "ui container center aligned" style = "margin-top: 100px;">
     <% if (currentUser && currentUser.hasAccess('user')) { %>
         <h1 class = "student-title">All entries</h1>
     <% } else { %>
@@ -13,7 +14,8 @@
 </div>
 
 <% if (currentUser && currentUser.hasAccess('user')) { %> 
-    <div class = "container text-center student-list">
+    <!--<div class = "container text-center student-list">-->
+    <div class = "ui container center aligned" style = "width: 30%; margin-top: 10px;">
         <div class="ui fluid search selection dropdown">
             <input type="hidden" name="country">
             <i class="dropdown icon"></i>
@@ -32,7 +34,8 @@
 
 
 <!-- Semantic UI table-->
-<div class = "container-fluid" style = "width: 60%; padding-top: 10px; margin-top: 10px;">
+<!--<div class = "container-fluid" style = "width: 60%; padding-top: 10px; margin-top: 10px;">-->
+<div class = "ui container fluid center aligned" style = "width: 60%; padding-top: 10px; margin-top: 10px;">
     <table class="ui striped compact large selectable celled blue table">
         <thead>
             <tr class = "text-center" style = "font-size: 100%;">
