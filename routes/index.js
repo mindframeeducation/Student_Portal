@@ -67,7 +67,7 @@ router.get("/register", isLoggedOut, function(req, res){
 });
 
 router.post("/register", isLoggedOut, function(req,res){
-    var username = req.body.username;
+    var username = req.body.email;
     var password = req.body.password;
     var confirm_password = req.body.confirm_password;
     for (var i = 0; i < emails.length; i++){
@@ -315,6 +315,10 @@ function isAStaff(req,res,next){
         }
     }
 }
+
+router.get("/progress", function(req,res){
+    res.render("progress");
+})
 
 module.exports = router;
 

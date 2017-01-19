@@ -75,3 +75,20 @@ body {
 .hidden{
     display: none!important;
 }
+
+.semantic-label {
+    position: absolute;
+    width: 100%;
+    font-size: 1em;
+    top: 100%;
+    right: auto;
+    left: 0;
+    bottom: auto;
+    color: rgba(0,0,0,.87);
+    font-weight: 700;
+    text-shadow: none;
+    margin-top: .2em;
+    text-align: center;
+    -webkit-transition: color .4s ease;
+    transition: color .4s ease;
+}

@@ -3,6 +3,52 @@
 var searchBtn = document.querySelector(".search-button");
 $(document).ready(function(){
   $('.ui.dropdown').dropdown();
+  $('#example1').progress();
+  $('#example4').progress();
+  $('.ui.form')
+  .form({
+    fields: {
+      username: {
+        identifier: 'username',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please enter your username'
+          }
+        ]
+      },
+      
+      email: {
+        identifier: 'email',
+        rules: [
+          {
+            type: 'email',
+            prompt: 'Please enter a valid email address'
+          }
+        ]
+      },
+      
+      password: {
+        identifier: 'password',
+        rules: [
+          {
+            type    : 'empty',
+            prompt  : 'Please enter your password'
+          }
+        ]
+      },
+      
+      confirm_password: {
+        identifier: 'confirm_password',
+        rules: [
+          {
+            type  : 'match[password]',
+            prompt: 'Passwords do not match!'
+          }
+        ]
+      },
+    }
+  });
 });
 
 // Auto timeout messages
