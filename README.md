@@ -52,8 +52,7 @@ node app.js
 
 ### Contribution guidelines ###
 To develop a new feature, please follow the following procedure:
- 1. Fetch all the changes from the remote repository (this one) to your local repository
- 2. 
+    1. First
 
 
 ### Who do I talk to? ###
