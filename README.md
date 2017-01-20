@@ -48,13 +48,10 @@ export ENV_VAR="mongodb://localhost/blogData"
 
 node app.js
 ```
-  * You should be up and running. If you see an error saying "There is an error connecting to the database", check the previous steps on how to get your MongoDB up and running
+  * You should be up and running. If you see an error saying "There is an error connecting to the database", check the previous steps on how to configure your MongoDB database
 
 ### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
+* First
 
 ### Who do I talk to? ###
 
