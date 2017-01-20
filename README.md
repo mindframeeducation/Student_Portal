@@ -63,4 +63,5 @@ To develop a new feature, please follow the following procedure:
 
 git push <remote> <your-branch-name>
 ```
-  5. Go on to BitBucket and create a pull request for your branch
+
+Finally, go to BitBucket and create a pull request for your branch
