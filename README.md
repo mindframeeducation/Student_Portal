@@ -51,7 +51,8 @@ node app.js
   * You should be up and running. If you see an error saying "There is an error connecting to the database", check the previous steps on how to configure your MongoDB database
 
 ### Contribution guidelines ###
-* First
+To develop a new feature, please follow the following procedure:
+
 
 ### Who do I talk to? ###
 
