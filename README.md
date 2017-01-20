@@ -6,7 +6,6 @@
 A simple application that allows parents to track their child/children's progress 
 
 ### Version ###
-
 * Currently at version 1.0.0. Current features are:
     * Separate sign up routes for instructors and parents
     * Password change and reset
