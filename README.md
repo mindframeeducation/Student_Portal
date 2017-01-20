@@ -3,8 +3,7 @@
 ## Mindframe Education Students' Portal ##
 
 ### Quick summary ###
-
-* A simple application that allows parents to track their child/children's progress 
+A simple application that allows parents to track their child/children's progress 
 
 ### Version ###
 
