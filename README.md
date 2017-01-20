@@ -21,14 +21,34 @@
     * Edit: entry, blog, student
     * Delete: entry, blog
 
-
 ### How do I get set up? ###
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* Clone the repository using:
+
+```
+#!git
+
+git clone origin git@bitbucket.org:mindframeeducation/studentportal.git
+
+```
+* To test run this app:
+  * Clone the repository to your workspace
+  * Install and configure MongoDB. If you are using cloud9, you can follow the instructions here: [how to set up MongoDB](https://community.c9.io/t/setting-up-mongodb/1717)
+  * Have 2 terminal tabs opened
+  * In the first terminal tab (where you have your MongoDB setup), run: 
+```
+#!git
+
+./mongod
+```
+  * In the second terminal (where your cloned directory is), run:
+
+```
+#!git
+export ENV_VAR="mongodb://localhost/blogData"
+
+node app.js
+```
+  * You should be up and running. If you see an error saying "There is an error connecting to the database", check the previous steps on how to get your MongoDB up and running
 
 ### Contribution guidelines ###
 
