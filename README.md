@@ -53,10 +53,14 @@ node app.js
 ### Contribution guidelines ###
 To develop a new feature, please follow the following procedure:
 
-  1. 
+  1. Make sure you already have a cloned copy of the remote repository (this one) on your local repository
+  2. Fetch the remote master branch to make sure that your local repository is up-to-date
+  3. Create a new local branch in your local repository and work on your feature
+  4. When you are done, stage and commit your changes in that branch, then push it to the remote repository with:
 
+```
+#!git
 
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+git push <remote> <your-branch-name>
+```
+  5. Go on to BitBucket and create a pull request for your branch
