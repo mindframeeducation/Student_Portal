@@ -52,8 +52,8 @@ node app.js
 
 ### Contribution guidelines ###
 To develop a new feature, please follow the following procedure:
- * First
- * Second
+
+  1. 
 
 
 ### Who do I talk to? ###
