@@ -70,39 +70,70 @@ router.post("/register", isLoggedOut, function(req,res){
     var username = req.body.email;
     var password = req.body.password;
     var confirm_password = req.body.confirm_password;
-    for (var i = 0; i < emails.length; i++){
-        if (username.toLowerCase() == emails[i].toLowerCase()){
-            if (password != confirm_password){
-                req.flash("error", "Passwords do not match!");
-                return res.redirect("/register");
-            } else {
-                // username = username.toLowerCase(); doing this will trigger Unauthorized error. Not sure why yet
-                var newUser = new User({username: username, email: username.toLowerCase(), students: [], role: "public"});
-                User.register(newUser, req.body.password, function(err, user){
-                    if (err){
-                        console.log("There is an error in registration: " + err);
-                        req.flash("error", err.message);
-                        return res.redirect("/register");
-                    }
-                    passport.authenticate("local")(req, res, function(){
-                        req.flash("success", "Welcome to Mindframe Education!");
-                        return res.redirect("/blogs");
-                    });
-                });
-            }
-            return; // Need this, otherwise when the matched email is the second to last, the last one
-            // will trigger the else block and will yield an error in the console logs
+    if (emails.indexOf(username) > -1) {
+        if (password !== confirm_password){
+            req.flash("error", "Passwords do not match!");
+            return res.redirect("/register");
+        } else {
+            // username = username.toLowerCase(); doing this will trigger Unauthorized error. Not sure why yet
+            var newUser = new User({username: username, email: username.toLowerCase(), students: [], role: "public"});
+            User.register(newUser, req.body.password, function(err, user){
+                if (err){
+                    console.log("There is an error in registration: " + err);
+                    req.flash("error", err.message);
+                    return res.redirect("/register");
+                }
+                else {
+                    console.log("Pass the error");
+                    req.flash("success", "Success! Please log in!");
+                    res.redirect("/login");
+                }
+            });
         }
-        else {
-            if (i == emails.length - 1){
-                console.log("Email is not in system");
-                req.flash("error", "Your email is not in our system!");
-                res.redirect("/register");
-            } 
-        }
+    } else {
+        req.flash("error", "Email is not in our system!");
+        res.redirect("/register");
     }
-    
 });
+    // for (var i = 0; i < emails.length; i++){
+    //     if (username.toLowerCase() == emails[i].toLowerCase()) {
+    //         exist = true;
+    //         break;
+    //     }
+    // }
+        // if (username.toLowerCase() == emails[i].toLowerCase()){
+        //     if (password != confirm_password){
+        //         req.flash("error", "Passwords do not match!");
+        //         return res.redirect("/register");
+        //     } else {
+        //         // username = username.toLowerCase(); doing this will trigger Unauthorized error. Not sure why yet
+        //         var newUser = new User({username: username, email: username.toLowerCase(), students: [], role: "public"});
+        //         User.register(newUser, req.body.password, function(err, user){
+        //             if (err){
+        //                 console.log("There is an error in registration: " + err);
+        //                 req.flash("error", err.message);
+        //                 return res.redirect("/register");
+        //             }
+        //             console.log("Pass the error");
+        //             passport.authenticate("local")(req, res, function(){
+        //                 console.log("Successfully registered");
+        //                 req.flash("success", "Welcome to Mindframe Education!");
+        //                 res.redirect("/blogs");
+        //             });
+        //         });
+        //     }
+        //     return; // Need this, otherwise when the matched email is the second to last, the last one
+        //     // will trigger the else block and will yield an error in the console logs
+        // }
+        // else {
+        //     if (i == emails.length - 1){
+        //         console.log("Email is not in system");
+        //         req.flash("error", "Your email is not in our system!");
+        //         res.redirect("/register");
+        //     } 
+        // }
+    
+
 
 // Register page for staff
 router.get("/register/Iyq8UTvzCU/m1ndFrameStaff", isLoggedOut, function(req,res){
