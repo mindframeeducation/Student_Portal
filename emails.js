@@ -56,7 +56,6 @@ var emails = [
     "blacklist2412@gmail.com",
     "thinhdcao@outlook.com",
     "wojtkielo@hotmail.com",
-    
     "bgirdher@gmail.com",
 ];
 
