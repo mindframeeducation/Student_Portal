@@ -84,9 +84,13 @@ router.post("/register", isLoggedOut, function(req,res){
                     return res.redirect("/register");
                 }
                 else {
-                    console.log("Pass the error");
-                    req.flash("success", "Success! Please log in!");
-                    res.redirect("/login");
+                    passport.authenticate("local")(req, res, function(){
+                        req.flash("success", "Welcome to Mindframe Education!");
+                        return res.redirect("/blogs");
+                    })
+                    // console.log("Pass the error");
+                    // req.flash("success", "Success! Please log in!");
+                    // res.redirect("/login");
                 }
             });
         }
