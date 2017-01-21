@@ -25,7 +25,7 @@ A simple application that allows parents to track their child/children's progres
 ```
 #!git
 
-git origin git@bitbucket.org:mindframeeducation/studentportal.git
+git clone git@bitbucket.org:mindframeeducation/studentportal.git
 
 ```
 * To test run this app:
