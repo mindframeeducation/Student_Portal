@@ -110,7 +110,7 @@ router.post("/register/Iyq8UTvzCU/m1ndFrameStaff", isLoggedOut, function(req,res
         req.flash("error", "Passwords do not match!");
         return res.redirect("/register/Iyq8UTvzCU/m1ndFrameStaff");
     } else {
-        var newUser = new User({username: req.body.username, role: 'user'});
+        var newUser = new User({username: req.body.username, email: req.body.username.toLowerCase(), role: 'user'});
         User.register(newUser, req.body.password, function(err, user){
             if (err){
                 console.log("There is an error in registration");
