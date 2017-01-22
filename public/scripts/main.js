@@ -8,18 +8,18 @@ $(document).ready(function(){
   $('.ui.form')
   .form({
     fields: {
-      username: {
-        identifier: 'username',
-        rules: [
-          {
-            type   : 'empty',
-            prompt : 'Please enter your username'
-          }
-        ]
-      },
+      // username: {
+      //   identifier: 'username',
+      //   rules: [
+      //     {
+      //       type   : 'empty',
+      //       prompt : 'Please enter your username'
+      //     }
+      //   ]
+      // },
       
       email: {
-        identifier: 'email',
+        identifier: 'username',
         rules: [
           {
             type: 'email',
