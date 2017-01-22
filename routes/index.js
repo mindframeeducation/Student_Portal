@@ -75,7 +75,6 @@ router.post("/register", isLoggedOut, function(req,res){
             req.flash("error", "Passwords do not match!");
             return res.redirect("/register");
         } else {
-            // username = username.toLowerCase(); doing this will trigger Unauthorized error. Not sure why yet
             var newUser = new User({username: username, email: username.toLowerCase(), students: [], role: "public"});
             User.register(newUser, req.body.password, function(err, user){
                 if (err){
