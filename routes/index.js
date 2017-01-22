@@ -67,7 +67,7 @@ router.get("/register", isLoggedOut, function(req, res){
 });
 
 router.post("/register", isLoggedOut, function(req,res){
-    var username = req.body.email;
+    var username = req.body.username;
     var password = req.body.password;
     var confirm_password = req.body.confirm_password;
     if (emails.indexOf(username) > -1) {
