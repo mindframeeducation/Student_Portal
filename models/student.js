@@ -5,6 +5,7 @@ var studentSchema = mongoose.Schema({
         last: {type: String, trim: true}
     },
     grade: Number,
+    learning_goal: String,
     
     // Each students will have a list of entries
     entries: [
