@@ -6,7 +6,7 @@
             <p class = "student_name">
                 <strong>Student's name:</strong> <%=foundStudent.name.first %> <%= foundStudent.name.last %> | <strong>Grade:</strong> <%= foundStudent.grade %>
                 <% if (currentUser && currentUser.hasAccess('user')) { %>
-                    <a style = "color: orange" data-tooltip="Edit" data-position="right center" id = "editStudent" href = "#" style = "font-size: 0.8em;">
+                    <a style = "font-size: 1.0em; color: orange;" data-tooltip="Edit" data-position="right center" id = "editStudent" href = "#">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
                     </a>
                 <% } %>
@@ -20,7 +20,7 @@
                         No learning goal specified
                     <% } %>
                     <% if (currentUser.hasAccess('user')) { %>
-                        <a style = "color: orange" data-tooltip="Edit" data-position="right center" id = "editGoal" href = "#" style = "font-size: 0.8em;">
+                        <a style = "font-size: 0.9em; color: orange;" data-tooltip="Edit" data-position="right center" id = "editGoal" href = "#">
                             <i class="fa fa-pencil" aria-hidden="true"></i>
                         </a>
                     <% } %>
@@ -57,10 +57,10 @@
                             <div class = "content" style = "margin-left: 20px;">
                                 <!-- New edit and delete buttons-->
                                 <% if (currentUser && currentUser.hasAccess('user') && currentUser._id.equals(entry.author.id) || (currentUser && currentUser.hasAccess('admin')) )  {%>
-                                    <div style = "float: right; font-size: 0.75em;">
-                                        <a href = "/students/<%=foundStudent._id%>/entries/<%=entry._id%>/edit">Edit | </a>
+                                    <div style = "float: right; font-size: 0.8em;">
+                                        <a style = "color: orange" data-tooltip="Edit" data-position="top center" href = "/students/<%=foundStudent._id%>/entries/<%=entry._id%>/edit"><i class="fa fa-pencil" aria-hidden="true"></i></a> | 
                                         <form id = "delete" action = "/students/<%=foundStudent._id%>/entries/<%=entry._id%>?_method=DELETE" method = "POST">
-                                            <button class = "delete-button">Delete</button>
+                                            <button data-tooltip="Delete" data-position="top center" class="delete-button"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                                         </form>
                                     </div>
                                 <% } %>
