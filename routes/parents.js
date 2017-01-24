@@ -1,6 +1,7 @@
 var express     = require("express"),
     router      = express.Router(),
     Student     = require("../models/student"),
+    Emails      = require("../models/emailList"),
     mongoose    = require("mongoose"),
     User        = require("../models/user");
     
@@ -15,6 +16,16 @@ router.get("/parents", isAuthorized, function(req,res){
         }
     });
     
+});
+
+router.get("/parents/email-list", function(req,res){
+    Emails.findOne({name: "All"}, function(err, list){
+        if (err){
+            console.log("There is an error")
+        } else {
+            res.render("parents/email-list", {emails: list});
+        }
+    })
 });
 
 router.get("/parents/:id/students", isAuthorized, function(req,res){

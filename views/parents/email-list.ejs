@@ -1,0 +1,44 @@
+<% include ../partials/header %>
+<!--<div class="ui container relaxed aligned divided list" style = "width: 35%; margin: 100px auto;">-->
+<!--    <% emails.emails.forEach(function(email) { %>-->
+<!--        <div class = "item">-->
+<!--            <div class="right floated content">-->
+<!--                <a><i class = "trash outline icon"></i></a>-->
+<!--            </div>-->
+<!--            <div class = "content">-->
+<!--                <%=email%>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    <% }) %>-->
+<!--</div>-->
+
+<table class = "ui sortable container basic compact table" style = "width: 30%;">
+    <thead>
+        <tr>
+            <!--Having just one column, using one wide will make it span all the way-->
+            <th class="fifteen wide">
+                Email address
+            </th>
+            <th class="one wide">
+                Add
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <% emails.emails.forEach(function(email) { %>
+            <tr class = "sixteen wide">
+                <td colspan="3" name = "<%=email%>">
+                    
+                    <%=email %>
+                    <span style = "float: right">
+                        <a href = "#"><i class = "trash outline icon"></i></a>
+                    </span>
+                    
+                    
+                </td>
+            </tr>
+        <% }) %>
+    </tbody>
+</table>
+
+<% include ../partials/footer %>
