@@ -4,7 +4,8 @@ var passport = require("passport");
 var User = require("../models/user");
 var nodemailer = require("nodemailer");
 var crypto = require("crypto");
-var emails = require("../emails");
+// var emails = require("../emails");
+var EmailList = require('../models/emailList');
 var Student = require("../models/student");
 var mongoose = require("mongoose");
 var Entry = require("../models/entry");
@@ -74,37 +75,48 @@ router.post("/register", isLoggedOut, function(req, res) {
     var username = req.body.username;
     var password = req.body.password;
     var confirm_password = req.body.confirm_password;
-    if (emails.indexOf(username) > -1) {
-        if (password !== confirm_password) {
-            req.flash("error", "Passwords do not match!");
-            return res.redirect("/register");
-        }
-        else {
-            var newUser = new User({
-                username: username,
-                email: username.toLowerCase(),
-                students: [],
-                role: "public"
-            });
-            User.register(newUser, req.body.password, function(err, user) {
-                if (err) {
-                    console.log("There is an error in registration: " + err);
-                    req.flash("error", err.message);
+    // .find() returns an array (even when there is only 1 object in the database) .findOne() return 1 object
+    EmailList.findOne({name: "All"}, function(err, list){
+        if (err){
+            console.log("There is an error with email database");
+            req.flash("error", "Internal error. Please contact admin");
+            res.redirect("back");
+        } else {
+            console.log("The return list is: \n" + list);
+            if (list.emails.indexOf(username) > -1) {
+                if (password !== confirm_password) {
+                    req.flash("error", "Passwords do not match!");
                     return res.redirect("/register");
                 }
                 else {
-                    passport.authenticate("local")(req, res, function() {
-                        req.flash("success", "Welcome to Mindframe Education!");
-                        return res.redirect("/blogs");
+                    var newUser = new User({
+                        username: username,
+                        email: username.toLowerCase(),
+                        students: [],
+                        role: "public"
+                    });
+                    User.register(newUser, req.body.password, function(err, user) {
+                        if (err) {
+                            console.log("There is an error in registration: " + err);
+                            req.flash("error", err.message);
+                            return res.redirect("/register");
+                        }
+                        else {
+                            passport.authenticate("local")(req, res, function() {
+                                req.flash("success", "Welcome to Mindframe Education!");
+                                return res.redirect("/blogs");
+                            });
+                        }
                     });
                 }
-            });
+            }
+            else {
+                req.flash("error", "Email is not in our system!");
+                res.redirect("/register");
+            }
         }
-    }
-    else {
-        req.flash("error", "Email is not in our system!");
-        res.redirect("/register");
-    }
+    });
+    
 });
 
 // Register page for staff

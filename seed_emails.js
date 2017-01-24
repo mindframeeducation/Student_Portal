@@ -67,7 +67,7 @@ function seedEmail(){
         if (err){
             console.log("Error clearing email list database");
         }
-        EmailList.create({name: "After school", emails: []}, function(err, list){
+        EmailList.create({name: "All", emails: []}, function(err, list){
             if (err){
                 console.log("Error creating email list");
             } else {
