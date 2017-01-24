@@ -79,10 +79,14 @@
                                         <a href = "/login" class = "item"><i class = "sign in icon" style = "margin-right: 3px;"></i>Log in</a>
                                         <a href = "/register" class = "item"><i class = "add user icon" style = "margin-right: 3px;"></i>Sign up</a>
                                     <% } else { %>
-                                        <a href = "/blogs" class = "item">Blogs</a>
                                         <a href = "/students" class = "item">Students' entries</a>
+                                        <a href = "/blogs" class = "item">Blogs</a>
                                         <% if (currentUser.hasAccess('user')) { %>
+                                            <a class = "item" href = "/new-entry">New Entry</a>
                                             <a class = "item" href = "/blogs/new">New Blog</a>
+                                            <% if (currentUser.hasAccess('admin')) { %>
+                                                <a href = "/parents" class = "item">Manage parents</a>
+                                            <% } %>
                                         <% } %>
                                         <a class = "item" href = "/change-password">Change password</a>
                                         <a href = "/logout" class = "item"><i class = "sign out icon" style = "margin-right: 3px;"></i>Log out</a>
