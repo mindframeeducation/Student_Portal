@@ -18,7 +18,7 @@ router.post("/students", isLoggedIn, isAStaff, function(req,res){
             req.flash("success", "New student created successfully!");
             res.redirect("/students");
         }
-    })
+    });
 });
     
 
@@ -76,6 +76,7 @@ router.put("/students/:id", isLoggedIn, isAStaff, function(req,res){
     });
 });
 
+// ROUTE FOR UPDATING STUDENT'S LEARNING GOAL
 router.post("/students/:id/learning-goal", isLoggedIn, isAStaff, function(req,res){
     Student.findByIdAndUpdate(req.params.id, {learning_goal: req.body.learning_goal}, function(err, updatedStudent){
         if (err){
@@ -87,8 +88,8 @@ router.post("/students/:id/learning-goal", isLoggedIn, isAStaff, function(req,re
             req.flash("success", "Successfully updated student's learning goal");
             res.redirect("/students/" + req.params.id);
         }
-    })
-})
+    });
+});
 
 // Extra functions
 function isLoggedIn(req, res, next){
