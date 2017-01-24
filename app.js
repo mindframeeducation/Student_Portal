@@ -12,6 +12,7 @@ var express             = require("express"),
     passport            = require("passport"),
     LocalStrategy       = require("passport-local"),
     seedDB              = require("./seed_students"),
+    seedEmail           = require("./seed_emails"),
     expressSanitizer    = require("express-sanitizer");
 // NOTE: Cannot include pure JS file to this. The JS file will not work
 
@@ -25,6 +26,7 @@ var blogRoutes      = require("./routes/blogs"),
 
 // Seed the student's database. ONLY DO IT ONCE!
 // seedDB();
+seedEmail();
 // print_student();
 // console.log(process.env.BLOG_DATABASE);
 console.log(process.env.BLOG_DATABASE);

@@ -1,3 +1,6 @@
+var mongoose = require('mongoose');
+var EmailList = require('./models/emailList');
+
 var emails = [
     "cynthdelgado@gmail.com",
     "susman24_99@yahoo.com",
@@ -59,6 +62,32 @@ var emails = [
     "bgirdher@gmail.com",
 ];
 
-
-
-module.exports = emails;
+function seedEmail(){
+    EmailList.remove({}, function(err){
+        if (err){
+            console.log("Error clearing email list database");
+        }
+        EmailList.create({name: "After school", emails: []}, function(err, list){
+            if (err){
+                console.log("Error creating email list");
+            } else {
+                emails.forEach(function(email){
+                    list.emails.push(email);
+                });
+                list.save();
+            }
+        });
+        console.log("All emails added to database");
+        EmailList.findOne({}, function(err, list){
+            if (err){
+                console.log(err);
+            } else {
+                console.log("Email list:\n" + list);
+            }
+        });
+        
+        
+    });
+    console.log("Finished creating ");
+}
+module.exports = seedEmail;
