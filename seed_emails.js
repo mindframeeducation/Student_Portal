@@ -76,18 +76,9 @@ function seedEmail(){
                 });
                 list.save();
             }
+            console.log("The email list is: " + list.emails);
         });
         console.log("All emails added to database");
-        EmailList.findOne({}, function(err, list){
-            if (err){
-                console.log(err);
-            } else {
-                console.log("Email list:\n" + list);
-            }
-        });
-        
-        
     });
-    console.log("Finished creating ");
 }
 module.exports = seedEmail;
