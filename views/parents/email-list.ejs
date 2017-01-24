@@ -1,17 +1,4 @@
 <% include ../partials/header %>
-<!--<div class="ui container relaxed aligned divided list" style = "width: 35%; margin: 100px auto;">-->
-<!--    <% emails.emails.forEach(function(email) { %>-->
-<!--        <div class = "item">-->
-<!--            <div class="right floated content">-->
-<!--                <a><i class = "trash outline icon"></i></a>-->
-<!--            </div>-->
-<!--            <div class = "content">-->
-<!--                <%=email%>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    <% }) %>-->
-<!--</div>-->
-
 <table class = "ui sortable container basic compact table" style = "width: 30%;">
     <thead>
         <tr>
@@ -19,8 +6,8 @@
             <th class="fifteen wide">
                 Email address
             </th>
-            <th class="one wide">
-                Add
+            <th class="one wide selectable" id = "addEmail">
+                <a><i class = "link add user icon"></i>Add email</a>
             </th>
         </tr>
     </thead>
@@ -30,15 +17,30 @@
                 <td colspan="3" name = "<%=email%>">
                     
                     <%=email %>
-                    <span style = "float: right">
-                        <a href = "#"><i class = "trash outline icon"></i></a>
+                    <span style = "float: right;">
+                        <form action = "/parents/email-list/<%=email%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px;">
+                            <button data-tooltip = "Delete" data-position = "top center" class = "delete-button"><i class = "trash outline icon link"></i></button>
+                        </form>
+                        <!--<a style = "color: red;"><i class = "trash outline icon link"></i></a>-->
                     </span>
-                    
-                    
                 </td>
             </tr>
         <% }) %>
     </tbody>
 </table>
+
+<div class="ui small modal email"> <i class="close icon" ></i>
+    <div class="content">
+        <form class = "ui form" action = "/parents/email-list/" method = "POST">
+            <div class = "field">
+                <input type = "text" name = "email" placeholder = "Email">
+            </div>
+            <div class = "field">
+                <input class="ui blue basic button" type = "Submit"Save>
+            </div>
+        </form>
+    </div>
+</div> <!--ui small modal-->
+
 
 <% include ../partials/footer %>

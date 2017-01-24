@@ -18,16 +18,6 @@ router.get("/parents", isAuthorized, function(req,res){
     
 });
 
-router.get("/parents/email-list", function(req,res){
-    Emails.findOne({name: "All"}, function(err, list){
-        if (err){
-            console.log("There is an error")
-        } else {
-            res.render("parents/email-list", {emails: list});
-        }
-    })
-});
-
 router.get("/parents/:id/students", isAuthorized, function(req,res){
     User.findById(req.params.id).populate("students").exec(function(err, parent){
         if (err){
@@ -94,6 +84,50 @@ router.delete("/parents/:id/students/:student_id", isAuthorized, function(req,re
         } 
         req.flash("success", "Successfully removed student!");
         res.redirect("/parents/" + req.params.id + "/students");
+    });
+});
+
+// Routes for adding/deleting email addresses
+
+router.get("/parents/email-list", function(req,res){
+    Emails.findOne({name: "All"}, function(err, list){
+        if (err){
+            console.log("There is an error");
+        } else {
+            res.render("parents/email-list", {emails: list});
+        }
+    });
+});
+
+router.post("/parents/email-list", function(req,res){
+    var email = req.body.email;
+    Emails.findOne({name: "All"}, function(err, list){
+        if (err){
+            console.log("There is an error");
+        } else {
+            if (list.emails.indexOf(email) > -1) {
+                req.flash("error", "Email already exists");
+                res.redirect("/parents/email-list");
+            } else {
+                list.emails.push(email);
+                list.save();
+                req.flash("success", "Added " + email);
+                res.redirect("/parents/email-list");
+            }
+        }
+    });
+});
+
+router.delete("/parents/email-list/:email", function(req, res){
+    Emails.findOne({name: "All"}, function(err, list){
+        if (err){
+            console.log("Error");
+        } else {
+            list.emails.splice(list.emails.indexOf(req.params.email), 1);
+            list.save();
+            req.flash("success", "Removed " + req.params.email);
+            res.redirect("/parents/email-list");
+        }
     });
 });
 
