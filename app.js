@@ -77,7 +77,7 @@ app.use(function(req,res,next){
 app.use("/blogs", blogRoutes);
 app.use(indexRoutes);
 app.use(studentRoutes);
-app.use(parentRoutes);
+app.use("/parents", parentRoutes);
 app.use("/students/:id/notes", noteRoutes);
 app.use("/students/:id/entries", entryRoutes);
 

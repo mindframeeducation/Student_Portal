@@ -5,7 +5,7 @@ var express     = require("express"),
     mongoose    = require("mongoose"),
     User        = require("../models/user");
     
-router.get("/parents", isAuthorized, function(req,res){
+router.get("/", isAuthorized, function(req,res){
     User.find().populate("students").exec(function(err, parents){
         if (err){
             console.log("There is an error");
@@ -18,7 +18,7 @@ router.get("/parents", isAuthorized, function(req,res){
     
 });
 
-router.get("/parents/:id/students", isAuthorized, function(req,res){
+router.get("/:id/students", isAuthorized, function(req,res){
     User.findById(req.params.id).populate("students").exec(function(err, parent){
         if (err){
             
@@ -29,7 +29,7 @@ router.get("/parents/:id/students", isAuthorized, function(req,res){
 });
 
 // Routes to add student to a parent
-router.get("/parents/:id/students/new", isAuthorized, function(req,res){
+router.get("/:id/students/new", isAuthorized, function(req,res){
     Student.find({}, function(err, students){
         if (err){
             req.flash("error", "There is an error");
@@ -47,7 +47,7 @@ router.get("/parents/:id/students/new", isAuthorized, function(req,res){
     });
 });
 
-router.post("/parents/:id/students", isAuthorized, function(req,res){
+router.post("/:id/students", isAuthorized, function(req,res){
     User.findById(req.params.id, function(err, parent){
         if (err){
             req.flash("error", "Error looking up parent");
@@ -76,7 +76,7 @@ router.post("/parents/:id/students", isAuthorized, function(req,res){
     });
 });
 
-router.delete("/parents/:id/students/:student_id", isAuthorized, function(req,res){
+router.delete("/:id/students/:student_id", isAuthorized, function(req,res){
     User.findByIdAndUpdate(req.params.id, {$pull: {students: req.params.student_id}}, function(err, updatedUser){
         if (err){
             req.flash("error", "Error removing student");
@@ -87,9 +87,9 @@ router.delete("/parents/:id/students/:student_id", isAuthorized, function(req,re
     });
 });
 
-// Routes for adding/deleting email addresses
+// ROUTES FOR ADDING AND DELETING EMAIL
 
-router.get("/parents/email-list", function(req,res){
+router.get("/email-list", function(req,res){
     Emails.findOne({name: "All"}, function(err, list){
         if (err){
             console.log("There is an error");
@@ -99,7 +99,7 @@ router.get("/parents/email-list", function(req,res){
     });
 });
 
-router.post("/parents/email-list", function(req,res){
+router.post("/email-list", function(req,res){
     var email = req.body.email;
     Emails.findOne({name: "All"}, function(err, list){
         if (err){
@@ -118,7 +118,7 @@ router.post("/parents/email-list", function(req,res){
     });
 });
 
-router.delete("/parents/email-list/:email", function(req, res){
+router.delete("/email-list/:email", function(req, res){
     Emails.findOne({name: "All"}, function(err, list){
         if (err){
             console.log("Error");
