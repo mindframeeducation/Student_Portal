@@ -89,7 +89,7 @@ router.delete("/:id/students/:student_id", isAuthorized, function(req,res){
 
 // ROUTES FOR ADDING AND DELETING EMAIL
 
-router.get("/email-list", function(req,res){
+router.get("/email-list", isAuthorized, function(req,res){
     Emails.findOne({name: "All"}, function(err, list){
         if (err){
             console.log("There is an error");
@@ -99,7 +99,7 @@ router.get("/email-list", function(req,res){
     });
 });
 
-router.post("/email-list", function(req,res){
+router.post("/email-list", isAuthorized, function(req,res){
     var email = req.body.email;
     Emails.findOne({name: "All"}, function(err, list){
         if (err){
@@ -118,7 +118,7 @@ router.post("/email-list", function(req,res){
     });
 });
 
-router.delete("/email-list/:email", function(req, res){
+router.delete("/email-list/:email", isAuthorized, function(req, res){
     Emails.findOne({name: "All"}, function(err, list){
         if (err){
             console.log("Error");

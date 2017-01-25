@@ -1,6 +1,6 @@
 <% include ../partials/header %>
-<table class = "ui sortable container basic compact table" style = "width: 30%;">
-    <thead>
+<table class = "ui sortable container basic compact table" style = "width: 30%; margin: 75px auto;">
+    <thead style = "position: relative; display: block">
         <tr>
             <!--Having just one column, using one wide will make it span all the way-->
             <th class="fifteen wide">
@@ -11,15 +11,14 @@
             </th>
         </tr>
     </thead>
-    <tbody>
+    <tbody style = "height:500px; overflow-y: scroll; display: block;">
         <% emails.emails.forEach(function(email) { %>
             <tr class = "sixteen wide">
-                <td colspan="3" name = "<%=email%>">
-                    
+                <td colspan="4" style = "min-width: 425px;" name = "<%=email%>">
                     <%=email %>
                     <span style = "float: right;">
                         <form action = "/parents/email-list/<%=email%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px;">
-                            <button data-tooltip = "Delete" data-position = "top center" class = "delete-button"><i class = "trash outline icon link"></i></button>
+                            <button data-tooltip = "Delete" data-position = "left center" class = "delete-button"><i class = "trash outline icon link"></i></button>
                         </form>
                         <!--<a style = "color: red;"><i class = "trash outline icon link"></i></a>-->
                     </span>

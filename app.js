@@ -27,7 +27,7 @@ var blogRoutes      = require("./routes/blogs"),
 // Seed the student's database. ONLY DO IT ONCE!
 // seedDB();
 // Seed email database. Only do it once
-// seedEmail();
+seedEmail();
 // print_student();
 // console.log(process.env.BLOG_DATABASE);
 console.log(process.env.BLOG_DATABASE);

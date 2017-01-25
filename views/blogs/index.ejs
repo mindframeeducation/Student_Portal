@@ -1,6 +1,6 @@
 <% include ../partials/header %>
 <div class = "ui main text container">
-    <div class = "ui huge header">All blog posts</div>
+    <!--<div class = "ui huge header">All blog posts</div>-->
     <div class = "ui top raised segment">
         <div class = "ui divided items">
             <% if (currentUser) { %> <!-- If the user is logged in -->
@@ -49,7 +49,7 @@
                 <% } %>
                 
             <% } else { %> <!-- End of if statement -->
-                <p>Please <a class = "tagline" href = "/login">log in</a> to see our blog posts!</p>
+                <p>Please <a class = "tagline" href = "/login">log in</a> to see our content!</p>
             <% } %>
             
         </div>
