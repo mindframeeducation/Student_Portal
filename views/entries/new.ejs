@@ -6,7 +6,7 @@
     <div class = "ui medium header">New entry for: <%=foundStudent.name.first %> <%=foundStudent.name.last %></div>
     <form class = "ui form" action = "/students/<%=foundStudent.id%>/entries" method = "POST">
         
-        <div class="field" style = "width: 40%;">
+        <div class="field" style = "width: 40%">
             <label>Class</label>
             <div class="ui selection dropdown">
                 <input type="hidden" name="entry[class_name]">
@@ -16,22 +16,14 @@
                         <% classList.allClasses.forEach(function(eachClass) { %>
                             <div class = "item" data-value = "<%=eachClass%>"><%=eachClass%></div>
                         <% }); %>
-                        <!--<div class="item" data-value="Python">Python</div>-->
-                        <!--<div class="item" data-value="Java">Java</div>-->
-                        <!--<div class="item" data-value="Robotics">Robotics</div>-->
-                        <!--<div class="item" data-value="Engineering">Engineering</div>-->
-                        <!--<div class="item" data-value="Science">Science</div>-->
-                        <!--<div class="item" data-value="Digital Arts">Digital Arts</div>-->
-                        <!--<div class="item" data-value="Game Design">Game Design</div>-->
-                        <!--<div class="item" data-value="Game Design & Digital Arts">Game Design & Digital Arts</div>-->
-                        <!--<div class="item" data-value="Robotics & Engineering">Robotics & Engineering</div>-->
-                        <!--<div class="item" data-value="Jr. Robotics & Engineering">Jr. Robotics & Engineering</div>-->
-                        <!--<div class="item" data-value="Math & Digital Literacy">Math & Digital Literacy</div>-->
-                        <!--<div class="item" data-value="Mobile App Development">Mobile App Development</div>-->
-                        <!--<div class="item" data-value="Other">Other</div>-->
                     </div>
             </div>
+            
         </div>
+        <!--<div style = "display: inline-block; margin-left: 10px;">-->
+        <!--    <button class = "ui button">Add a new class</button>-->
+        <!--</div>-->
+        
         
         <div class = "field">
             <label>Summary</label>

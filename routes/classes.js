@@ -3,7 +3,7 @@ var router = express.Router({mergeParams: true});
 var ClassList = require("../models/classList");
 
 // Route to show all classes
-router.get("/classes", function(req,res){
+router.get("/classes",isAuthorized, function(req,res){
     ClassList.findOne({name: "All"}, function(err, classList){
         if (err){
             console.log("Cannot find class list: " + err);
@@ -14,7 +14,7 @@ router.get("/classes", function(req,res){
 });
 
 // Route to add a new class
-router.post("/classes", function(req,res){
+router.post("/classes", isAuthorized, function(req,res){
     ClassList.findOne({name: "All"}, function(err, classList){
         if (err){
             console.log("There is an error: " + err);
@@ -28,7 +28,7 @@ router.post("/classes", function(req,res){
 });
 
 // Route to delete a class
-router.delete("/classes/:className", function(req,res){
+router.delete("/classes/:className", isAuthorized, function(req,res){
     ClassList.findOne({name: "All"}, function(err, classList){
         if (err){
             console.log("There is an error : " + err);
@@ -37,16 +37,28 @@ router.delete("/classes/:className", function(req,res){
             if (pos > -1){
                 classList.allClasses.splice(pos, 1);
                 classList.save();
-                req.flash("success", req.params.className + " removed successfully");
+                req.flash("success", req.params.className + " successfully removed!");
                 res.redirect("/classes");
             } else {
                 req.flash("error", "Class does not exist in db");
                 res.redirect("/classes");
             }
         }
-    })
-})
+    });
+});
 
-
+function isAuthorized(req,res,next){
+    if (req.isAuthenticated()){
+        if (req.user.hasAccess('admin')) {
+            next();
+        } else {
+            req.flash("error", "You do not have permission!");
+            res.redirect("back");
+        }
+    } else {
+        req.flash("error", "Please log in first!");
+        res.redirect("/login");
+    }
+}
 
 module.exports = router;
