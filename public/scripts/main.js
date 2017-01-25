@@ -61,6 +61,7 @@ $(".small.modal").modal('setting', {observeChanges: true}).modal('setting', 'tra
 $(".small.modal.student").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Horizontal Flip").modal("attach events", "#editStudent", "show");
 $(".small.modal.goal").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Horizontal Flip").modal("attach events", "#editGoal", "show");
 $(".small.modal.email").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Horizontal Flip").modal("attach events", "#addEmail", "show");
+$(".small.modal.class").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Horizontal Flip").modal("attach events", "#addClass", "show");
 
 // Sortable starts
 /*

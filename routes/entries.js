@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router({mergeParams: true});
 var Entry = require("../models/entry");
 var Student = require("../models/student");
+var ClassList = require("../models/classList");
 
 // The order of routes actually matters. If I put this NEW route before the show route,
 // it works, but not the other way around
@@ -11,7 +12,13 @@ router.get("/new", isLoggedIn, isAStaff, function(req,res){
         if (err){
             console.log("Error " + err);
         } else {
-            res.render("entries/new", {foundStudent: foundStudent});
+            ClassList.findOne({name: "All"}, function(err, classList){
+                if (err){
+                    console.log("There is an error");
+                } else {
+                    res.render("entries/new", {foundStudent: foundStudent, classList: classList});
+                }
+            });
         }
     });
 });

@@ -34,5 +34,4 @@ function seedClass(){
         });
     });
 }
-
 module.exports = seedClass;

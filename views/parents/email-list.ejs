@@ -20,7 +20,6 @@
                         <form action = "/parents/email-list/<%=email%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px;">
                             <button data-tooltip = "Delete" data-position = "left center" class = "delete-button"><i class = "trash outline icon link"></i></button>
                         </form>
-                        <!--<a style = "color: red;"><i class = "trash outline icon link"></i></a>-->
                     </span>
                 </td>
             </tr>
@@ -28,6 +27,7 @@
     </tbody>
 </table>
 
+<!--Modal for adding new email address-->
 <div class="ui small modal email"> <i class="close icon" ></i>
     <div class="content">
         <form class = "ui form" action = "/parents/email-list/" method = "POST">

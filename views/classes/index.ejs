@@ -1,0 +1,29 @@
+<% include ../partials/header %>
+<h1>Class list</h1>
+<div class = "ui container">
+    <% classList.allClasses.forEach(function(eachClass) { %>
+        <p><%=eachClass%>
+        <span style = "float: right;">
+            <form action = "/classes/<%=eachClass%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px;">
+                <button data-tooltip = "Delete" data-position = "left center" class = "delete-button"><i class = "trash outline icon link"></i></button>
+            </form>
+        </span>
+        </p>
+    <% }); %>
+    
+    <button id = "addClass" class = "ui button">Add class</button>
+</div>
+
+<div class="ui small modal class"> <i class="close icon" ></i>
+    <div class="content">
+        <form class = "ui form" action = "/classes" method = "POST">
+            <div class = "field">
+                <input type = "text" name = "class" placeholder = "Class">
+            </div>
+            <div class = "field">
+                <input class="ui blue basic button" type = "Submit"Save>
+            </div>
+        </form>
+    </div>
+</div> <!--ui small modal-->
+<% include ../partials/footer %>

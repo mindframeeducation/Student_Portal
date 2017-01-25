@@ -23,6 +23,7 @@ var blogRoutes      = require("./routes/blogs"),
     entryRoutes     = require("./routes/entries"),
     noteRoutes      = require("./routes/notes"),
     parentRoutes    = require("./routes/parents"),
+    classRoutes     = require("./routes/classes"),
     indexRoutes     = require("./routes/index");
 
 // Seed the student's database. ONLY DO IT ONCE!
@@ -84,6 +85,7 @@ app.use(studentRoutes);
 app.use("/parents", parentRoutes);
 app.use("/students/:id/notes", noteRoutes);
 app.use("/students/:id/entries", entryRoutes);
+app.use(classRoutes);
 
 
 

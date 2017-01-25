@@ -9,6 +9,7 @@ var EmailList = require('../models/emailList');
 var Student = require("../models/student");
 var mongoose = require("mongoose");
 var Entry = require("../models/entry");
+var ClassList = require("../models/classList");
 
 // Display log-in page
 router.get("/login", isLoggedOut, function(req, res) {
@@ -32,9 +33,14 @@ router.get("/new-entry", isLoggedIn, isAStaff, function(req, res) {
             res.redirect("/students");
         }
         else {
-            res.render("entries/new-from-nav", {
-                students: students
-            });
+            ClassList.findOne({}, function(err, classList){
+                if (err) {
+                    console.log("Error with class list database");
+                } else {
+                    res.render("entries/new-from-nav", {students: students, classList: classList});
+                }
+            })
+            
         }
     });
 });
