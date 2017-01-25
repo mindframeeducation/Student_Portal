@@ -46,7 +46,10 @@ router.post("/", isAStaff, function(req,res){
 });
 
 router.get("/", isAStaff, function(req,res){
-    Student.findById(req.params.id).populate("notes").exec(function(err, foundStudent){
+    Student.findById(req.params.id).populate({
+        path: 'notes',
+        options: {sort: {created: -1}}
+    }).exec(function(err, foundStudent){
         if (err){
             req.flash("error", "ERROR LOOKING UP STUDENT");
             res.redirect("/students/" + req.params.id);
@@ -136,5 +139,4 @@ function isAuthorized(req, res, next) {
         res.redirect("back");
     }
 }
-
 module.exports = router;

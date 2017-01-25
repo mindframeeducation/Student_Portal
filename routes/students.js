@@ -36,7 +36,11 @@ router.get("/students", isLoggedIn, function(req, res){
 // SHOW PAGE FOR A SPECIFIC STUDENT
 router.get("/students/:id", isLoggedIn, function(req,res){
     // NEED TO HAVE POPULATE(), OR IT WILL ONLY STORES OBJECT IDs 
-    Student.findById(req.params.id).populate("entries notes").exec(function(err, foundStudent){
+    // Student.findById(req.params.id).populate("entries notes").exec(function(err, foundStudent){
+    Student.findById(req.params.id).populate({
+        path: 'entries notes',
+        options: {sort: {created: -1}}
+    }).exec(function(err, foundStudent){
         if (err){
             console.log("Error: " + err);
         } else {
