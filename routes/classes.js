@@ -49,7 +49,7 @@ router.delete("/classes/:className", isAuthorized, function(req,res){
 
 function isAuthorized(req,res,next){
     if (req.isAuthenticated()){
-        if (req.user.hasAccess('admin')) {
+        if (req.user.hasAccess('user')) {
             next();
         } else {
             req.flash("error", "You do not have permission!");
@@ -60,5 +60,4 @@ function isAuthorized(req,res,next){
         res.redirect("/login");
     }
 }
-
 module.exports = router;

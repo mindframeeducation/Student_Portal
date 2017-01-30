@@ -1,20 +1,17 @@
 <% include ../partials/header %>
-<table class = "ui sortable container basic compact table" style = "width: 30%; margin: 75px auto;">
-    <thead style = "position: relative; display: block">
+<table class = "ui sortable container basic compact table" style = "width: 25%; margin: 100px auto 15px;">
+    <thead>
         <tr>
             <!--Having just one column, using one wide will make it span all the way-->
-            <th class="sixteen wide">
+            <th class="one wide">
                 Email address
-            </th>
-            <th class="selectable" id = "addEmail">
-                <a><i class = "link add user icon"></i>Add email</a>
             </th>
         </tr>
     </thead>
-    <tbody style = "height:500px; overflow-y: scroll; display: block;">
+    <tbody style = "height:350px; overflow-y: scroll; display: block;">
         <% emails.emails.forEach(function(email) { %>
-            <tr class = "sixteen wide">
-                <td colspan="4" style = "min-width: 425px;" name = "<%=email%>">
+            <tr>
+                <td colspan="4" style = "min-width: 350px;" name = "<%=email%>">
                     <%=email %>
                     <span style = "float: right;">
                         <form action = "/parents/email-list/<%=email%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px;">
@@ -26,6 +23,10 @@
         <% }) %>
     </tbody>
 </table>
+
+<div class = "ui container" style = "width: 25%;">
+    <button id = "addEmail" class = "ui primary basic button">Add email</button>
+</div>
 
 <!--Modal for adding new email address-->
 <div class="ui small modal email"> <i class="close icon" ></i>

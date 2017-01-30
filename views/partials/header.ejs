@@ -23,12 +23,14 @@
                         <% if (currentUser) { %>
                             <!--<a href = "/blogs" class = "item">Blogs</a>-->
                             <a href = "/students" class = "item">Students' entries</a>
-                            <% if (currentUser.hasAccess('admin')) { %>
+                            <% if (currentUser.hasAccess('user')) { %>
                                 <div class = "item ui simple dropdown">Manage
                                     <i class = "dropdown icon" style = "margin-left: 5px;"></i>
                                     <div class = "menu">
-                                        <a href = "/parents" class = "item">Registered parents</a>
-                                        <a href = "/parents/email-list" class = "item">Email list</a>
+                                        <% if (currentUser.hasAccess('admin')) { %>
+                                            <a href = "/parents" class = "item">Registered parents</a>
+                                            <a href = "/parents/email-list" class = "item">Email list</a>
+                                        <% } %>
                                         <a href = "/classes" class = "item">Class list</a>
                                     </div>
                                 </div>
