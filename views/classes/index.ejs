@@ -10,10 +10,20 @@
                 <td name = "<%=eachClass%>">
                     <%=eachClass%>
                     <span style = "float: right;">
-                        <form action = "/classes/<%=eachClass%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px;">
-                            <button data-tooltip = "Delete" data-position = "left center" class = "delete-button"><i class = "trash outline icon link"></i></button>
-                        </form>
+                        <!--<form action = "/classes/<%=eachClass%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px;">-->
+                        <!--    <button data-tooltip = "Delete" data-position = "left center" class = "delete-button"><i class = "trash outline icon link"></i></button>-->
+                        <!--</form>-->
+                        <button data-tooltip = "Delete" data-position = "left center" id = "delete"><i class = "trash outline icon link"></i></button>
                     </span>
+                    
+                    <div class="<%=eachClass%> ui small modal delete"> <i class="close icon" ></i>
+                        <div class="content">
+                            <form action = "/classes/<%=eachClass%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px;">
+                                <button data-tooltip = "Delete" data-position = "left center" id = "delete">Confirm delete</button>
+                            </form>
+                        </div>
+                    </div> <!--ui small modal-->
+                    
                 </td>
             </tr>
         <% }); %>
