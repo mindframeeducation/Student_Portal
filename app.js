@@ -33,7 +33,7 @@ var blogRoutes      = require("./routes/blogs"),
 // seedEmail();
 
 // Seed class database. Only do it once
-seedClass();
+// seedClass();
 // console.log(process.env.BLOG_DATABASE);
 console.log(process.env.BLOG_DATABASE);
 // export ENV_VAR=value in command line
