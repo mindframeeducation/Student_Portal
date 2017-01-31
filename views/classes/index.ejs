@@ -5,7 +5,7 @@
             <!--<th class = "one wide">Add class</th>-->
     </thead>
     <tbody>
-        <% classList.allClasses.forEach(function(eachClass) { %>
+        <% classList.allClasses.forEach(function(eachClass, index) { %>
             <tr class = "one wide">
                 <td name = "<%=eachClass%>">
                     <%=eachClass%>
@@ -13,14 +13,20 @@
                         <!--<form action = "/classes/<%=eachClass%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px;">-->
                         <!--    <button data-tooltip = "Delete" data-position = "left center" class = "delete-button"><i class = "trash outline icon link"></i></button>-->
                         <!--</form>-->
-                        <button data-tooltip = "Delete" data-position = "left center" id = "delete"><i class = "trash outline icon link"></i></button>
+                        <button data-tooltip = "Delete" data-position = "left center" class = "delete-button delete-class-button-<%=index%>"><i class = "trash outline icon link"></i></button>
                     </span>
                     
-                    <div class="<%=eachClass%> ui small modal delete"> <i class="close icon" ></i>
-                        <div class="content">
-                            <form action = "/classes/<%=eachClass%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px;">
-                                <button data-tooltip = "Delete" data-position = "left center" id = "delete">Confirm delete</button>
+                    <div class="ui small modal delete" id = "delete-modal-<%=index%>"><i class="close icon" ></i>
+                        <div class = "header">
+                            Are you sure you want to delete '<%=eachClass%>' ?
+                        </div>
+                        <div class = "action" >
+                            <form action = "/classes/<%=eachClass%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px; display: inline;">
+                                <button class = "ui positive right button" style = "margin: 10px 5px 10px 15px;" data-tooltip = "Delete" data-position = "left center">Yes</button>
                             </form>
+                            <button class = "ui negative button close-modal" style = "margin-top: 10px;">
+                                No
+                            </button>
                         </div>
                     </div> <!--ui small modal-->
                     

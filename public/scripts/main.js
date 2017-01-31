@@ -57,12 +57,36 @@ $('.message .close').on('click', function() {
   $(this).closest('.message').fadeOut();
 });
 
-$(".small.modal").modal('setting', {observeChanges: true}).modal('setting', 'transition', "Fade Down").modal("attach events", "#editBlog", "show");
+// $(".small.modal").modal('setting', {observeChanges: true}).modal('setting', 'transition', "Fade Down").modal("attach events", "#editBlog", "show");
 $(".small.modal.student").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#editStudent", "show");
 $(".small.modal.goal").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#editGoal", "show");
 $(".small.modal.email").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#addEmail", "show");
 $(".small.modal.class").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#addClass", "show");
-$(".small.modal.delete").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#delete", "show");
+
+var deleteModal = $(".ui.small.modal.delete").length;
+console.log("The length is: " + deleteModal);
+// for (var i = 0; i < $(".ui.small.modal.delete").length; i++) {
+// 	(function(i){
+// 		$(".delete-class-button-" + i).click(function(){
+// 			$("#delete-modal-" + i).modal("show");
+// 		});
+// 	}(i));
+// }
+
+// This will also works (using let, which is a in ES6
+for (let i = 0; i < $(".ui.small.modal.delete").length; i++) {
+	$(".delete-class-button-" + i).click(function(){
+			$("#delete-modal-" + i).modal("show");
+		});
+}
+
+$(".close.icon").click(function(){
+	$(".small.modal").modal("hide");
+});
+
+$(".close-modal").click(function(){
+	$(".small.modal").modal("hide");
+});
 
 // Sortable starts
 /*
