@@ -6,7 +6,6 @@ var studentSchema = mongoose.Schema({
     },
     grade: Number,
     learning_goal: String,
-    
     // Each students will have a list of entries
     entries: [
         {
@@ -14,10 +13,20 @@ var studentSchema = mongoose.Schema({
             ref: "Entry"
         }
     ],
+    
+    // Each student will have a list of notes
     notes: [
         {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Note"
+        }
+    ],
+    
+    // Each student will have a list of courses that he/she is taking
+    courses: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Course"
         }
     ]
 });
