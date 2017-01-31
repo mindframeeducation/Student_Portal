@@ -6,7 +6,7 @@ var express     = require("express"),
     User        = require("../models/user");
     
 router.get("/", isAuthorized, function(req,res){
-    User.find().populate("students").exec(function(err, parents){
+    User.find().populate('students').exec(function(err, parents){
         if (err){
             console.log("There is an error");
             req.flash("error", "User lookup failed");

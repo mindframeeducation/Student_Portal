@@ -4,7 +4,7 @@
         <th class = "one wide">Class</th>
     </thead>
     <tbody>
-        <% classList.allClasses.forEach(function(eachClass, index) { %>
+        <% classList.allClasses.sort().forEach(function(eachClass, index) { %>
             <tr class = "one wide">
                 <td name = "<%=eachClass%>">
                     <%=eachClass%>

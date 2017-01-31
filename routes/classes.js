@@ -8,7 +8,7 @@ router.get("/classes",isAuthorized, function(req,res){
         if (err){
             console.log("Cannot find class list: " + err);
         } else {
-            res.render("classes/index.ejs", {classList: classList});
+            res.render("classes/index", {classList: classList});
         }
     });
 });
