@@ -52,16 +52,28 @@
         <div class = "ui top raised segment">
             <div class = "ui divided items">
                 <% if (foundStudent.entries.length > 0) { %>
-                    <% foundStudent.entries.forEach(function(entry) { %>
+                    <% foundStudent.entries.forEach(function(entry, index) { %>
                         <div class = "item">
                             <div class = "content" style = "margin-left: 20px;">
                                 <!-- New edit and delete buttons-->
                                 <% if (currentUser && currentUser.hasAccess('user') && currentUser._id.equals(entry.author.id) || (currentUser && currentUser.hasAccess('admin')) )  {%>
                                     <div style = "float: right; font-size: 0.8em;">
                                         <a style = "color: orange" data-tooltip="Edit" data-position="top center" href = "/students/<%=foundStudent._id%>/entries/<%=entry._id%>/edit"><i class="fa fa-pencil" aria-hidden="true"></i></a> | 
-                                        <form id = "delete" action = "/students/<%=foundStudent._id%>/entries/<%=entry._id%>?_method=DELETE" method = "POST">
-                                            <button data-tooltip="Delete" data-position="top center" class="delete-button"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                        </form>
+                                        <button data-tooltip="Delete" data-position="top center" class="delete-button delete-entry-button-<%=index%>"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                        <div class = "ui small modal delete entry" id = "delete-entry-<%=index%>"><i class = "close icon"></i>
+                                            <div class = "header">
+                                                Are you sure you want to delete this entry?
+                                            </div>
+                                            <div class = "action">
+                                                <form style = "display: inline" id = "delete" action = "/students/<%=foundStudent._id%>/entries/<%=entry._id%>?_method=DELETE" method = "POST">
+                                                    <button style = "margin: 10px 5px 10px 15px;" class = "ui positive button">Yes</button>
+                                                </form>
+                                                <button class = "ui negative button close-modal" style = "margin-top: 10px;">
+                                                    No
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
                                     </div>
                                 <% } %>
                                 <p> <strong>Class: <%= entry.class_name %></strong> </p>

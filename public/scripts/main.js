@@ -44,9 +44,6 @@ $(document).ready(function(){
 
 // Auto timeout messages
 window.setTimeout(function() {
-    // $(".alert").fadeTo(500, 0).slideUp(500, function(){
-    //     $(this).remove(); 
-    // });
     $(".ui.success.message.small.overlay").transition();
     $(".ui.negative.message.small.overlay").transition();
 }, 1500);
@@ -57,14 +54,13 @@ $('.message .close').on('click', function() {
   $(this).closest('.message').fadeOut();
 });
 
-// $(".small.modal").modal('setting', {observeChanges: true}).modal('setting', 'transition', "Fade Down").modal("attach events", "#editBlog", "show");
 $(".small.modal.student").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#editStudent", "show");
 $(".small.modal.goal").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#editGoal", "show");
 $(".small.modal.email").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#addEmail", "show");
 $(".small.modal.class").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#addClass", "show");
 
-var deleteModal = $(".ui.small.modal.delete.class").length;
-console.log("The length is: " + deleteModal);
+// var deleteModal = $(".ui.small.modal.delete.class").length;
+// console.log("The length is: " + deleteModal);
 // for (var i = 0; i < $(".ui.small.modal.delete").length; i++) {
 // 	(function(i){
 // 		$(".delete-class-button-" + i).click(function(){
@@ -73,18 +69,25 @@ console.log("The length is: " + deleteModal);
 // 	}(i));
 // }
 
-// This will also works (using let, which is a in ES6
+// This will also works (using let, which is a in ES6)
+// Initialize delete class modal
 for (let i = 0; i < $(".ui.small.modal.delete.class").length; i++) {
 	$(".delete-class-button-" + i).click(function(){
 		$("#delete-class-" + i).modal("show");
 	});
 }
 
-var deleteEmail = $(".ui.small.modal.delete.email").length;
-console.log("The length of email is: " + deleteEmail);
+// Initialize delete email modal
 for (let i = 0; i < $(".ui.small.modal.delete.email").length; i++) {
 	$(".delete-email-button-" + i).click(function(){
 		$("#delete-email-" + i).modal("show");
+	});
+}
+
+// Initialize delete entry modal
+for (let i = 0; i < $(".ui.small.modal.delete.entry").length; i++){
+	$(".delete-entry-button-" + i).click(function(){
+		$("#delete-entry-" + i).modal("show");
 	});
 }
 
