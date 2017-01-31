@@ -1,8 +1,7 @@
 <% include ../partials/header %>
-<table class="container ui sortable basic compact table" style = "width: 20%; margin-top: 100px;">
+<table class="container ui sortable blue table" style = "width: 20%; margin-top: 100px;">
     <thead>
         <th class = "one wide">Class</th>
-            <!--<th class = "one wide">Add class</th>-->
     </thead>
     <tbody>
         <% classList.allClasses.forEach(function(eachClass, index) { %>
@@ -10,26 +9,22 @@
                 <td name = "<%=eachClass%>">
                     <%=eachClass%>
                     <span style = "float: right;">
-                        <!--<form action = "/classes/<%=eachClass%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px;">-->
-                        <!--    <button data-tooltip = "Delete" data-position = "left center" class = "delete-button"><i class = "trash outline icon link"></i></button>-->
-                        <!--</form>-->
                         <button data-tooltip = "Delete" data-position = "left center" class = "delete-button delete-class-button-<%=index%>"><i class = "trash outline icon link"></i></button>
                     </span>
                     
-                    <div class="ui small modal delete" id = "delete-modal-<%=index%>"><i class="close icon" ></i>
+                    <div class="ui small modal delete class" id = "delete-class-<%=index%>"><i class="close icon" ></i>
                         <div class = "header">
                             Are you sure you want to delete '<%=eachClass%>' ?
                         </div>
                         <div class = "action" >
                             <form action = "/classes/<%=eachClass%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px; display: inline;">
-                                <button class = "ui positive right button" style = "margin: 10px 5px 10px 15px;" data-tooltip = "Delete" data-position = "left center">Yes</button>
+                                <button class = "ui positive button" style = "margin: 10px 5px 10px 15px;">Yes</button>
                             </form>
                             <button class = "ui negative button close-modal" style = "margin-top: 10px;">
                                 No
                             </button>
                         </div>
                     </div> <!--ui small modal-->
-                    
                 </td>
             </tr>
         <% }); %>

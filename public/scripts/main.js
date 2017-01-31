@@ -63,7 +63,7 @@ $(".small.modal.goal").modal('setting', {observeChanges: true} ).modal('setting'
 $(".small.modal.email").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#addEmail", "show");
 $(".small.modal.class").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#addClass", "show");
 
-var deleteModal = $(".ui.small.modal.delete").length;
+var deleteModal = $(".ui.small.modal.delete.class").length;
 console.log("The length is: " + deleteModal);
 // for (var i = 0; i < $(".ui.small.modal.delete").length; i++) {
 // 	(function(i){
@@ -74,10 +74,18 @@ console.log("The length is: " + deleteModal);
 // }
 
 // This will also works (using let, which is a in ES6
-for (let i = 0; i < $(".ui.small.modal.delete").length; i++) {
+for (let i = 0; i < $(".ui.small.modal.delete.class").length; i++) {
 	$(".delete-class-button-" + i).click(function(){
-			$("#delete-modal-" + i).modal("show");
-		});
+		$("#delete-class-" + i).modal("show");
+	});
+}
+
+var deleteEmail = $(".ui.small.modal.delete.email").length;
+console.log("The length of email is: " + deleteEmail);
+for (let i = 0; i < $(".ui.small.modal.delete.email").length; i++) {
+	$(".delete-email-button-" + i).click(function(){
+		$("#delete-email-" + i).modal("show");
+	});
 }
 
 $(".close.icon").click(function(){

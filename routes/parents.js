@@ -111,7 +111,7 @@ router.post("/email-list", isAuthorized, function(req,res){
             } else {
                 list.emails.push(email);
                 list.save();
-                req.flash("success", "Added " + email);
+                req.flash("success", "Added " + "\'" + email + "\'");
                 res.redirect("/parents/email-list");
             }
         }
@@ -125,7 +125,7 @@ router.delete("/email-list/:email", isAuthorized, function(req, res){
         } else {
             list.emails.splice(list.emails.indexOf(req.params.email), 1);
             list.save();
-            req.flash("success", "Removed " + req.params.email);
+            req.flash("success", "Removed " + "\'" + req.params.email + "\'");
             res.redirect("/parents/email-list");
         }
     });

@@ -1,5 +1,5 @@
 <% include ../partials/header %>
-<table class = "ui sortable container basic compact table" style = "width: 25%; margin: 100px auto 15px;">
+<table class = "ui sortable container blue table" style = "width: 25%; margin: 100px auto 15px;">
     <thead>
         <tr>
             <!--Having just one column, using one wide will make it span all the way-->
@@ -9,15 +9,27 @@
         </tr>
     </thead>
     <tbody style = "height:350px; overflow-y: scroll; display: block;">
-        <% emails.emails.forEach(function(email) { %>
+        <% emails.emails.forEach(function(email, index) { %>
             <tr>
                 <td colspan="4" style = "min-width: 350px;" name = "<%=email%>">
                     <%=email %>
                     <span style = "float: right;">
-                        <form action = "/parents/email-list/<%=email%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px;">
-                            <button data-tooltip = "Delete" data-position = "left center" class = "delete-button"><i class = "trash outline icon link"></i></button>
-                        </form>
+                        <button data-tooltip = "Delete" data-position = "left center" class = "delete-button delete-email-button-<%=index%>"><i class = "trash outline icon link"></i></button>
+                        
                     </span>
+                    <div class = "ui small modal delete email" id = "delete-email-<%=index%>"><i class = "close icon"></i>
+                        <div class = "header">
+                            Are you sure you want to delete '<%=email%>' ?
+                        </div>
+                        <div class = "action">
+                            <form action = "/parents/email-list/<%=email%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px; display: inline">
+                                <button style = "margin: 10px 5px 10px 15px;" class = "ui positive button">Yes</button>
+                            </form>
+                            <button class = "ui negative button close-modal" style = "margin-top: 10px;">
+                                No
+                            </button>
+                        </div>
+                    </div>
                 </td>
             </tr>
         <% }) %>
@@ -41,6 +53,5 @@
         </form>
     </div>
 </div> <!--ui small modal-->
-
 
 <% include ../partials/footer %>

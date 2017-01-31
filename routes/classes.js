@@ -21,7 +21,7 @@ router.post("/classes", isAuthorized, function(req,res){
         } else {
             classList.allClasses.push(req.body.class);
             classList.save();
-            req.flash("success", req.body.class + " added to class list");
+            req.flash("success", "Added " + "\'" + req.body.class + "\'");
             res.redirect("/classes");
         }
     });
@@ -37,7 +37,7 @@ router.delete("/classes/:className", isAuthorized, function(req,res){
             if (pos > -1){
                 classList.allClasses.splice(pos, 1);
                 classList.save();
-                req.flash("success", req.params.className + " successfully removed!");
+                req.flash("success", "Removed " + "\'" + req.params.className + "\'");
                 res.redirect("/classes");
             } else {
                 req.flash("error", "Class does not exist in db");
