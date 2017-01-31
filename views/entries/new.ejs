@@ -13,17 +13,12 @@
                 <i class="dropdown icon"></i>
                 <div class="default text">Class</div>
                     <div class="menu">
-                        <% classList.allClasses.forEach(function(eachClass) { %>
+                        <% classList.allClasses.sort().forEach(function(eachClass) { %>
                             <div class = "item" data-value = "<%=eachClass%>"><%=eachClass%></div>
                         <% }); %>
                     </div>
             </div>
-            
         </div>
-        <!--<div style = "display: inline-block; margin-left: 10px;">-->
-        <!--    <button class = "ui button">Add a new class</button>-->
-        <!--</div>-->
-        
         
         <div class = "field">
             <label>Summary</label>
