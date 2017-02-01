@@ -2,6 +2,8 @@
 
 // var searchBtn = document.querySelector(".search-button");
 $(document).ready(function(){
+	$('#example1').progress();
+	$('.ui.accordion').accordion();
   $('table').tablesort();
   $('.ui.dropdown').dropdown();
   $('#example1').progress();
