@@ -60,6 +60,7 @@ $(".small.modal.student").modal('setting', {observeChanges: true} ).modal('setti
 $(".small.modal.goal").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#editGoal", "show");
 $(".small.modal.email").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#addEmail", "show");
 $(".small.modal.class").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#addClass", "show");
+$(".small.modal.course").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#addCourse", "show");
 
 // var deleteModal = $(".ui.small.modal.delete.class").length;
 // console.log("The length is: " + deleteModal);
@@ -90,6 +91,13 @@ for (let i = 0; i < $(".ui.small.modal.delete.email").length; i++) {
 for (let i = 0; i < $(".ui.small.modal.delete.entry").length; i++){
 	$(".delete-entry-button-" + i).click(function(){
 		$("#delete-entry-" + i).modal("show");
+	});
+}
+
+// Initialize add unit modal
+for (let i = 0; i < $(".ui.small.modal.unit").length; i++) {
+	$("#add-unit-button-" + i).click(function(){
+		$("#add-unit-modal-" + i).modal("show");
 	});
 }
 
