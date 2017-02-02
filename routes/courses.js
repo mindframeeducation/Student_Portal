@@ -22,7 +22,7 @@ router.post("/courses", function(req,res){
         if (err){
             console.log("cannot create course" + err);
         } else {
-            console.log("The course is: " + course);
+            // console.log("The course is: " + course);
             req.flash("success", "Course created");
             res.redirect("/courses");
         }
@@ -30,11 +30,11 @@ router.post("/courses", function(req,res){
 });
 
 // Route to update a course (completeness of units)
-router.post("/courses/:id", function(req,res){
+router.post("/courses/:id/update-units", function(req,res){
     var completed_units = req.body.completed_units;
     Course.findById(req.params.id, function(err, course){
         if (err){
-            console.log("There is an error" + err);
+            console.log("There is an error HERE: " + err);
         } else {
             // Need to reset all units first since user might uncheck unit
             // Very inefficient. Will need to come up with a better solution
@@ -42,7 +42,7 @@ router.post("/courses/:id", function(req,res){
                 course.units.forEach(function(unit){
                     if (unit.completed){
                         unit.completed = false;
-                        console.log("Unit modified was: " + unit.name);
+                        // console.log("Unit modified was: " + unit.name);
                     }
                 });
             } else {
@@ -160,8 +160,8 @@ router.post("/courses/assign-course", function(req,res){
                     res.redirect("/courses");
                 } else {
                     var assign_course = {name: courseTemplate.name, template: false, units: courseTemplate.units};
-                    console.log("The assign course is: " + assign_course);
-                    console.log("The student is: " + student);
+                    // console.log("The assign course is: " + assign_course);
+                    // console.log("The student is: " + student);
                     var pos = -1;
                     console.log("The student courses are: " + student.courses);
                     for (var i = 0; i < student.courses.length; i++){
@@ -170,7 +170,7 @@ router.post("/courses/assign-course", function(req,res){
                             break;
                         }
                     }
-                    console.log("pos is: " + pos);
+                    // console.log("pos is: " + pos);
                     if (pos === -1){ // If a course of the same name already exists
                         Course.create(assign_course, function(err, createdCourse) {
                             if (err){

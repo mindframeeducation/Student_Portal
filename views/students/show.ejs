@@ -77,7 +77,7 @@
                             </div> <!--title-->
                             
                             <div class = "content">
-                                <form class = "ui form" action = "/courses/<%=course._id%>" method = "POST">
+                                <form class = "ui form" action = "/courses/<%=course._id%>/update-units" method = "POST">
                                     <% course.units.forEach(function(unit) { %>
                                         <div class = "inline field">
                                             <!--<% if (unit.completed) {%>-->
