@@ -31,23 +31,51 @@ router.post("/courses", function(req,res){
 
 // Route to update a course (completeness of units)
 router.post("/courses/:id", function(req,res){
-    console.log(req.body.completed_units);
     var completed_units = req.body.completed_units;
     Course.findById(req.params.id, function(err, course){
         if (err){
             console.log("There is an error" + err);
         } else {
-            // Not the most efficient way, but will do for now
-            for (var i = 0; i < completed_units.length; i++){
-                for (var j = 0; j < course.units.length; j++){
-                    if (course.units[j].name === completed_units[i]) {
-                        course.units[j].completed = true;
+            // Need to reset all units first since user might uncheck unit
+            // Very inefficient. Will need to come up with a better solution
+            if (completed_units) {
+                course.units.forEach(function(unit){
+                    if (unit.completed){
+                        unit.completed = false;
+                        console.log("Unit modified was: " + unit.name);
+                    }
+                });
+            } else {
+                course.units.forEach(function(unit){
+                    unit.completed = false;
+                });
+                course.save();
+                req.flash("success", "Course's units updated");
+                return res.redirect("back");
+            }
+            // When there is only 1 unit checked, the return value is a string
+            // So we need to do it this way
+            if (typeof(completed_units) === "string") {
+                for (var i = 0; i < course.units.length; i++){
+                    if (completed_units === course.units[i].name) {
+                        course.units[i].completed = true;
                         course.save();
-                        break;
                     }
                 }
             }
-            // console.log("The course is: " + course);
+            else {
+                // Not the most efficient way, but will do for now
+                for (var i = 0; i < completed_units.length; i++){
+                    for (var j = 0; j < course.units.length; j++){
+                        // course.units[j].completed = false;
+                        if (course.units[j].name === completed_units[i]) {
+                            course.units[j].completed = true;
+                            course.save();
+                            break;
+                        }
+                    }
+                }
+            }
             req.flash("success", "Updated course");
             res.redirect("back");
         }

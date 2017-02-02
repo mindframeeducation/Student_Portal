@@ -62,7 +62,14 @@
                             <div class = "title">
                                 <i class="dropdown icon" style = "margin-right: 0px;"></i>
                                 <%=course.name%>
-                                <div class = "ui blue progress " data-percent="5" id = "example1" style = "width: 75%; margin-left: 5px; margin-bottom: 0; padding-bottom: 0;">
+                                <% var total = course.units.length; %>
+                                <% var completed_units = 0; %>
+                                <% for (var i = 0; i < course.units.length; i++) { %>
+                                    <% if (course.units[i].completed) { %>
+                                        <% completed_units++; %>
+                                    <% } %>
+                                <% } %>
+                                <div class = "ui blue progress " data-percent="<%=completed_units/total*100%>" id = "example1" style = "width: 75%; margin-left: 5px; margin-bottom: 0; padding-bottom: 0;">
                                     <div class = "bar">
                                         <div class = "progress"></div>
                                     </div>
@@ -84,11 +91,9 @@
                                                 <% } else { %>
                                                     <input id = "check_completed_unit"name = "completed_units" type = "checkbox" tabindex = "0" class = "hidden" value = "<%=unit.name%>">
                                                 <% } %> 
-                                                <label><%=unit.name%> - 
+                                                <label><%=unit.name%> 
                                                     <% if (unit.completed) { %>
-                                                        Completed
-                                                    <% } else { %>
-                                                        Incomplete
+                                                        <i class = "checkmark icon" style = "color: green;"></i>
                                                     <% } %>
                                                 </label>
                                             </div>
