@@ -2,6 +2,7 @@
 
 // var searchBtn = document.querySelector(".search-button");
 $(document).ready(function(){
+	$('.ui.checkbox').checkbox();
 	$('#example1').progress();
 	$('.ui.accordion').accordion();
   $('table').tablesort();

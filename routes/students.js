@@ -1,5 +1,6 @@
 var express     = require("express"),
     router      = express.Router(),
+    Course      = require("../models/course"),
     Student     = require("../models/student");
     
 // ROUTES TO ADD A NEW STUDENT
@@ -38,7 +39,7 @@ router.get("/students/:id", isLoggedIn, function(req,res){
     // NEED TO HAVE POPULATE(), OR IT WILL ONLY STORES OBJECT IDs 
     // Student.findById(req.params.id).populate("entries notes").exec(function(err, foundStudent){
     Student.findById(req.params.id).populate({
-        path: 'entries notes',
+        path: 'entries notes courses',
         options: {sort: {created: -1}}
     }).exec(function(err, foundStudent){
         if (err){

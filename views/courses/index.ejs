@@ -4,45 +4,52 @@
     <div class = "ui styled fluid accordion" style = "margin-bottom: 10px;">
         <% if (courses) { %>
             <% courses.sort().forEach(function(course, index) { %>
-                <div class = "title">
-                    <i class="dropdown icon"></i>
-                    <%=course.name%>
-                </div>
-                <div class = "content">
-                    <% if (course.units.length > 0) { %>
-                        <% course.units.forEach(function(unit) { %>
-                            <p><%=unit.name%> | Completed? <%=unit.completed%>
-                            <span style = "margin-left: 5px;" class = "link"><button class = "ui button">Edit</button></span>
-                            <form action = "/courses/<%=course.id%>/units/<%=unit.name%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px; display: inline;">
-                                <button class = "ui positive button" style = "margin: 10px 5px 10px 15px;">Delete</button>
+                <% if (course.template) { %>
+                    <div class = "title">
+                        <i class="dropdown icon"></i>
+                        <%=course.name%>
+                    </div>
+                    <div class = "content">
+                        <% if (course.units.length > 0) { %>
+                            <% course.units.forEach(function(unit) { %>
+                                <div style = "margin-left: 15px;">
+                                    <%=unit.name%>
+                                    <div style = "float:right; display:inline;">
+                                        <a style = "color: orange;" data-tooltip="Edit" data-position="top center" href = "#"><i class="fa fa-pencil" aria-hidden="true"></i></a> |
+                                        <!--<span style = "margin-left: 5px;" class = "link"><button class = "ui button">Edit</button></span>-->
+                                        <form action = "/courses/<%=course.id%>/units/<%=unit.name%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px; display: inline;">
+                                            <!--<button class = "ui positive button" style = "margin: 10px 5px 10px 15px;">Delete</button>-->
+                                            <button data-tooltip="Delete" data-position="top center" class="delete-button delete-entry-button-<%=index%>"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                        </form>
+                                    </div>
+                                </div>
+                                
+                            <% }); %>
+                        <% } else { %>
+                            <p>This course does not have any unit</p>
+                        <% } %>
+                        <div style = "margin-top: 10px;">
+                            <button class = "ui button" id = "add-unit-button-<%=index%>">New unit</button>
+                        </div>
+                    </div>
+                    <!--Create a modal for each course starts-->
+                    <!--Modal for adding a new unit-->
+                    <div class="ui small modal unit" id = "add-unit-modal-<%=index%>"> <i class="close icon" ></i>
+                        <div class="content">
+                            <form class = "ui form" action = "/courses/<%=course.id%>/units" method = "POST">
+                                <div class = "field">
+                                    <input type = "text" name = "unit_name" placeholder = "Unit name">
+                                </div>
+                                <div class = "field">
+                                    <input class="ui blue basic button" type = "Submit"Save>
+                                </div>
                             </form>
-                            </p>
-                        <% }); %>
-                    <% } else { %>
-                        <p>This course does not have any unit</p>
-                    <% } %>
-                    <div style = "margin-top: 10px;">
-                        <button class = "ui button" id = "add-unit-button-<%=index%>">New unit</button>
-                    </div>
-                </div>
-                <!--Create a modal for each course starts-->
-                <!--Modal for adding a new unit-->
-                <div class="ui small modal unit" id = "add-unit-modal-<%=index%>"> <i class="close icon" ></i>
-                    <div class="content">
-                        <form class = "ui form" action = "/courses/<%=course.id%>/units" method = "POST">
-                            <div class = "field">
-                                <input type = "text" name = "unit_name" placeholder = "Unit name">
-                            </div>
-                            <div class = "field">
-                                <input class="ui blue basic button" type = "Submit"Save>
-                            </div>
-                        </form>
-                    </div>
-                </div> <!--ui small modal unit-->
-                <!--Create a modal for each course ends -->
-            <% }); %>
-        <% } %>
-        
+                        </div>
+                    </div> <!--ui small modal unit-->
+                    <!--Create a modal for each course ends -->
+                <% } %> <!--if (course.template) -->
+            <% }); %> <!--for each function -->
+        <% } %> <!--if (courses) -->
     </div>
     
     <button class = "ui button" id = "addCourse">New course</button>

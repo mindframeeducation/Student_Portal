@@ -54,39 +54,54 @@
     <div class = "ui raised segment text fluid container">
         <div class = "ui divided items" style = "padding-left: 20px">
             <div class = "item">
-                <div class = "ui fluid accordion">
-                    <div class = "title">
-                        <i class="dropdown icon" style = "margin-right: 0px;"></i>
-                        Python - In progress
-                        <div class = "ui blue progress " data-percent="75" id = "example1" style = "width: 75%; margin-left: 5px; margin-bottom: 0; padding-bottom: 0;">
-                            <div class = "bar">
-                                <div class = "progress"></div>
+                <% if (foundStudent.courses.length === 0) { %>
+                    This student is not taking any course
+                <% } else { %>
+                    <div class = "ui fluid accordion">
+                        <% foundStudent.courses.forEach(function(course) { %>
+                            <div class = "title">
+                                <i class="dropdown icon" style = "margin-right: 0px;"></i>
+                                <%=course.name%>
+                                <div class = "ui blue progress " data-percent="5" id = "example1" style = "width: 75%; margin-left: 5px; margin-bottom: 0; padding-bottom: 0;">
+                                    <div class = "bar">
+                                        <div class = "progress"></div>
+                                    </div>
+                                </div>
+                            </div> <!--title-->
+                            
+                            <div class = "content">
+                                <form class = "ui form" action = "/courses/<%=course._id%>" method = "POST">
+                                    <% course.units.forEach(function(unit) { %>
+                                        <div class = "inline field">
+                                            <!--<% if (unit.completed) {%>-->
+                                            <!--    <div class = "ui checkbox checked">-->
+                                            <!--<% } else { %>-->
+                                            <!--    <div class = "ui checkbox">-->
+                                            <!--<% } %>-->
+                                            <div class = "ui checkbox">
+                                                <% if (unit.completed) { %>
+                                                    <input id = "check_completed_unit"name = "completed_units" type = "checkbox" tabindex = "0" class = "hidden" value = "<%=unit.name%>" checked >
+                                                <% } else { %>
+                                                    <input id = "check_completed_unit"name = "completed_units" type = "checkbox" tabindex = "0" class = "hidden" value = "<%=unit.name%>">
+                                                <% } %> 
+                                                <label><%=unit.name%> - 
+                                                    <% if (unit.completed) { %>
+                                                        Completed
+                                                    <% } else { %>
+                                                        Incomplete
+                                                    <% } %>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    <% }); %>
+                                    <button class = "ui button" type = "submit">Save</button>
+                                </form>
+                                
                             </div>
-                        </div>
-                    </div>
-                    <div class = "content">
-                        <p>Unit 1</p>
-                        <p>Unit 2</p>
-                        <p>Unit 3</p>
-                    </div>
-                    
-                    <div class = "title">
-                        <i class="dropdown icon" style = "margin-right: 0px;"></i>
-                        Java
-                        <div class = "ui blue progress " data-percent="50.45" id = "example1" style = "width: 75%; margin-left: 5px; margin-bottom: 0; padding-bottom: 0">
-                            <div class = "bar">
-                                <div class = "progress"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class = "content">
-                        <p>Unit 1</p>
-                        <p>Unit 2</p>
-                        <p>Unit 3</p>
-                    </div>
-                </div>
+                        <% }); %>
+                    </div> <!--ui fluid accordion-->
+                <% } %> <!--else statement-->
             </div>
-            
             
         </div>
     </div>
