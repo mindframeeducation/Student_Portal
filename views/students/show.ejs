@@ -51,12 +51,10 @@
     <!--First segment ends-->
     
     <!--Second segment begins-->
-    <div class = "ui raised segment text fluid container">
-        <div class = "ui divided items" style = "padding-left: 20px">
-            <div class = "item">
-                <% if (foundStudent.courses.length === 0) { %>
-                    This student is not taking any course
-                <% } else { %>
+    <% if (foundStudent.courses.length > 0) { %>
+        <div class = "ui stacked raised segment text fluid container">
+            <div class = "ui divided items" style = "padding-left: 20px">
+                <div class = "item">
                     <div class = "ui fluid accordion">
                         <% foundStudent.courses.forEach(function(course) { %>
                             <div class = "title">
@@ -69,22 +67,17 @@
                                         <% completed_units++; %>
                                     <% } %>
                                 <% } %>
-                                <div class = "ui blue progress " data-percent="<%=completed_units/total*100%>" id = "example1" style = "width: 75%; margin-left: 5px; margin-bottom: 0; padding-bottom: 0;">
+                                <div class = "ui blue progress" data-percent="<%=completed_units/total*100%>" id = "example1" style = "width: 90%; margin-left: 5px; margin-bottom: 0; padding-bottom: 0;">
                                     <div class = "bar">
                                         <div class = "progress"></div>
                                     </div>
                                 </div>
                             </div> <!--title-->
                             
-                            <div class = "content">
+                            <div class = "content" style = "margin-left: 5px;">
                                 <form class = "ui form" action = "/courses/<%=course._id%>/update-units" method = "POST">
                                     <% course.units.forEach(function(unit) { %>
                                         <div class = "inline field">
-                                            <!--<% if (unit.completed) {%>-->
-                                            <!--    <div class = "ui checkbox checked">-->
-                                            <!--<% } else { %>-->
-                                            <!--    <div class = "ui checkbox">-->
-                                            <!--<% } %>-->
                                             <div class = "ui checkbox">
                                                 <% if (unit.completed) { %>
                                                     <input id = "check_completed_unit"name = "completed_units" type = "checkbox" tabindex = "0" class = "hidden" value = "<%=unit.name%>" checked >
@@ -99,21 +92,20 @@
                                             </div>
                                         </div>
                                     <% }); %>
-                                    <button class = "ui button" type = "submit">Save</button>
+                                    <button class = "ui primary basic button" type = "submit">Save</button>
                                 </form>
                                 
                             </div>
                         <% }); %>
                     </div> <!--ui fluid accordion-->
-                <% } %> <!--else statement-->
-            </div>
-            
-        </div>
-    </div>
+                </div> <!--item-->
+            </div> <!--ui divided items-->
+        </div> <!--ui raised segment text fluid...-->
+    <% } %>
     <!--Second segment ends-->
     
     <!--Third segment begins-->
-    <div class = "ui main text container" style = "margin-bottom: 50px; margin-top: 0px;">
+    <div class = "ui main text container" style = "margin-bottom: 50px; margin-top: 10px;">
         <div class = "ui raised segment">
             <div class = "ui divided items">
                 <% if (foundStudent.entries.length > 0) { %>

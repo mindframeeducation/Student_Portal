@@ -14,22 +14,22 @@
                             <% course.units.forEach(function(unit) { %>
                                 <div style = "margin-left: 15px;">
                                     <%=unit.name%>
-                                    <div style = "float:right; display:inline;">
+                                    <div style = "float:right; display:inline; font-size: 0.8em;">
                                         <a style = "color: orange;" data-tooltip="Edit" data-position="top center" href = "#"><i class="fa fa-pencil" aria-hidden="true"></i></a> |
-                                        <!--<span style = "margin-left: 5px;" class = "link"><button class = "ui button">Edit</button></span>-->
                                         <form action = "/courses/<%=course.id%>/units/<%=unit.name%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px; display: inline;">
                                             <!--<button class = "ui positive button" style = "margin: 10px 5px 10px 15px;">Delete</button>-->
                                             <button data-tooltip="Delete" data-position="top center" class="delete-button delete-entry-button-<%=index%>"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                                         </form>
                                     </div>
                                 </div>
+                                <div class="ui fitted divider"></div>
                                 
                             <% }); %>
                         <% } else { %>
                             <p>This course does not have any unit</p>
                         <% } %>
                         <div style = "margin-top: 10px;">
-                            <button class = "ui button" id = "add-unit-button-<%=index%>">New unit</button>
+                            <button class = "ui blue button" id = "add-unit-button-<%=index%>">New unit</button>
                         </div>
                     </div>
                     <!--Create a modal for each course starts-->
@@ -41,7 +41,7 @@
                                     <input type = "text" name = "unit_name" placeholder = "Unit name">
                                 </div>
                                 <div class = "field">
-                                    <input class="ui blue basic button" type = "Submit"Save>
+                                    <input class="ui blue button" type = "Submit"Save>
                                 </div>
                             </form>
                         </div>
@@ -52,7 +52,7 @@
         <% } %> <!--if (courses) -->
     </div>
     
-    <button class = "ui button" id = "addCourse">New course</button>
+    <button class = "ui blue button" id = "addCourse">New course</button>
 </div>
 
 <!--Modal for adding a new course-->
@@ -68,8 +68,5 @@
         </form>
     </div>
 </div> <!--ui small modal-->
-
-
-
 
 <% include ../partials/footer %>
