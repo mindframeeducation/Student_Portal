@@ -102,6 +102,12 @@ for (let i = 0; i < $(".ui.small.modal.unit").length; i++) {
 	});
 }
 
+for (let i = 0; i < $(".ui.small.modal.course.name").length; i++) {
+	$("#course-name-button-" + i).click(function(){
+		$("#change-course-name-" + i).modal("show");
+	});
+}
+
 $(".close.icon").click(function(){
 	$(".small.modal").modal("hide");
 });

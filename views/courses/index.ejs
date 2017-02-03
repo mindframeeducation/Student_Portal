@@ -29,22 +29,39 @@
                         <% } %>
                         <div style = "margin-top: 10px;">
                             <button class = "ui blue button" id = "add-unit-button-<%=index%>">New unit</button>
+                            <button class = "ui basic orange button" id = "course-name-button-<%=index%>">Edit course name</button>
                         </div>
                     </div>
                     <!--Create a modal for each course starts-->
                     <!--Modal for adding a new unit-->
-                    <div class="ui small modal unit" id = "add-unit-modal-<%=index%>"> <i class="close icon" ></i>
+                    <div class="ui small modal unit" id = "add-unit-modal-<%=index%>"><i class="close icon" ></i>
                         <div class="content">
                             <form class = "ui form" action = "/courses/<%=course.id%>/units" method = "POST">
                                 <div class = "field">
                                     <input type = "text" name = "unit_name" placeholder = "Unit name">
                                 </div>
                                 <div class = "field">
-                                    <input class="ui blue button" type = "Submit"Save>
+                                    <input class="ui blue button" type = "Submit" value = "Save">
                                 </div>
                             </form>
                         </div>
                     </div> <!--ui small modal unit-->
+                    
+                    <!--Modal for changing the course name starts-->
+                    <div class = "ui small modal course name" id = "change-course-name-<%=index%>"><i class = "close icon"></i>
+                        <div class = "content">
+                            <form class = "ui form" action = "/courses/<%=course.id%>/update-course-name/<%=course.name%>" method = "POST">
+                                <div class = "field">
+                                    <input type = "text" name = "course_name" value = "<%=course.name%>">
+                                </div>
+                                <div class = "field">
+                                    <input class = "ui blue button" type = "Submit" value = "Save">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!--Modal for changing the class name ends-->
+                    
                     <!--Create a modal for each course ends -->
                 <% } %> <!--if (course.template) -->
             <% }); %> <!--for each function -->

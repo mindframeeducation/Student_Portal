@@ -29,6 +29,32 @@ router.post("/courses", function(req,res){
     });
 });
 
+// Route to edit course name
+router.post("/courses/:id/update-course-name/:old_name", function(req,res){
+    console.log("The old name is " + req.params.old_name);
+    Course.findByIdAndUpdate(req.params.id, {name: req.body.course_name.trim()}, {new: true}, function(err, course){
+        if (err){
+            console.log("There is an error: " + err);
+        } else {
+            console.log("Updated course is " + course);
+            Course.find({name: req.params.old_name}, function(err, courses){
+                if (err){
+                    console.log("Error updating all other courses");
+                    req.flash("error", "There is an error");
+                    res.redirect("back");
+                } else {
+                    courses.forEach(function(course){
+                        course.name = req.body.course_name.trim();
+                        course.save();
+                    });
+                    req.flash("success", "Course name updated");
+                    res.redirect("/courses");
+                }
+            });
+        }
+    });
+});
+
 // Route to update a course (completeness of units)
 router.post("/courses/:id/update-units", function(req,res){
     var completed_units = req.body.completed_units;
@@ -88,16 +114,30 @@ router.post("/courses/:id/units", function(req,res){
         if (err){
             console.log("There is an error: " + err);
         } else {
-            var unit = {name: req.body.unit_name, completed: false};
+            var unit = {name: req.body.unit_name.trim(), completed: false};
             course.units.push(unit);
             course.save();
-            req.flash("success", "New unit added to : " + course.name);
-            res.redirect("/courses");
+            // Adding this new unit to courses generated from this template
+            Course.find({name: course.name}, function(err, generated_courses){
+                if (err){
+                    console.log("error: " + err);
+                } else {
+                    generated_courses.forEach(function(course){
+                        if (course.id !== req.params.id){
+                            course.units.push(unit);
+                            course.save();
+                        }
+                    });
+                    req.flash("success", "New unit added to : " + course.name);
+                    res.redirect("/courses");
+                }
+            });
         }
     });
 });
 
-// Route to delete a unit from a course
+// Route to delete a unit from a course, and update courses 
+// generated from this template 
 router.delete("/courses/:id/units/:unit_name", function(req,res){
     console.log("The unit name is: " + req.params.unit_name);
     Course.findById(req.params.id, function(err, course){
@@ -118,8 +158,23 @@ router.delete("/courses/:id/units/:unit_name", function(req,res){
             if (pos > -1) {
                 course.units.splice(pos, 1);
                 course.save();
-                req.flash("success", "Removed unit");
-                res.redirect("/courses");
+                // Also delete the units from courses generated from this template
+                Course.find({name: course.name}, function(err, generated_courses){
+                    if (err){
+                        console.log("err " + err);
+                        req.flash("error", "Error");
+                        res.redirect("back");
+                    } else {
+                        generated_courses.forEach(function(course){
+                            if (course.id !== req.params.id){
+                                course.units.splice(pos,1);
+                                course.save();  
+                            }
+                        });
+                        req.flash("success", "Removed unit");
+                        res.redirect("/courses");
+                    }
+                });
             } else {
                 req.flash("error", "Cannot find the unit");
                 res.redirect("/courses");
