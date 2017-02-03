@@ -3,6 +3,20 @@ var express     = require("express"),
     router      = express.Router(),
     Student     = require("../models/student"),
     Course      = require("../models/course");
+/*
+    Routes:
+    get("/courses"): view all courses
+    post("/courses"): add a new course to the database (course will have 0 units)
+    post("/courses/:id/update-course-name/:old_name"): update a course's name
+    post("/courses/:id/update-units"): change a course's units completenesses
+    post("/courses/:id/units"): add a new unit to the course
+    delete("/courses/:id/units/:unit_name"): delete a unit from a course, and update
+                                             courses generated from this template
+    post("/courses/:id/units/:unit_name"): update a course's unit's name
+    get("/courses/assign-course"): show page for assigning course to a student
+    post("/courses/assign-course"): assign a course to a student
+    
+*/
     
 // Route to view all courses
 router.get("/courses", function(req,res){
@@ -217,8 +231,6 @@ router.post("/courses/assign-course", function(req,res){
                     res.redirect("/courses");
                 } else {
                     var assign_course = {name: courseTemplate.name, template: false, units: courseTemplate.units};
-                    // console.log("The assign course is: " + assign_course);
-                    // console.log("The student is: " + student);
                     var pos = -1;
                     console.log("The student courses are: " + student.courses);
                     for (var i = 0; i < student.courses.length; i++){
