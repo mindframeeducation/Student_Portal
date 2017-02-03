@@ -103,6 +103,8 @@ router.delete("/courses/:id/units/:unit_name", function(req,res){
     Course.findById(req.params.id, function(err, course){
         if (err){
             console.log("Cannot find the course in delete route: " + err);
+            req.flash("error", "Error finding course: " + err);
+            res.redirect("back");
         } else {
             console.log("course found!");
             console.log("The course is: " + course);
