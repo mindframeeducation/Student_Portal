@@ -1,16 +1,14 @@
 <% include ./partials/header %>
-<div class = "container">
-    <div style = "width: 25%; margin: 200px auto;">
-        <h1 class = "ui center aligned header">Reset password</h1>
-        <form class = "ui form" action = "/reset/<%=token%>" method = "POST">
-            <div class = "field">
-                <input type = "password" name = "password" placeholder = "New password">
-            </div>
-            <div class = "field">
-                <input type = "password" name = "confirm_password" placeholder = "Confirm password">
-            </div>
-            <button class = "ui blue primary button fluid">Submit</button>
-        </form>
-    </div>
+<div class = "ui raised piled segment container" style = "width: 30%; margin-top: 200px; padding: 20px;">
+    <h1 class = "ui center aligned header">Reset password</h1>
+    <form class = "ui form" action = "/reset/<%=token%>" method = "POST">
+        <div class = "field">
+            <input type = "password" name = "password" placeholder = "New password">
+        </div>
+        <div class = "field">
+            <input type = "password" name = "confirm_password" placeholder = "Confirm password">
+        </div>
+        <button class = "ui blue primary button fluid">Submit</button>
+    </form>
 </div>
 <% include ./partials/footer %>
