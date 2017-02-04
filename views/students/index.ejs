@@ -39,9 +39,9 @@
     <table class="ui striped compact large celled blue table sortable">
         <thead>
             <tr class = "text-center" style = "font-size: 100%;">
-                <th style = "width: 20%;" class="sorted descending;">Name</th>
+                <th style = "width: 18%;" class="sorted descending;">Name</th>
                 <th style = "width: 15%;">Class</th>
-                <th>Date</th>
+                <th style = "width: 10%;">Date</th>
                 <th>Latest entry</th>
             </tr>
         </thead>
@@ -85,7 +85,14 @@
                                             <%=student.name.first%> <%=student.name.last %> 
                                         </a>
                                     </td>
-                                    <td><%=latest_entry.class_name%></td>
+                                    <td>
+                                        <% if (latest_entry.class_name) { %>
+                                            <%=latest_entry.class_name%>
+                                        <% } else { %>
+                                            Not specified
+                                        <% } %>
+                                    </td>
+                                    <td><%=latest_entry.created.getMonth() + 1%>/<%=latest_entry.created.getDate()%>/<%=latest_entry.created.getFullYear()%></td>
                                     <td>
                                         <% if (latest_entry.summary.length > 100) { %>
                                             <%= latest_entry.summary.substring(0,100) %>...
