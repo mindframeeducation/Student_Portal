@@ -40,10 +40,10 @@
             <!-- If the user is logged in and is a staff or an admin-->
             <% if ((currentUser && currentUser.hasAccess('user'))) { %>
                 <a class="ui primary basic button" href = "/students/<%=foundStudent._id%>/entries/new">
-                    Add entry
+                    <i class = "plus icon" style = "margin-right: 0;"></i> Entry
                 </a>
                 <a class="ui primary basic button" href = "/students/<%=foundStudent._id%>/notes/new">
-                    Add note
+                    <i class = "plus icon" style = "margin-right: 0;"></i> Note
                 </a>
             <% } %>
         </div>
