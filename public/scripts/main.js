@@ -9,8 +9,6 @@ $(document).ready(function(){
 	$('.ui.accordion').accordion();
   $('table').tablesort();
   $('.ui.dropdown').dropdown();
-  // $('#example1').progress();
-  // $('#example4').progress();
   $('.ui.form')
   .form({
     fields: {
@@ -104,6 +102,7 @@ for (let i = 0; i < $(".ui.small.modal.unit").length; i++) {
 	});
 }
 
+// Initialize change course name modal
 for (let i = 0; i < $(".ui.small.modal.course.name").length; i++) {
 	$("#course-name-button-" + i).click(function(){
 		$("#change-course-name-" + i).modal("show");

@@ -5,16 +5,15 @@ var express     = require("express"),
     Course      = require("../models/course");
 /*
     Routes:
-    get("/courses"): view all courses
-    post("/courses"): add a new course to the database (course will have 0 units)
-    post("/courses/:id/update-course-name/:old_name"): update a course's name
-    post("/courses/:id/update-units"): change a course's units completenesses
-    post("/courses/:id/units"): add a new unit to the course
-    delete("/courses/:id/units/:unit_name"): delete a unit from a course, and update
-                                             courses generated from this template
-    post("/courses/:id/units/:unit_name"): update a course's unit's name
-    get("/courses/assign-course"): show page for assigning course to a student
-    post("/courses/assign-course"): assign a course to a student
+    get("/courses")                         : view all courses
+    post("/courses")                        : add a new course to the database (course will have 0 units)
+    post("/courses/                         :id/update-course-name/:old_name"): update a course's name
+    post("/courses/:id/update-units")       : change a course's units completenesses
+    post("/courses/:id/units")              : add a new unit to the course
+    delete("/courses/:id/units/:unit_name") : delete a unit from a course, and update courses generated from this template
+    post("/courses/:id/units/:unit_index")   : update a course's unit's name
+    get("/courses/assign-course")           : show page for assigning course to a student
+    post("/courses/assign-course")          : assign a course to a student
     
 */
     
@@ -150,6 +149,48 @@ router.post("/courses/:id/units", function(req,res){
     });
 });
 
+// Routes to edit a unit from a course, and update courses generated
+// from this template
+// GET request
+router.get("/courses/:id/units/:unit_index", function(req,res){
+    Course.findById(req.params.id, function(err,course){
+        if (err){
+            console.log("there is an error");
+            res.redirect("back");
+        } else {
+            res.render("courses/edit-unit", {course: course, unit_index: req.params.unit_index});
+        }
+    });
+});
+
+// PUT request
+router.put("/courses/:id/units/:unit_index", function(req,res){
+    Course.findById(req.params.id, function(err, template){
+        if (err){
+            console.log("Err: " + err);
+            res.redirect("back");
+        } else {
+            // Update course template
+            template.units[req.params.unit_index].name = req.body.unit_name.trim();
+            template.save();
+            // Update courses generated from the template
+            Course.find({name: template.name}, function(err, courses){
+                if (err){
+                    console.log("Err: " + err);
+                    res.redirect("back");
+                } else {
+                    courses.forEach(function(course){
+                        course.units[req.params.unit_index].name = req.body.unit_name.trim();
+                        course.save();
+                    });
+                    req.flash("success", "Unit updated!");
+                    res.redirect("/courses");
+                }
+            });
+        }
+    });
+});
+
 // Route to delete a unit from a course, and update courses 
 // generated from this template 
 router.delete("/courses/:id/units/:unit_name", function(req,res){
@@ -160,8 +201,6 @@ router.delete("/courses/:id/units/:unit_name", function(req,res){
             req.flash("error", "Error finding course: " + err);
             res.redirect("back");
         } else {
-            console.log("course found!");
-            console.log("The course is: " + course);
             var pos = -1;
             for (var i = 0; i < course.units.length; i++){
                 if (course.units[i].name == req.params.unit_name) {
