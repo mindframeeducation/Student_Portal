@@ -54,44 +54,64 @@
     <!--Second segment begins-->
     <% if (foundStudent.courses.length > 0) { %>
         <div class = "ui stacked raised segment text fluid container">
-            <div class = "ui divided items" style = "padding-left: 20px">
+            <div class = "ui items" style = "padding-left: 20px">
                 <div class = "item">
-                    <div class = "ui fluid accordion">
-                        <% foundStudent.courses.forEach(function(course) { %>
-                            <div class = "title">
-                                <i class="dropdown icon" style = "margin-right: 0px;"></i>
-                                <%=course.name%>
-                                <div class = "ui blue progress" data-percent="<%=course.progress%>" id = "example1" style = "width: 90%; margin-left: 5px; margin-bottom: 0; padding-bottom: 0;">
-                                    <div class = "bar">
-                                        <div class = "progress"></div>
-                                    </div>
-                                </div> <!--ui blue progress-->
-                            </div> <!--title-->
-                            
-                            <div class = "content" style = "margin-left: 5px;">
-                                <form class = "ui form" action = "/courses/<%=course._id%>/update-units" method = "POST">
-                                    <% course.units.forEach(function(unit) { %>
-                                        <div class = "inline field">
-                                            <div class = "ui checkbox">
-                                                <% if (unit.completed) { %>
-                                                    <input id = "check_completed_unit"name = "completed_units" type = "checkbox" tabindex = "0" class = "hidden" value = "<%=unit.name%>" checked >
-                                                <% } else { %>
-                                                    <input id = "check_completed_unit"name = "completed_units" type = "checkbox" tabindex = "0" class = "hidden" value = "<%=unit.name%>">
-                                                <% } %> 
-                                                <label><%=unit.name%> 
-                                                    <% if (unit.completed) { %>
-                                                        <i class = "checkmark icon" style = "color: green;"></i>
-                                                    <% } %>
-                                                </label>
-                                            </div>
+                    <div class = "content">
+                        <h4 class = "ui header" style = "font-size: 105%;">
+                            <% if (foundStudent.courses.length > 1) { %>
+                            Courses:
+                            <% } else { %>
+                            Course:
+                            <% } %>
+                        </h4>
+                        <div class = "ui fluid accordion">
+                            <% foundStudent.courses.forEach(function(course) { %>
+                                <div class = "title">
+                                    <i class="dropdown icon" style = "margin-right: 0px;"></i>
+                                    <%=course.name%>
+                                    <div class = "ui blue progress" data-percent="<%=course.progress%>" id = "example1" style = "width: 90%; margin-left: 5px; margin-bottom: 0; padding-bottom: 0;">
+                                        <div class = "bar">
+                                            <div class = "progress"></div>
                                         </div>
-                                    <% }); %>
-                                    <button class = "ui primary basic button" type = "submit">Save</button>
-                                </form>
+                                    </div> <!--ui blue progress-->
+                                </div> <!--title-->
                                 
-                            </div>
-                        <% }); %>
-                    </div> <!--ui fluid accordion-->
+                                <div class = "content" style = "margin-left: 5px; padding-bottom: 0">
+                                    <form class = "ui form student-show-page" action = "/courses/<%=course._id%>/update-units" method = "POST">
+                                        <% course.units.forEach(function(unit) { %>
+                                            <div class = "inline field">
+                                                <% if (currentUser && currentUser.hasAccess('user')) { %>
+                                                    <div class = "ui checkbox" style = "display: table-cell">
+                                                        <% if (unit.completed) { %>
+                                                            <input id = "check_completed_unit"name = "completed_units" type = "checkbox" tabindex = "0" class = "hidden" value = "<%=unit.name%>" checked >
+                                                        <% } else { %>
+                                                            <input id = "check_completed_unit"name = "completed_units" type = "checkbox" tabindex = "0" class = "hidden" value = "<%=unit.name%>">
+                                                        <% } %> 
+                                                    </div>
+                                                <% } %>
+                                                <div style = "display: table-cell">
+                                                    <label><%=unit.name%> 
+                                                        <% if (unit.completed) { %>
+                                                            <i class = "checkmark icon" style = "color: green;"></i>
+                                                        <% } %>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            
+                                        <% }); %>
+                                        <% if (currentUser && currentUser.hasAccess('user')) { %>
+                                            <button class = "ui primary basic button" type = "submit" style = "display: inline; vertical-align:top;">Save</button>
+                                        <% } %>
+                                    </form>
+                                    <form class = "ui form student-show-page" action = "/students/<%=foundStudent._id%>/courses/<%=course._id%>?_method=DELETE" method = "POST">
+                                        <button class = "ui basic negative button">Remove course</button>
+                                    </form>
+                                    
+                                </div> <!--content-->
+                                
+                            <% }); %>
+                        </div> <!--ui fluid accordion-->
+                    </div> <!--content-->
                 </div> <!--item-->
             </div> <!--ui divided items-->
         </div> <!--ui raised segment text fluid...-->

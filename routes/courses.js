@@ -5,15 +5,16 @@ var express     = require("express"),
     Course      = require("../models/course");
 /*
     Routes:
-    get("/courses")                         : view all courses
-    post("/courses")                        : add a new course to the database (course will have 0 units)
-    post("/courses/                         :id/update-course-name/:old_name"): update a course's name
-    post("/courses/:id/update-units")       : change a course's units completenesses
-    post("/courses/:id/units")              : add a new unit to the course
-    delete("/courses/:id/units/:unit_index") : delete a unit from a course, and update courses generated from this template
-    post("/courses/:id/units/:unit_index")   : update a course's unit's name
-    get("/courses/assign-course")           : show page for assigning course to a student
-    post("/courses/assign-course")          : assign a course to a student
+    get("/courses")                             : view all courses
+    post("/courses")                            : add a new course to the database (course will have 0 units)
+    post("/courses/                             : id/update-course-name/:old_name"): update a course's name
+    post("/courses/:id/update-units")           : change a course's units completenesses
+    post("/courses/:id/units")                  : add a new unit to the course
+    delete("/courses/:id/units/:unit_index")    : delete a unit from a course, and update courses generated from this template
+    post("/courses/:id/units/:unit_index")      : update a course's unit's name
+    get("/courses/assign-course")               : show page for assigning course to a student
+    post("/courses/assign-course")              : assign a course to a student
+    delete("/courses/:id")                      : delete a course (generated from a template)
     
 */
     

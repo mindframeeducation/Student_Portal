@@ -39,6 +39,10 @@ p {
     text-align: center;
 }
 
+.ui.form.student-show-page {
+    display: inline;    
+}
+
 .ui.negative.message.small.overlay {
     z-index: 101;
     position: absolute;

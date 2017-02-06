@@ -96,6 +96,27 @@ router.post("/students/:id/learning-goal", isLoggedIn, isAStaff, function(req,re
     });
 });
 
+// Route to delete a course from a student
+router.delete("/students/:id/courses/:course_id", function(req,res){
+    Student.findByIdAndUpdate(req.params.id, {$pull: {courses: req.params.course_id}}, function(err, student){
+        if (err){
+            req.flash("error", "Err: " + err);
+            res.redirect("back");
+        } else {
+            Course.findByIdAndRemove(req.params.course_id, function(err, deletedCourse){
+                if (err){
+                    console.log("err: " + err);
+                    res.redirect("back");
+                } else {
+                    console.log("Delete count is: " + deletedCourse);
+                    req.flash("success", "Course deleted!");
+                    res.redirect("/students/" + req.params.id);
+                }
+            });   
+        }
+    });
+});
+
 // Extra functions
 function isLoggedIn(req, res, next){
     if (req.isAuthenticated()){
