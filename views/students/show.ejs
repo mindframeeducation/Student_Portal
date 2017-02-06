@@ -5,7 +5,7 @@
         <a href = "/students"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
         <div class = "ui raised segment" style = "padding-left: 35px;">
             <p class = "student_name">
-                <strong>Student's name:</strong> <%=foundStudent.name.first %> <%= foundStudent.name.last %> | <strong>Grade:</strong> <%= foundStudent.grade %>
+                <strong>Student's name:</strong> <%=foundStudent.fullName%> | <strong>Grade:</strong> <%= foundStudent.grade %>
                 <% if (currentUser && currentUser.hasAccess('user')) { %>
                     <a style = "font-size: 1.0em; color: orange;" data-tooltip="Edit" data-position="right center" id = "editStudent" href = "#">
                         <i class="fa fa-pencil" aria-hidden="true"></i>

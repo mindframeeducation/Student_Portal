@@ -31,4 +31,9 @@ var studentSchema = mongoose.Schema({
     ]
 });
 
+studentSchema.virtual("fullName").get(function(){
+    // return this; // this refers to the current instance of the model that we are working on
+    return this.name.first + " " + this.name.last;
+});
+
 module.exports = mongoose.model("Student", studentSchema);
