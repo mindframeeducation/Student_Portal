@@ -16,7 +16,7 @@
                                     <%=unit.name%>
                                     <div style = "float:right; display:inline; font-size: 0.8em;">
                                         <a style = "color: orange;" data-tooltip="Edit" data-position="top center" href = "/courses/<%=course.id%>/units/<%=unit_index%>"><i class="fa fa-pencil" aria-hidden="true"></i></a> |
-                                        <form action = "/courses/<%=course.id%>/units/<%=unit.name%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px; display: inline;">
+                                        <form action = "/courses/<%=course.id%>/units/<%=unit_index%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px; display: inline;">
                                             <button data-tooltip="Delete" data-position="top center" class="delete-button"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                                         </form>
                                     </div>

@@ -10,7 +10,7 @@ var express     = require("express"),
     post("/courses/                         :id/update-course-name/:old_name"): update a course's name
     post("/courses/:id/update-units")       : change a course's units completenesses
     post("/courses/:id/units")              : add a new unit to the course
-    delete("/courses/:id/units/:unit_name") : delete a unit from a course, and update courses generated from this template
+    delete("/courses/:id/units/:unit_index") : delete a unit from a course, and update courses generated from this template
     post("/courses/:id/units/:unit_index")   : update a course's unit's name
     get("/courses/assign-course")           : show page for assigning course to a student
     post("/courses/assign-course")          : assign a course to a student
@@ -193,45 +193,30 @@ router.put("/courses/:id/units/:unit_index", function(req,res){
 
 // Route to delete a unit from a course, and update courses 
 // generated from this template 
-router.delete("/courses/:id/units/:unit_name", function(req,res){
-    console.log("The unit name is: " + req.params.unit_name);
-    Course.findById(req.params.id, function(err, course){
+router.delete("/courses/:id/units/:unit_index", function(req,res){
+    var pos = req.params.unit_index;
+    Course.findById(req.params.id, function(err, template){
         if (err){
-            console.log("Cannot find the course in delete route: " + err);
-            req.flash("error", "Error finding course: " + err);
+            console.log("Err: " + err);
             res.redirect("back");
         } else {
-            var pos = -1;
-            for (var i = 0; i < course.units.length; i++){
-                if (course.units[i].name == req.params.unit_name) {
-                    pos = i;
-                    break;
+            template.units.splice(pos,1);
+            template.save();
+            Course.find({name: template.name}, function(err, courses){
+                if (err){
+                    console.log("Err: " + err);
+                    res.redirect("back");
+                } else {
+                    courses.forEach(function(course){
+                        if (course._id !== template._id){
+                            course.units.splice(pos,1);
+                            course.save();
+                        }
+                    });
+                    req.flash("success", "Unit removed!");
+                    res.redirect("/courses");
                 }
-            }
-            if (pos > -1) {
-                course.units.splice(pos, 1);
-                course.save();
-                // Also delete the units from courses generated from this template
-                Course.find({name: course.name}, function(err, generated_courses){
-                    if (err){
-                        console.log("err " + err);
-                        req.flash("error", "Error");
-                        res.redirect("back");
-                    } else {
-                        generated_courses.forEach(function(course){
-                            if (course.id !== req.params.id){
-                                course.units.splice(pos,1);
-                                course.save();  
-                            }
-                        });
-                        req.flash("success", "Removed unit");
-                        res.redirect("/courses");
-                    }
-                });
-            } else {
-                req.flash("error", "Cannot find the unit");
-                res.redirect("/courses");
-            }
+            });
         }
     });
 });
