@@ -14,7 +14,7 @@
                 <div class="menu">
                     <% students.forEach(function(student) { %>
                         <div class = "item" data-value = "<%=student._id%>">
-                            <%= student.name.first %> <%= student.name.last %>
+                            <%=student.fullName %>
                         </div>
                     <% }); %>
                 </div>
