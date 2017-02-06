@@ -60,18 +60,11 @@
                             <div class = "title">
                                 <i class="dropdown icon" style = "margin-right: 0px;"></i>
                                 <%=course.name%>
-                                <% var total = course.units.length; %>
-                                <% var completed_units = 0; %>
-                                <% for (var i = 0; i < course.units.length; i++) { %>
-                                    <% if (course.units[i].completed) { %>
-                                        <% completed_units++; %>
-                                    <% } %>
-                                <% } %>
-                                <div class = "ui blue progress" data-percent="<%=completed_units/total*100%>" id = "example1" style = "width: 90%; margin-left: 5px; margin-bottom: 0; padding-bottom: 0;">
+                                <div class = "ui blue progress" data-percent="<%=course.progress%>" id = "example1" style = "width: 90%; margin-left: 5px; margin-bottom: 0; padding-bottom: 0;">
                                     <div class = "bar">
                                         <div class = "progress"></div>
                                     </div>
-                                </div>
+                                </div> <!--ui blue progress-->
                             </div> <!--title-->
                             
                             <div class = "content" style = "margin-left: 5px;">
