@@ -3,12 +3,14 @@
 // var searchBtn = document.querySelector(".search-button");
 $(document).ready(function(){
 	$('.ui.checkbox').checkbox();
-	$('.ui.progress').progress();
+	$('.ui.progress').progress({
+		showActivity: false
+	});
 	$('.ui.accordion').accordion();
   $('table').tablesort();
   $('.ui.dropdown').dropdown();
-  $('#example1').progress();
-  $('#example4').progress();
+  // $('#example1').progress();
+  // $('#example4').progress();
   $('.ui.form')
   .form({
     fields: {
