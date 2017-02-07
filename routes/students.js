@@ -1,6 +1,8 @@
 var express     = require("express"),
     router      = express.Router(),
-    Student     = require("../models/student");
+    Course      = require("../models/course"),
+    Student     = require("../models/student"),
+    ClassList = require("../models/classList");
     
 // ROUTES TO ADD A NEW STUDENT
 router.get("/students/new", isLoggedIn, isAStaff, function(req,res){
@@ -38,7 +40,7 @@ router.get("/students/:id", isLoggedIn, function(req,res){
     // NEED TO HAVE POPULATE(), OR IT WILL ONLY STORES OBJECT IDs 
     // Student.findById(req.params.id).populate("entries notes").exec(function(err, foundStudent){
     Student.findById(req.params.id).populate({
-        path: 'entries notes',
+        path: 'entries notes courses',
         options: {sort: {created: -1}}
     }).exec(function(err, foundStudent){
         if (err){
@@ -49,7 +51,14 @@ router.get("/students/:id", isLoggedIn, function(req,res){
                 if (err){
                     console.log(err);
                 } else {
-                    res.render("students/show", {foundStudent: foundStudent, students: student_list});
+                    ClassList.findOne({name: "All"}, function(err, classList){
+                        if (err){
+                            console.log("Err: " + err);
+                            res.redirect("back");
+                        } else {
+                            res.render("students/show", {foundStudent: foundStudent, students: student_list, classList: classList});
+                        }
+                    });
                 }
             });
         }
@@ -91,6 +100,27 @@ router.post("/students/:id/learning-goal", isLoggedIn, isAStaff, function(req,re
             console.log("The updated student is: " + updatedStudent);
             req.flash("success", "Successfully updated student's learning goal");
             res.redirect("/students/" + req.params.id);
+        }
+    });
+});
+
+// Route to delete a course from a student
+router.delete("/students/:id/courses/:course_id", isLoggedIn, isAStaff, function(req,res){
+    Student.findByIdAndUpdate(req.params.id, {$pull: {courses: req.params.course_id}}, function(err, student){
+        if (err){
+            req.flash("error", "Err: " + err);
+            res.redirect("back");
+        } else {
+            Course.findByIdAndRemove(req.params.course_id, function(err, deletedCourse){
+                if (err){
+                    console.log("err: " + err);
+                    res.redirect("back");
+                } else {
+                    console.log("Delete count is: " + deletedCourse);
+                    req.flash("success", "Course deleted!");
+                    res.redirect("/students/" + req.params.id);
+                }
+            });   
         }
     });
 });

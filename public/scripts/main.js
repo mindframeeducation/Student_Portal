@@ -2,10 +2,13 @@
 
 // var searchBtn = document.querySelector(".search-button");
 $(document).ready(function(){
+	$('.ui.checkbox').checkbox();
+	$('.ui.progress').progress({
+		showActivity: false
+	});
+	$('.ui.accordion').accordion();
   $('table').tablesort();
   $('.ui.dropdown').dropdown();
-  $('#example1').progress();
-  $('#example4').progress();
   $('.ui.form')
   .form({
     fields: {
@@ -58,6 +61,7 @@ $(".small.modal.student").modal('setting', {observeChanges: true} ).modal('setti
 $(".small.modal.goal").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#editGoal", "show");
 $(".small.modal.email").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#addEmail", "show");
 $(".small.modal.class").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#addClass", "show");
+$(".small.modal.course").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#addCourse", "show");
 
 // var deleteModal = $(".ui.small.modal.delete.class").length;
 // console.log("The length is: " + deleteModal);
@@ -88,6 +92,39 @@ for (let i = 0; i < $(".ui.small.modal.delete.email").length; i++) {
 for (let i = 0; i < $(".ui.small.modal.delete.entry").length; i++){
 	$(".delete-entry-button-" + i).click(function(){
 		$("#delete-entry-" + i).modal("show");
+	});
+}
+
+// Initialize add unit modal
+for (let i = 0; i < $(".ui.small.modal.unit").length; i++) {
+	$("#add-unit-button-" + i).click(function(){
+		$("#add-unit-modal-" + i).modal("show");
+	});
+	console.log("The total component is: " + $(".ui.small.modal.unit").length);
+	console.log("And ther are: " + $(".ui.small.modal.unit"));
+}
+
+// Initialize change course name modal
+for (let i = 0; i < $(".ui.small.modal.course.name").length; i++) {
+	$("#course-name-button-" + i).click(function(){
+		$("#change-course-name-" + i).modal("show");
+	});
+}
+
+// Initialize the modal for removing courses from the students' profiles
+for (let i = 0; i < $(".ui.small.modal.remove.course.student").length; i++) {
+	$("#remove-course-student-button-" + i).click(function(){
+		$("#remove-course-student-modal-" + i).modal("show");
+	});
+}
+
+// Initiliaze modal for editing entry
+for (let i = 0; i < $(".ui.small.modal.edit.entry").length; i++){
+	$("#edit-entry-button-" + i).click(function(){
+		$("#edit-entry-modal-" + i).modal({
+			autofocus: false,
+			observeChanges: true
+		}).modal("show");
 	});
 }
 

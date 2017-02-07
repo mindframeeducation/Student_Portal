@@ -1,10 +1,12 @@
-<% include ../partials/header%>
+<% include ../partials/header %>
+
+<% include ../partials/footer %>
 <div class = "ui main text container" style = "margin-bottom: 0px; margin-top: 120px; padding-left: 0;">
     <a href = "/students"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
 </div>
 <div class = "ui main text container segment" style = "margin-top: 10px;">
-    <div class = "ui medium header">New entry</div>
-    <form class = "ui form" action = "/new-entry" method = "POST">
+    <div class = "ui medium header">Assign a course</div>
+    <form class = "ui form" action = "/courses/assign-course" method = "POST">
         <div style = "display: table; width: 80%">
             <div style = "display: table-row;">
                 <!--Select a student search box-->
@@ -20,36 +22,29 @@
                                     <%=student.fullName %>
                                 </div>
                             <% }); %>
-                            
                         </div>
                     </div>
                 </div> <!--field-->
                 
                 <!--Select a class search box -->
                 <div class="field" style = "width: 30%; display: table-cell; padding-left: 20px;">
-                    <label>Class</label>
+                    <label>Course</label>
                     <div class="ui selection dropdown">
-                        <input type="hidden" name="entry[class_name]">
+                        <input type="hidden" name="course_id">
                         <i class="dropdown icon"></i>
                         <div class="default text">Class</div>
                             <div class="menu">
-                                <% classList.allClasses.sort().forEach(function(eachClass) { %>
-                                    <div class = "item" data-value = "<%=eachClass%>"><%=eachClass%></div>
+                                <% courses.forEach(function(course) { %>
+                                    <div class = "item" data-value = "<%=course._id%>"><%=course.name%></div>
                                 <% }); %>
                             </div>
                     </div>
                 </div> <!--field-->
             </div>
         </div> <!--display: table-->
-        
-        <div class = "field" style = "margin-top: 10px;">
-            <label>Summary</label>
-            <textarea name = "entry[summary]" placeholder = "Summary"></textarea>
-        </div>
-        <div class = "field">
+        <div class = "field" style = "margin-top: 20px;">
             <input class="ui blue basic button" type = "Submit"Save>
             <input id = "delete" class="ui orange basic button" type = "Reset"Save>
         </div>
     </form>
 </div> 
-<% include ../partials/footer %>

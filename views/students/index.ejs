@@ -23,7 +23,7 @@
             <div class="menu">
                 <% students.forEach(function(student) { %>
                     <a class="item" href="/students/<%=student._id%>">
-                        <%= student.name.first %> <%= student.name.last %>
+                        <%= student.fullName %>
                     </a>
                 <% }); %>
                 
@@ -31,7 +31,6 @@
         </div>
     </div>
 <% } %>
-
 
 <!-- Semantic UI table-->
 <!--<div class = "container-fluid" style = "width: 60%; padding-top: 10px; margin-top: 10px;">-->
@@ -54,7 +53,7 @@
                             <% var latest_entry = student.entries[student.entries.length - 1] %>
                             <td class = "selectable" style = "color: #0E6EB8;">
                                 <a  href="/students/<%=student._id%>">
-                                    <%=student.name.first%> <%=student.name.last %> 
+                                    <%=student.fullName %> 
                                 </a>
                             </td>
                             <td>
@@ -123,6 +122,4 @@
         </tbody>
     </table>
 </div>
-
-
 <% include ../partials/footer %>

@@ -1,10 +1,11 @@
 <% include ../partials/header %>
-    <div class = "ui main text container" style = "padding-bottom: 10px; margin-top: 100px;">
+    <!--First segment begins-->
+    <div class = "ui main text container" style = "padding-bottom: 0px; margin-top: 100px;">
         <!--<a href = "/students">Go back</a>-->
         <a href = "/students"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
         <div class = "ui raised segment" style = "padding-left: 35px;">
             <p class = "student_name">
-                <strong>Student's name:</strong> <%=foundStudent.name.first %> <%= foundStudent.name.last %> | <strong>Grade:</strong> <%= foundStudent.grade %>
+                <strong>Student's name:</strong> <%=foundStudent.fullName%> | <strong>Grade:</strong> <%= foundStudent.grade %>
                 <% if (currentUser && currentUser.hasAccess('user')) { %>
                     <a style = "font-size: 1.0em; color: orange;" data-tooltip="Edit" data-position="right center" id = "editStudent" href = "#">
                         <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -39,17 +40,100 @@
             <!-- If the user is logged in and is a staff or an admin-->
             <% if ((currentUser && currentUser.hasAccess('user'))) { %>
                 <a class="ui primary basic button" href = "/students/<%=foundStudent._id%>/entries/new">
-                    Add entry
+                    <i class = "plus icon" style = "margin-right: 0;"></i> Entry
                 </a>
                 <a class="ui primary basic button" href = "/students/<%=foundStudent._id%>/notes/new">
-                    Add note
+                    <i class = "plus icon" style = "margin-right: 0;"></i> Note
                 </a>
             <% } %>
         </div>
     </div> <!--ui main text container-->
+    <!--First segment ends-->
     
-    <div class = "ui main text container" style = "margin-bottom: 50px; margin-top: 0px;">
-        <div class = "ui top raised segment">
+    <!--Second segment begins-->
+    <% if (foundStudent.courses.length > 0) { %>
+        <div class = "ui stacked raised segment text fluid container">
+            <div class = "ui items" style = "padding-left: 20px">
+                <div class = "item">
+                    <div class = "content">
+                        <h4 class = "ui header" style = "font-size: 105%;">
+                            <% if (foundStudent.courses.length > 1) { %>
+                            Courses:
+                            <% } else { %>
+                            Course:
+                            <% } %>
+                        </h4>
+                        <div class = "ui fluid accordion">
+                            <% foundStudent.courses.forEach(function(course, course_index) { %>
+                                <div class = "title">
+                                    <i class="dropdown icon" style = "margin-right: 0px;"></i>
+                                    <%=course.name%>
+                                    <div class = "ui blue progress" data-percent="<%=course.progress%>" id = "example1" style = "width: 90%; margin-left: 5px; margin-bottom: 0; padding-bottom: 0;">
+                                        <div class = "bar">
+                                            <div class = "progress"></div>
+                                        </div>
+                                    </div> <!--ui blue progress-->
+                                </div> <!--title-->
+                                
+                                <div class = "content" style = "margin-left: 5px; padding-bottom: 0">
+                                    <form class = "ui form student-show-page" action = "/courses/<%=course._id%>/update-units" method = "POST">
+                                        <% course.units.forEach(function(unit) { %>
+                                            <div class = "inline field">
+                                                <% if (currentUser && currentUser.hasAccess('user')) { %>
+                                                    <div class = "ui checkbox" style = "display: table-cell">
+                                                        <% if (unit.completed) { %>
+                                                            <input id = "check_completed_unit"name = "completed_units" type = "checkbox" tabindex = "0" class = "hidden" value = "<%=unit.name%>" checked >
+                                                        <% } else { %>
+                                                            <input id = "check_completed_unit"name = "completed_units" type = "checkbox" tabindex = "0" class = "hidden" value = "<%=unit.name%>">
+                                                        <% } %> 
+                                                    </div>
+                                                <% } %>
+                                                <div style = "display: table-cell">
+                                                    <label><%=unit.name%> 
+                                                        <% if (unit.completed) { %>
+                                                            <i class = "checkmark icon" style = "color: green;" title="Completed!"></i>
+                                                        <% } %>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        <% }); %>
+                                        <% if (currentUser && currentUser.hasAccess('user')) { %>
+                                            <button class = "ui primary basic button" type = "submit" style = "display: inline; vertical-align:top;">Save</button>
+                                        <% } %>
+                                    </form>
+                                    <!--Button to remove course from a student-->
+                                    <% if (currentUser && currentUser.hasAccess('user')) { %>
+                                        <div class = "ui form student-show-page">
+                                            <button class = "ui basic negative button" id = "remove-course-student-button-<%=course_index%>">Remove course</button>
+                                        </div>
+                                    <% }%>
+                                    <div class = "ui small modal remove course student" id = "remove-course-student-modal-<%=course_index%>"><i class = "close icon"></i>
+                                        <div class = "header">
+                                            Remove course
+                                        </div>
+                                        <div class = "content">
+                                            Are you sure you want to remove '<%=course.name%>' from <%=foundStudent.fullName%>'s profile?
+                                        </div>
+                                        <div class = "action" style = "float: left;">
+                                            <form style = "display: inline" class = "ui form student-show-page" action = "/students/<%=foundStudent._id%>/courses/<%=course._id%>?_method=DELETE" method = "POST">
+                                                <button class = "ui basic positive button" style = "margin: 0px 5px 10px 15px;">Yes</button>
+                                            </form>
+                                            <button class = "ui basic negative button close-modal" style = "margin-top: 0px;vertical-align: top;display: inline">No</button>
+                                        </div>
+                                    </div>
+                                </div> <!--content-->
+                            <% }); %>
+                        </div> <!--ui fluid accordion-->
+                    </div> <!--content-->
+                </div> <!--item-->
+            </div> <!--ui divided items-->
+        </div> <!--ui raised segment text fluid...-->
+    <% } %>
+    <!--Second segment ends-->
+    
+    <!--Third segment begins-->
+    <div class = "ui main text container" style = "margin-bottom: 50px; margin-top: 10px;">
+        <div class = "ui raised segment">
             <div class = "ui divided items">
                 <% if (foundStudent.entries.length > 0) { %>
                     <% foundStudent.entries.forEach(function(entry, index) { %>
@@ -58,17 +142,51 @@
                                 <!-- New edit and delete buttons-->
                                 <% if (currentUser && currentUser.hasAccess('user') && currentUser._id.equals(entry.author.id) || (currentUser && currentUser.hasAccess('admin')) )  {%>
                                     <div style = "float: right; font-size: 0.8em;">
-                                        <a style = "color: orange" data-tooltip="Edit" data-position="top center" href = "/students/<%=foundStudent._id%>/entries/<%=entry._id%>/edit"><i class="fa fa-pencil" aria-hidden="true"></i></a> | 
+                                        <!--Modal to edit entry starts-->
+                                        <div class = "ui small modal edit entry" id = "edit-entry-modal-<%=index%>"><i class = "close icon"></i>
+                                            <div class = "content">
+                                                <form class = "ui form" action = "/students/<%=foundStudent._id%>/entries/<%=entry._id%>?_method=PUT" method = "POST">
+                                                    <div class="field" style = "width: 40%;">
+                                                        <label>Class name</label>
+                                                        <div class="ui selection dropdown">
+                                                            <input type="hidden" name="entry[class_name]">
+                                                            <i class="dropdown icon"></i>
+                                                            <!--<div class="default text">Class</div>-->
+                                                            <div class = "text"><%=entry.class_name%></div>
+                                                            <div class="menu">
+                                                                <% classList.allClasses.sort().forEach(function(eachClass) { %>
+                                                                    <div class = "item" data-value = "<%=eachClass%>"><%=eachClass%></div>
+                                                                <% }); %>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class = "field">
+                                                        <label>Summary</label>
+                                                        <textarea rows = "4" name = "entry[summary]"><%=entry.summary%></textarea>
+                                                    </div>
+                                                    
+                                                    <div class = "field">
+                                                        <input class="ui blue basic button" type = "Submit"Save>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <!--Modal to edit entry ends-->
+                                        <a id = "edit-entry-button-<%=index%>"style = "color: orange" data-tooltip="Edit" data-position="top center" href = "#"><i class="fa fa-pencil" aria-hidden="true"></i></a> | 
+                                        <!--<a style = "color: orange" data-tooltip="Edit" data-position="top center" href = "/students/<%=foundStudent._id%>/entries/<%=entry._id%>/edit"><i class="fa fa-pencil" aria-hidden="true"></i></a> | -->
                                         <button data-tooltip="Delete" data-position="top center" class="delete-button delete-entry-button-<%=index%>"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                                         <div class = "ui small modal delete entry" id = "delete-entry-<%=index%>"><i class = "close icon"></i>
                                             <div class = "header">
+                                                Delete entry
+                                            </div>
+                                            <div class = "content">
                                                 Are you sure you want to delete this entry?
                                             </div>
                                             <div class = "action">
                                                 <form style = "display: inline" id = "delete" action = "/students/<%=foundStudent._id%>/entries/<%=entry._id%>?_method=DELETE" method = "POST">
-                                                    <button style = "margin: 10px 5px 10px 15px;" class = "ui positive button">Yes</button>
+                                                    <button style = "margin: 10px 5px 10px 15px;" class = "ui basic positive button">Yes</button>
                                                 </form>
-                                                <button class = "ui negative button close-modal" style = "margin-top: 10px;">
+                                                <button class = "ui basic negative button close-modal" style = "margin-top: 10px;">
                                                     No
                                                 </button>
                                             </div>
@@ -113,6 +231,7 @@
             </div> <!--ui divided items-->
         </div> <!--ui top raised segment-->
     </div> <!--Ending of ui main text container div-->
+    <!--Third segment ends-->
 
 <!--Modal to update student's info-->
 <div class="ui small modal student"> <i class="close icon" ></i>

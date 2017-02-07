@@ -75,15 +75,18 @@ router.get("/:entry_id/edit", isAuthorized, function(req,res){
 
 // EDIT ROUTE (PUT REQUEST)
 router.put("/:entry_id", isAuthorized, function(req,res){
-   Entry.findByIdAndUpdate(req.params.entry_id, req.body.entry, function(err, updatedEntry){
+   Entry.findById(req.params.entry_id, function(err, entry){
        if (err){
-           console.log("There is an error updating entry!");
+           req.flash("Err: " + err);
            res.redirect("back");
        } else {
-           
-           console.log("Successfully updated the entry!");
-           req.flash("success", "Entry successfully updated!");
-           res.redirect("/students/" + req.params.id);
+           entry.summary = req.body.entry.summary;
+           if (req.body.entry.class_name.length !== 0){
+               entry.class_name = req.body.entry.class_name;
+           }
+           entry.save();
+           req.flash("success", "Entry updated!");
+           res.redirect("back");
        }
    });
 });

@@ -3,7 +3,7 @@
     <a href = "/students/<%=foundStudent.id%>"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
 </div>
 <div class = "ui main text container segment" style = "margin-top: 10px;">
-    <div class = "ui medium header">New entry for: <%=foundStudent.name.first %> <%=foundStudent.name.last %></div>
+    <div class = "ui medium header">New entry for: <%=foundStudent.fullName %></div>
     <form class = "ui form" action = "/students/<%=foundStudent.id%>/entries" method = "POST">
         
         <div class="field" style = "width: 40%">

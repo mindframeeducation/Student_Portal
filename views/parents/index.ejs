@@ -24,7 +24,7 @@
                                 <% if (parent.students.length != 0) { %>
                                     <% parent.students.forEach(function(student, index) { %>
                                         <a href = "/students/<%=student.id%>">
-                                            <%=student.name.first %> <%=student.name.last %>
+                                            <%=student.fullName %>
                                         </a>
                                         <% if (index !== parent.students.length - 1) { %>
                                             ,
