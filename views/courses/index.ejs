@@ -35,6 +35,9 @@
                     <!--Create a modal for each course starts-->
                     <!--Modal for adding a new unit-->
                     <div class="ui small modal unit" id = "add-unit-modal-<%=index%>"><i class="close icon" ></i>
+                        <div class = "header">
+                            Add a new unit to '<%=course.name%>'
+                        </div>
                         <div class="content">
                             <form class = "ui form" action = "/courses/<%=course.id%>/units" method = "POST">
                                 <div class = "field">
@@ -49,6 +52,9 @@
                     
                     <!--Modal for changing the course name starts-->
                     <div class = "ui small modal course name" id = "change-course-name-<%=index%>"><i class = "close icon"></i>
+                        <div class = "header">
+                            Change name for '<%=course.name%>'
+                        </div>
                         <div class = "content">
                             <form class = "ui form" action = "/courses/<%=course.id%>/update-course-name/<%=course.name%>" method = "POST">
                                 <div class = "field">
@@ -75,6 +81,9 @@
 
 <!--Modal for adding a new course-->
 <div class="ui small modal course"> <i class="close icon" ></i>
+    <div class = "header">
+        Add a new course
+    </div>
     <div class="content">
         <form class = "ui form" action = "/courses" method = "POST">
             <div class = "field">

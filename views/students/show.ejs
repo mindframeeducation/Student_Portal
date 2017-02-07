@@ -144,6 +144,9 @@
                                     <div style = "float: right; font-size: 0.8em;">
                                         <!--Modal to edit entry starts-->
                                         <div class = "ui small modal edit entry" id = "edit-entry-modal-<%=index%>"><i class = "close icon"></i>
+                                            <div class = "header">
+                                                Edit entry
+                                            </div>
                                             <div class = "content">
                                                 <form class = "ui form" action = "/students/<%=foundStudent._id%>/entries/<%=entry._id%>?_method=PUT" method = "POST">
                                                     <div class="field" style = "width: 40%;">
@@ -235,6 +238,9 @@
 
 <!--Modal to update student's info-->
 <div class="ui small modal student"> <i class="close icon" ></i>
+    <div class = "header">
+        Editing <%=foundStudent.fullName%>'s info
+    </div>
     <div class="content">
         <form class = "ui form" action = "/students/<%=foundStudent.id%>?_method=PUT" method = "POST">
             <div class = "field">
@@ -261,6 +267,9 @@
 
 <!--Modal to update learning goal-->
 <div class="ui small modal goal"> <i class="close icon" ></i>
+    <div class = "header">
+        Editing learning goal for <%=foundStudent.fullName%>
+    </div>
     <div class="content">
         <form class = "ui form" action = "/students/<%=foundStudent.id%>/learning-goal" method = "POST">
             <div class = "field">
