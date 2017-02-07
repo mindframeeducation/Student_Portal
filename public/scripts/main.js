@@ -100,12 +100,31 @@ for (let i = 0; i < $(".ui.small.modal.unit").length; i++) {
 	$("#add-unit-button-" + i).click(function(){
 		$("#add-unit-modal-" + i).modal("show");
 	});
+	console.log("The total component is: " + $(".ui.small.modal.unit").length);
+	console.log("And ther are: " + $(".ui.small.modal.unit"));
 }
 
 // Initialize change course name modal
 for (let i = 0; i < $(".ui.small.modal.course.name").length; i++) {
 	$("#course-name-button-" + i).click(function(){
 		$("#change-course-name-" + i).modal("show");
+	});
+}
+
+// Initialize the modal for removing courses from the students' profiles
+for (let i = 0; i < $(".ui.small.modal.remove.course.student").length; i++) {
+	$("#remove-course-student-button-" + i).click(function(){
+		$("#remove-course-student-modal-" + i).modal("show");
+	});
+}
+
+// Initiliaze modal for editing entry
+for (let i = 0; i < $(".ui.small.modal.edit.entry").length; i++){
+	$("#edit-entry-button-" + i).click(function(){
+		$("#edit-entry-modal-" + i).modal({
+			autofocus: false,
+			observeChanges: true
+		}).modal("show");
 	});
 }
 

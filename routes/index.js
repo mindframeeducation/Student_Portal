@@ -46,6 +46,19 @@ router.get("/new-entry", isLoggedIn, isAStaff, function(req, res) {
 });
 
 router.post("/new-entry", isLoggedIn, isAStaff, function(req, res) {
+    // console.log("Class name: " + req.body.entry.class);
+    if (!req.body.student_id){
+        req.flash("error", "Please select a student");
+        return res.redirect("back");
+    }
+    if (!req.body.entry.class_name){
+        req.flash("error", "Please select a class");
+        return res.redirect("back");
+    }
+    if (!req.body.entry.summary){
+        req.flash("error", "Please fill in the summary");
+        return res.redirect("back");
+    }
     var student_id = mongoose.Types.ObjectId(req.body.student_id);
     Student.findById(student_id, function(err, foundStudent) {
         if (err) {

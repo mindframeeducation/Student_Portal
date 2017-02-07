@@ -1,7 +1,8 @@
 var express     = require("express"),
     router      = express.Router(),
     Course      = require("../models/course"),
-    Student     = require("../models/student");
+    Student     = require("../models/student"),
+    ClassList = require("../models/classList");
     
 // ROUTES TO ADD A NEW STUDENT
 router.get("/students/new", isLoggedIn, isAStaff, function(req,res){
@@ -50,7 +51,14 @@ router.get("/students/:id", isLoggedIn, function(req,res){
                 if (err){
                     console.log(err);
                 } else {
-                    res.render("students/show", {foundStudent: foundStudent, students: student_list});
+                    ClassList.findOne({name: "All"}, function(err, classList){
+                        if (err){
+                            console.log("Err: " + err);
+                            res.redirect("back");
+                        } else {
+                            res.render("students/show", {foundStudent: foundStudent, students: student_list, classList: classList});
+                        }
+                    });
                 }
             });
         }
@@ -97,7 +105,7 @@ router.post("/students/:id/learning-goal", isLoggedIn, isAStaff, function(req,re
 });
 
 // Route to delete a course from a student
-router.delete("/students/:id/courses/:course_id", function(req,res){
+router.delete("/students/:id/courses/:course_id", isLoggedIn, isAStaff, function(req,res){
     Student.findByIdAndUpdate(req.params.id, {$pull: {courses: req.params.course_id}}, function(err, student){
         if (err){
             req.flash("error", "Err: " + err);

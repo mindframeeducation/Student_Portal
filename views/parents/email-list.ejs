@@ -19,13 +19,16 @@
                     </span>
                     <div class = "ui small modal delete email" id = "delete-email-<%=index%>"><i class = "close icon"></i>
                         <div class = "header">
+                            Delete email
+                        </div>
+                        <div class = "content">
                             Are you sure you want to delete '<%=email%>' ?
                         </div>
                         <div class = "action">
                             <form action = "/parents/email-list/<%=email%>?_method=DELETE" method = "POST" style = "margin-bottom: 0px; display: inline">
-                                <button style = "margin: 10px 5px 10px 15px;" class = "ui positive button">Yes</button>
+                                <button style = "margin: 10px 5px 10px 15px;" class = "ui basic positive button">Yes</button>
                             </form>
-                            <button class = "ui negative button close-modal" style = "margin-top: 10px;">
+                            <button class = "ui basic negative button close-modal" style = "margin-top: 10px;">
                                 No
                             </button>
                         </div>
@@ -35,7 +38,6 @@
         <% }) %>
     </tbody>
 </table>
-
 <div class = "ui container" style = "width: 25%;">
     <button id = "addEmail" class = "ui primary basic button"><i class = "plus icon" style = "margin-right: 0;"></i>Email</button>
 </div>

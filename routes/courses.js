@@ -19,10 +19,12 @@ var express     = require("express"),
 */
     
 // Route to view all courses
-router.get("/courses", function(req,res){
+router.get("/courses", isAStaff, function(req,res){
     Course.find({}, function(err, courses){
         if (err){
             console.log("There is an error");
+            req.flash("error", "Please try again later");
+            res.redirect("back");
         } else {
             res.render("courses/index", {courses: courses});
         }
@@ -30,11 +32,13 @@ router.get("/courses", function(req,res){
     
 });
 // Route to add a new course to the data base (no units)
-router.post("/courses", function(req,res){
+router.post("/courses", isAStaff, function(req,res){
     var newCourse = {name: req.body.course_name, units: [], template: true};
     Course.create(newCourse, function(err, course){
         if (err){
             console.log("cannot create course" + err);
+            req.flash("error", "Please try again later");
+            res.redirect("back");
         } else {
             // console.log("The course is: " + course);
             req.flash("success", "Course created");
@@ -44,11 +48,13 @@ router.post("/courses", function(req,res){
 });
 
 // Route to edit course name
-router.post("/courses/:id/update-course-name/:old_name", function(req,res){
+router.post("/courses/:id/update-course-name/:old_name", isAStaff, function(req,res){
     console.log("The old name is " + req.params.old_name);
     Course.findByIdAndUpdate(req.params.id, {name: req.body.course_name.trim()}, {new: true}, function(err, course){
         if (err){
-            console.log("There is an error: " + err);
+            req.flash("error", "Please try again later");
+            res.redirect("back");
+            // console.log("There is an error: " + err);
         } else {
             console.log("Updated course is " + course);
             Course.find({name: req.params.old_name}, function(err, courses){
@@ -70,10 +76,12 @@ router.post("/courses/:id/update-course-name/:old_name", function(req,res){
 });
 
 // Route to update a course (completeness of units)
-router.post("/courses/:id/update-units", function(req,res){
+router.post("/courses/:id/update-units", isAStaff, function(req,res){
     var completed_units = req.body.completed_units;
     Course.findById(req.params.id, function(err, course){
         if (err){
+            req.flash("error", "Please try again later");
+            res.redirect("back");
             console.log("There is an error HERE: " + err);
         } else {
             // Need to reset all units first since user might uncheck unit
@@ -123,10 +131,12 @@ router.post("/courses/:id/update-units", function(req,res){
 });
 
 // Route to add a new unit to a course
-router.post("/courses/:id/units", function(req,res){
+router.post("/courses/:id/units", isAStaff, function(req,res){
     Course.findById(req.params.id, function(err, course){
         if (err){
-            console.log("There is an error: " + err);
+            // console.log("There is an error: " + err);
+            req.flash("error", "Please try again later");
+            res.redirect("back");
         } else {
             var unit = {name: req.body.unit_name.trim(), completed: false};
             course.units.push(unit);
@@ -134,7 +144,9 @@ router.post("/courses/:id/units", function(req,res){
             // Adding this new unit to courses generated from this template
             Course.find({name: course.name}, function(err, generated_courses){
                 if (err){
-                    console.log("error: " + err);
+                    // console.log("error: " + err);
+                    req.flash("error", "Please try again later");
+                    res.redirect("back");
                 } else {
                     generated_courses.forEach(function(course){
                         if (course.id !== req.params.id){
@@ -152,11 +164,12 @@ router.post("/courses/:id/units", function(req,res){
 
 // Routes to edit a unit from a course, and update courses generated
 // from this template
-// GET request
-router.get("/courses/:id/units/:unit_index", function(req,res){
+// GET request (render the template)
+router.get("/courses/:id/units/:unit_index", isAStaff, function(req,res){
     Course.findById(req.params.id, function(err,course){
         if (err){
             console.log("there is an error");
+            req.flash("error", "Please try again later");
             res.redirect("back");
         } else {
             res.render("courses/edit-unit", {course: course, unit_index: req.params.unit_index});
@@ -164,11 +177,11 @@ router.get("/courses/:id/units/:unit_index", function(req,res){
     });
 });
 
-// PUT request
-router.put("/courses/:id/units/:unit_index", function(req,res){
+// PUT request (do the actual updating)
+router.put("/courses/:id/units/:unit_index", isAStaff, function(req,res){
     Course.findById(req.params.id, function(err, template){
         if (err){
-            console.log("Err: " + err);
+            req.flash("error", "Err! Please try again later");
             res.redirect("back");
         } else {
             // Update course template
@@ -177,7 +190,7 @@ router.put("/courses/:id/units/:unit_index", function(req,res){
             // Update courses generated from the template
             Course.find({name: template.name}, function(err, courses){
                 if (err){
-                    console.log("Err: " + err);
+                    req.flash("error", "Please try again later");
                     res.redirect("back");
                 } else {
                     courses.forEach(function(course){
@@ -194,18 +207,18 @@ router.put("/courses/:id/units/:unit_index", function(req,res){
 
 // Route to delete a unit from a course, and update courses 
 // generated from this template 
-router.delete("/courses/:id/units/:unit_index", function(req,res){
+router.delete("/courses/:id/units/:unit_index", isAStaff, function(req,res){
     var pos = req.params.unit_index;
     Course.findById(req.params.id, function(err, template){
         if (err){
-            console.log("Err: " + err);
+            req.flash("error", "Please try again later");
             res.redirect("back");
         } else {
             template.units.splice(pos,1);
             template.save();
             Course.find({name: template.name}, function(err, courses){
                 if (err){
-                    console.log("Err: " + err);
+                    req.flash("error", "Please try again later");
                     res.redirect("back");
                 } else {
                     courses.forEach(function(course){
@@ -223,7 +236,7 @@ router.delete("/courses/:id/units/:unit_index", function(req,res){
 });
 
 // Route to show the page to assign course to a student
-router.get("/courses/assign-course", function(req,res){
+router.get("/courses/assign-course", isAStaff, function(req,res){
     Student.find({}, function(err, students){
         if (err){
             console.log("There is an error: " + err);
@@ -231,6 +244,8 @@ router.get("/courses/assign-course", function(req,res){
             Course.find({template: true}, function(err, courses){
                 if (err){
                     console.log("Error looking up template for courses" + err);
+                    req.flash("error", "Error");
+                    res.redirect("back");
                 } else {
                     res.render("courses/assign-course", {students: students, courses: courses});
                 }
@@ -240,24 +255,32 @@ router.get("/courses/assign-course", function(req,res){
 });
 
 // Route to assign a course to the student
-router.post("/courses/assign-course", function(req,res){
+router.post("/courses/assign-course", isAStaff, function(req,res){
+    if (!req.body.student_id){
+        req.flash("error", "Please select a student");
+        return res.redirect("back");
+    }
+    if (!req.body.course_id) {
+        req.flash("error", "Please select a course");
+        return res.redirect("back");
+    }
     var student_id  = mongoose.Types.ObjectId(req.body.student_id);
     var course_id   = mongoose.Types.ObjectId(req.body.course_id);
     Student.findById(student_id).populate("courses").exec(function(err, student){
         if (err){
-            console.log("Err searching student: " + err);
+            // console.log("Err searching student: " + err);
             req.flash("error", "Error " + err);
             res.redirect("/courses");
         } else {
             Course.findById(course_id, function(err, courseTemplate){
                 if (err){
-                    console.log("Err searching for course " + err);
+                    // console.log("Err searching for course " + err);
                     req.flash("error", "Error " + err);
                     res.redirect("/courses");
                 } else {
                     var assign_course = {name: courseTemplate.name, template: false, units: courseTemplate.units};
                     var pos = -1;
-                    console.log("The student courses are: " + student.courses);
+                    // console.log("The student courses are: " + student.courses);
                     for (var i = 0; i < student.courses.length; i++){
                         if (assign_course.name === student.courses[i].name) {
                             pos = i;
@@ -268,19 +291,19 @@ router.post("/courses/assign-course", function(req,res){
                     if (pos === -1){ // If a course of the same name already exists
                         Course.create(assign_course, function(err, createdCourse) {
                             if (err){
-                                console.log("Err creating course");
+                                // console.log("Err creating course");
                                 req.flash("error", "Error " + err);
                                 res.redirect("/courses");
                             } else {
                                 student.courses.push(createdCourse._id);
                                 student.save();
                                 req.flash("success", "Course assigned to student");
-                                res.redirect("/courses");
+                                res.redirect("/students/" + student_id);
                             }
                         });
                     } else {
                         req.flash("error", "Duplicate course assigment!");
-                        res.redirect("/courses");
+                        res.redirect("/courses/assign-course");
                     }
                 }
             });
@@ -288,5 +311,18 @@ router.post("/courses/assign-course", function(req,res){
     });
 });
 
+function isAStaff(req,res,next){
+    if(req.isAuthenticated()){ // If the user is logged in
+        if (req.user.hasAccess('user')){ // If the user is a staff member
+            next();
+        } else {
+            req.flash("error", "Permission denied!");
+            res.redirect("/blogs");
+        }
+    } else {
+        req.flash("Please log in first!");
+        res.redirect("/login");
+    }
+}
 
 module.exports = router;

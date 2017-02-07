@@ -3,7 +3,8 @@
     <h1 class = "ui header">Courses index</h1>
     <div class = "ui styled fluid accordion" style = "margin-bottom: 10px;">
         <% if (courses) { %>
-            <% courses.sort().forEach(function(course, index) { %>
+            <% var index = 0; %>
+            <% courses.sort().forEach(function(course) { %>
                 <% if (course.template) { %>
                     <div class = "title">
                         <i class="dropdown icon"></i>
@@ -27,7 +28,7 @@
                             <p>This course does not have any unit</p>
                         <% } %>
                         <div style = "margin-top: 10px;">
-                            <button class = "ui blue button" id = "add-unit-button-<%=index%>">New unit</button>
+                            <button class = "ui blue basic button" id = "add-unit-button-<%=index%>"><i style = "margin-right: 0;" class = "plus icon"></i> Unit</button>
                             <button class = "ui basic orange button" id = "course-name-button-<%=index%>">Edit course name</button>
                         </div>
                     </div>
@@ -40,7 +41,7 @@
                                     <input type = "text" name = "unit_name" placeholder = "Unit name">
                                 </div>
                                 <div class = "field">
-                                    <input class="ui blue button" type = "Submit" value = "Save">
+                                    <input class="ui blue basic button" type = "Submit" value = "Save">
                                 </div>
                             </form>
                         </div>
@@ -54,7 +55,7 @@
                                     <input type = "text" name = "course_name" value = "<%=course.name%>">
                                 </div>
                                 <div class = "field">
-                                    <input class = "ui blue button" type = "Submit" value = "Save">
+                                    <input class = "ui blue basic button" type = "Submit" value = "Save">
                                 </div>
                             </form>
                         </div>
@@ -62,12 +63,13 @@
                     <!--Modal for changing the class name ends-->
                     
                     <!--Create a modal for each course ends -->
+                    <% index++; %>
                 <% } %> <!--if (course.template) -->
             <% }); %> <!--for each function -->
         <% } %> <!--if (courses) -->
     </div>
     
-    <button class = "ui blue button" id = "addCourse">New course</button>
+    <button class = "ui blue basic button" id = "addCourse"><i style = "margin-right: 0;" class = "plus icon"></i> Course</button>
 </div>
 
 <!--Modal for adding a new course-->
