@@ -35,11 +35,11 @@ p {
 }
 
 .ui.success.message.small.overlay {
-    z-index: 101;
+    z-index: 100;
     position: absolute;
     top: 45px;
-    width: 40%;
-    left: 30vw;
+    width: 60%;
+    left: 20vw;
     text-align: center;
 }
 
@@ -48,11 +48,11 @@ p {
 }
 
 .ui.negative.message.small.overlay {
-    z-index: 101;
+    z-index: 100;
     position: absolute;
-    top: 55px;
-    width: 40%;
-    left: 30vw;
+    top: 45px;
+    width: 60%;
+    left: 20vw;
     text-align: center;
 }
 
