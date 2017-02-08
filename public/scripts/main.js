@@ -56,6 +56,7 @@ $('#ddl').dropdown();
 $('.message .close').on('click', function() {
   $(this).closest('.message').fadeOut();
 });
+$('.menu.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('attach events', '.item.open.button', 'show');
 
 $(".small.modal.student").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#editStudent", "show");
 $(".small.modal.goal").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#editGoal", "show");

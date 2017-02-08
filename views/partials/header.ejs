@@ -9,11 +9,78 @@
         
     </head>
     <body>
+        <div class = "ui right vertical menu sidebar">
+            <% if(!currentUser) { %>
+                <a href = "/login" class = "item"><i class = "sign in icon"></i>Log in</a>
+                <a href = "/register" class = "item"><i class = "add user icon"></i>Sign up</a>
+            <% } else { %>
+                <% if (currentUser.hasAccess('user')) { %>
+                    <!--<a class = "item" href = "/blogs/new">New Blog</a>-->
+                    <div class = "item">
+                        <div class = "header">Student</div>
+                        <div class = "menu">
+                            <a class = "item" href = "/students">Students' entries</a>
+                            <a class = "item" href = "/courses/assign-course">Assign course</a>
+                        </div>
+                    </div>
+                    
+                    <div class = "item">
+                        <div class = "header">New</div>
+                        <div class = "menu">
+                            <a class = "item" href = "/new-entry">Entry</a>
+                            <a class = "item" href = "/students/new">Student</a>
+                        </div>
+                    </div>
+                    
+                    <div class = "item">
+                        <div class = "header">Manage</div>
+                        <div class = "menu">
+                            <% if (currentUser.hasAccess('admin')) { %>
+                                <a class = "item" href = "/parents">Registered parents</a>
+                                <a class = "item" href = "/parents/email-list">Email list</a>
+                            <% } %>
+                            <a class = "item" href = "/courses">Courses</a>
+                            <a class = "item" href = /classes>Class list</a>
+                            
+                        </div>
+                    </div>
+                    <div class = "item">
+                        <div class = "header">
+                            <i class = "user icon" style = "margin-right: 3px;"></i>
+                            <%=currentUser.username %>
+                        </div>
+                        <div class = "menu">
+                            <div class = "menu">
+                                <a class = "item" href = "/change-password">Change password</a>
+                                <a href = "/logout" class = "item"><i class = "sign out icon" style = "margin-right: 3px;"></i>Log out</a>
+                            </div>
+                        </div>
+                    </div>
+                <% } else { %> <!--user -->
+                    <div class = "item">
+                        <div class = "header">
+                            <i class = "user icon" style = "margin-right: 3px;"></i>
+                            <%=currentUser.username %>
+                        </div>
+                        <a class = "item" href = "/students">Students' entries</a>
+                        <a class = "item" href = "/change-password">Change password</a>
+                        <a href = "/logout" class = "item"><i class = "sign out icon" style = "margin-right: 3px;"></i>Log out</a>
+                    </div>
+                    
+                <% } %>
+            <% } %>
+        </div>
+        
+        <div class = "pusher">
+        
         <!-- Header using Semantic UI-->
         <div class = "ui menu grid">
             <div class = "computer only row">
                 <div class = "ui top fixed menu">
                     <div class = "ui container" style = "width: 90%;">
+                        <!--<a class = "item open button">-->
+                        <!--    <i class="sidebar icon"></i>-->
+                        <!--</a>-->
                         <div class = "header item">
                             <a href = "/">Mindframe Education</a>
                         </div>
@@ -50,7 +117,7 @@
                                     <div class = "menu">
                                         <a class = "item" id = "newEntry" href = "/new-entry">Entry</a>
                                         <a class = "item" href = "/students/new">Student</a>
-                                        <a class = "item" href = "/blogs/new">Blog</a>
+                                        <!--<a class = "item" href = "/blogs/new">Blog</a>-->
                                     </div>
                                 </div>
                             <% } %>
@@ -77,6 +144,8 @@
                 </div> <!--ui top fixed menu-->
             </div> <!--computer only row-->
             
+            
+            
             <div class = "tablet mobile only row">
                 <div class = "ui top fixed menu">
                     <div class = "ui container" style = "width: 100%;">
@@ -84,31 +153,9 @@
                             <a href = "/">Mindframe Education</a>
                         </div>
                         <div class = "right menu ">
-                            <div class = "item ui simple dropdown" style = "width: 100%;">
-                                <% if (currentUser) { %>
-                                    <i class = "user icon" style = "margin-right: 3px;"></i><%=currentUser.username %>
-                                <% } %>
-                                <i class="dropdown icon" aria-hidden="true" style = "margin-left: 5px;"></i>
-                                <div class = "menu">
-                                    <% if(!currentUser) { %>
-                                        <a href = "/login" class = "item"><i class = "sign in icon" style = "margin-right: 3px;"></i>Log in</a>
-                                        <a href = "/register" class = "item"><i class = "add user icon" style = "margin-right: 3px;"></i>Sign up</a>
-                                    <% } else { %>
-                                        <a href = "/students" class = "item">Students' entries</a>
-                                        <!--<a href = "/blogs" class = "item">Blogs</a>-->
-                                        <% if (currentUser.hasAccess('user')) { %>
-                                            <a class = "item" href = "/new-entry">New Entry</a>
-                                            <!--<a class = "item" href = "/blogs/new">New Blog</a>-->
-                                            <% if (currentUser.hasAccess('admin')) { %>
-                                                <a href = "/parents" class = "item">Registered parents</a>
-                                                <a href = "/parents/email-list" class = "item">Email list</a>
-                                            <% } %>
-                                        <% } %>
-                                        <a class = "item" href = "/change-password">Change password</a>
-                                        <a href = "/logout" class = "item"><i class = "sign out icon" style = "margin-right: 3px;"></i>Log out</a>
-                                    <% } %>
-                                </div> <!--menu-->
-                            </div> <!--item ui simple dropdown-->
+                            <a class = "item open button">
+                                <i class="sidebar icon"></i>
+                            </a>
                         </div> <!--right menu-->
                     </div> <!--ui container-->
                 </div> <!--ui top fixed menu-->
@@ -129,6 +176,3 @@
                 <strong><%=success %></strong>
             </div>
         <% } %>
-        
-        
-        
