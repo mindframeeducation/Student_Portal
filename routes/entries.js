@@ -39,6 +39,14 @@ router.get("/:entry_id", isLoggedIn, function(req,res){
 // 
 // Create new entry (POST request)
 router.post("/", isAStaff, function(req,res){
+    if (!req.body.entry.class_name){
+        req.flash("error", "Please choose a class");
+        return res.redirect("back");
+    }
+    if (!req.body.entry.summary){
+        req.flash("error", "Please fill in the summary");
+        return res.redirect("back");
+    }
     Student.findById(req.params.id, function(err, foundStudent){
         if (err){
             console.log(err);
