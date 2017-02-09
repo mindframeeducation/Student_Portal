@@ -1,24 +1,35 @@
 var express = require("express");
-var router = express.Router({mergeParams: true});
+var router = express.Router({
+    mergeParams: true
+});
 var ClassList = require("../models/classList");
+var middlewareObj = require("../middleware");
 
 // Route to show all classes
-router.get("/classes",isAuthorized, function(req,res){
-    ClassList.findOne({name: "All"}, function(err, classList){
-        if (err){
+router.get("/classes", middlewareObj.isLoggedIn, middlewareObj.isAStaff, function(req, res) {
+    ClassList.findOne({
+        name: "All"
+    }, function(err, classList) {
+        if (err) {
             console.log("Cannot find class list: " + err);
-        } else {
-            res.render("classes/index", {classList: classList});
+        }
+        else {
+            res.render("classes/index", {
+                classList: classList
+            });
         }
     });
 });
 
 // Route to add a new class
-router.post("/classes", isAuthorized, function(req,res){
-    ClassList.findOne({name: "All"}, function(err, classList){
-        if (err){
+router.post("/classes", middlewareObj.isLoggedIn, middlewareObj.isAStaff, function(req, res) {
+    ClassList.findOne({
+        name: "All"
+    }, function(err, classList) {
+        if (err) {
             console.log("There is an error: " + err);
-        } else {
+        }
+        else {
             classList.allClasses.push(req.body.class);
             classList.save();
             req.flash("success", "Added " + "\'" + req.body.class + "\'");
@@ -28,18 +39,22 @@ router.post("/classes", isAuthorized, function(req,res){
 });
 
 // Route to delete a class
-router.delete("/classes/:className", isAuthorized, function(req,res){
-    ClassList.findOne({name: "All"}, function(err, classList){
-        if (err){
+router.delete("/classes/:className", middlewareObj.isLoggedIn, middlewareObj.isAStaff, function(req, res) {
+    ClassList.findOne({
+        name: "All"
+    }, function(err, classList) {
+        if (err) {
             console.log("There is an error : " + err);
-        } else {
+        }
+        else {
             var pos = classList.allClasses.indexOf(req.params.className);
-            if (pos > -1){
+            if (pos > -1) {
                 classList.allClasses.splice(pos, 1);
                 classList.save();
                 req.flash("success", "Removed " + "\'" + req.params.className + "\'");
                 res.redirect("/classes");
-            } else {
+            }
+            else {
                 req.flash("error", "Class does not exist in db");
                 res.redirect("/classes");
             }
@@ -47,17 +62,17 @@ router.delete("/classes/:className", isAuthorized, function(req,res){
     });
 });
 
-function isAuthorized(req,res,next){
-    if (req.isAuthenticated()){
-        if (req.user.hasAccess('user')) {
-            next();
-        } else {
-            req.flash("error", "You do not have permission!");
-            res.redirect("back");
-        }
-    } else {
-        req.flash("error", "Please log in first!");
-        res.redirect("/login");
-    }
-}
+// function isAuthorized(req,res,next){
+//     if (req.isAuthenticated()){
+//         if (req.user.hasAccess('user')) {
+//             next();
+//         } else {
+//             req.flash("error", "You do not have permission!");
+//             res.redirect("back");
+//         }
+//     } else {
+//         req.flash("error", "Please log in first!");
+//         res.redirect("/login");
+//     }
+// }
 module.exports = router;

@@ -1,22 +1,32 @@
 var express = require("express");
-var router = express.Router({mergeParams: true});
+var router = express.Router({
+    mergeParams: true
+});
 var Entry = require("../models/entry");
 var Student = require("../models/student");
 var ClassList = require("../models/classList");
+var middlewareObj = require("../middleware");
 
 // The order of routes actually matters. If I put this NEW route before the show route,
 // it works, but not the other way around
 // Create new entry (GET request)
-router.get("/new", isLoggedIn, isAStaff, function(req,res){
-    Student.findById(req.params.id, function(err,foundStudent){
-        if (err){
+router.get("/new", middlewareObj.isLoggedIn, middlewareObj.isAStaff, function(req, res) {
+    Student.findById(req.params.id, function(err, foundStudent) {
+        if (err) {
             console.log("Error " + err);
-        } else {
-            ClassList.findOne({name: "All"}, function(err, classList){
-                if (err){
+        }
+        else {
+            ClassList.findOne({
+                name: "All"
+            }, function(err, classList) {
+                if (err) {
                     console.log("There is an error");
-                } else {
-                    res.render("entries/new", {foundStudent: foundStudent, classList: classList});
+                }
+                else {
+                    res.render("entries/new", {
+                        foundStudent: foundStudent,
+                        classList: classList
+                    });
                 }
             });
         }
@@ -25,12 +35,16 @@ router.get("/new", isLoggedIn, isAStaff, function(req,res){
 
 
 // Route to show a specific entry
-router.get("/:entry_id", isLoggedIn, function(req,res){
-    Entry.findById(req.params.entry_id, function(err, foundEntry){
-        if (err){
+router.get("/:entry_id", middlewareObj.isLoggedIn, function(req, res) {
+    Entry.findById(req.params.entry_id, function(err, foundEntry) {
+        if (err) {
             console.log("No such entry found: " + err);
-        } else {
-            res.render("entries/show", {student_id: req.params.id, entry: foundEntry});
+        }
+        else {
+            res.render("entries/show", {
+                student_id: req.params.id,
+                entry: foundEntry
+            });
         }
     });
 });
@@ -38,24 +52,26 @@ router.get("/:entry_id", isLoggedIn, function(req,res){
 
 // 
 // Create new entry (POST request)
-router.post("/", isAStaff, function(req,res){
-    if (!req.body.entry.class_name){
+router.post("/", middlewareObj.isLoggedIn, middlewareObj.isAStaff, function(req, res) {
+    if (!req.body.entry.class_name) {
         req.flash("error", "Please choose a class");
         return res.redirect("back");
     }
-    if (!req.body.entry.summary){
+    if (!req.body.entry.summary) {
         req.flash("error", "Please fill in the summary");
         return res.redirect("back");
     }
-    Student.findById(req.params.id, function(err, foundStudent){
-        if (err){
+    Student.findById(req.params.id, function(err, foundStudent) {
+        if (err) {
             console.log(err);
             res.redirect("/blogs");
-        } else {
-            Entry.create(req.body.entry, function(err, entry){
-                if (err){
+        }
+        else {
+            Entry.create(req.body.entry, function(err, entry) {
+                if (err) {
                     console.log("there is an error creating the entry for this student");
-                } else {
+                }
+                else {
                     console.log("Entry created successfully!");
                     entry.author.id = req.user._id;
                     entry.author.username = req.user.username;
@@ -71,46 +87,56 @@ router.post("/", isAStaff, function(req,res){
 });
 
 // EDIT ROUTE (SHOW PAGE)
-router.get("/:entry_id/edit", isAuthorized, function(req,res){
-   Entry.findById(req.params.entry_id, function(err, foundEntry){
-       if (err){
-           console.log("There is an error looking for the entry: " + err);
-       } else {
-           res.render("entries/edit", {student_id: req.params.id, entry: foundEntry});
-       }
-   }); 
+router.get("/:entry_id/edit", middlewareObj.isLoggedIn, middlewareObj.checkEntryOwnership, function(req, res) {
+    Entry.findById(req.params.entry_id, function(err, foundEntry) {
+        if (err) {
+            console.log("There is an error looking for the entry: " + err);
+        }
+        else {
+            res.render("entries/edit", {
+                student_id: req.params.id,
+                entry: foundEntry
+            });
+        }
+    });
 });
 
 // EDIT ROUTE (PUT REQUEST)
-router.put("/:entry_id", isAuthorized, function(req,res){
-   Entry.findById(req.params.entry_id, function(err, entry){
-       if (err){
-           req.flash("Err: " + err);
-           res.redirect("back");
-       } else {
-           entry.summary = req.body.entry.summary;
-           if (req.body.entry.class_name.length !== 0){
-               entry.class_name = req.body.entry.class_name;
-           }
-           entry.save();
-           req.flash("success", "Entry updated!");
-           res.redirect("back");
-       }
-   });
+router.put("/:entry_id", middlewareObj.isLoggedIn, middlewareObj.checkEntryOwnership, function(req, res) {
+    Entry.findById(req.params.entry_id, function(err, entry) {
+        if (err) {
+            req.flash("Err: " + err);
+            res.redirect("back");
+        }
+        else {
+            entry.summary = req.body.entry.summary;
+            if (req.body.entry.class_name.length !== 0) {
+                entry.class_name = req.body.entry.class_name;
+            }
+            entry.save();
+            req.flash("success", "Entry updated!");
+            res.redirect("back");
+        }
+    });
 });
 
 // DELETE ROUTE
-router.delete("/:entry_id",isAuthorized, function(req,res){
-    Entry.findByIdAndRemove(req.params.entry_id, function(err){
+router.delete("/:entry_id", middlewareObj.isLoggedIn, middlewareObj.checkEntryOwnership, function(req, res) {
+    Entry.findByIdAndRemove(req.params.entry_id, function(err) {
         if (err) {
             console.log("There is an error trying to remove!");
             res.redirect("back");
-        } else {
-            Student.findByIdAndUpdate(req.params.id,
-            {$pull: {entries: req.params.entry_id}}, function(err,data){
-                if (err){
+        }
+        else {
+            Student.findByIdAndUpdate(req.params.id, {
+                $pull: {
+                    entries: req.params.entry_id
+                }
+            }, function(err, data) {
+                if (err) {
                     console.log("There is an error removing this entry from student's entry array");
-                } else {
+                }
+                else {
                     req.flash("success", "Entry successfully removed!");
                     res.redirect("/students/" + req.params.id);
                 }
@@ -120,45 +146,45 @@ router.delete("/:entry_id",isAuthorized, function(req,res){
 });
 
 // Functions
-function isLoggedIn(req, res, next){
-    if (req.isAuthenticated()){
-        return next();
-    }
-    req.flash("error", "Please log in first!");
-    res.redirect("/login");
-}
+// function isLoggedIn(req, res, next){
+//     if (req.isAuthenticated()){
+//         return next();
+//     }
+//     req.flash("error", "Please log in first!");
+//     res.redirect("/login");
+// }
 
-function isAuthorized(req, res, next) {
-    if(req.isAuthenticated()){
-        Entry.findById(req.params.entry_id, function(err, foundEntry){
-            if (err){
-                req.flash("error", "Error looking up an entry");
-                res.redirect("back");
-            } else {
-                if (foundEntry.author.id.equals(req.user._id) || req.user.hasAccess("admin")){
-                    next();
-                } else {
-                    req.flash("error", "You do not have permission to do that!");
-                    res.redirect("/blogs");
-                }
-            }
-        });
-    } else {
-        req.flash("error", "Please log in first!");
-        res.redirect("/login");
-    }
-}
+// function isAuthorized(req, res, next) {
+//     if(req.isAuthenticated()){
+//         Entry.findById(req.params.entry_id, function(err, foundEntry){
+//             if (err){
+//                 req.flash("error", "Error looking up an entry");
+//                 res.redirect("back");
+//             } else {
+//                 if (foundEntry.author.id.equals(req.user._id) || req.user.hasAccess("admin")){
+//                     next();
+//                 } else {
+//                     req.flash("error", "You do not have permission to do that!");
+//                     res.redirect("/blogs");
+//                 }
+//             }
+//         });
+//     } else {
+//         req.flash("error", "Please log in first!");
+//         res.redirect("/login");
+//     }
+// }
 
-// Function to check if the user is a staff member
-function isAStaff(req,res,next){
-    if(req.isAuthenticated()){ // If the user is logged in
-        if (req.user.hasAccess('user')){ // If the user is a staff member
-            next();
-        } else {
-            req.flash("error", "Permission denied!");
-            res.redirect("/blogs");
-        }
-    }
-}
+// // Function to check if the user is a staff member
+// function isAStaff(req,res,next){
+//     if(req.isAuthenticated()){ // If the user is logged in
+//         if (req.user.hasAccess('user')){ // If the user is a staff member
+//             next();
+//         } else {
+//             req.flash("error", "Permission denied!");
+//             res.redirect("/blogs");
+//         }
+//     }
+// }
 
 module.exports = router;

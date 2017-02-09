@@ -10,9 +10,10 @@ var Student = require("../models/student");
 var mongoose = require("mongoose");
 var Entry = require("../models/entry");
 var ClassList = require("../models/classList");
+var middlewareObj = require("../middleware");
 
 // Display log-in page
-router.get("/login", isLoggedOut, function(req, res) {
+router.get("/login", middlewareObj.isLoggedOut, function(req, res) {
     res.render("login");
 });
 
@@ -26,36 +27,39 @@ router.post("/login", passport.authenticate("local", {
 });
 
 // Routes for creating entry from the nav bar
-router.get("/new-entry", isLoggedIn, isAStaff, function(req, res) {
+router.get("/new-entry", middlewareObj.isLoggedIn, middlewareObj.isAStaff, function(req, res) {
     Student.find({}, function(err, students) {
         if (err) {
             req.flash("error", "Internal error. Please try again");
             res.redirect("/students");
         }
         else {
-            ClassList.findOne({}, function(err, classList){
+            ClassList.findOne({}, function(err, classList) {
                 if (err) {
                     console.log("Error with class list database");
-                } else {
-                    res.render("entries/new-from-nav", {students: students, classList: classList});
                 }
-            })
-            
+                else {
+                    res.render("entries/new-from-nav", {
+                        students: students,
+                        classList: classList
+                    });
+                }
+            });
         }
     });
 });
 
-router.post("/new-entry", isLoggedIn, isAStaff, function(req, res) {
+router.post("/new-entry", middlewareObj.isLoggedIn, middlewareObj.isAStaff, function(req, res) {
     // console.log("Class name: " + req.body.entry.class);
-    if (!req.body.student_id){
+    if (!req.body.student_id) {
         req.flash("error", "Please select a student");
         return res.redirect("back");
     }
-    if (!req.body.entry.class_name){
+    if (!req.body.entry.class_name) {
         req.flash("error", "Please select a class");
         return res.redirect("back");
     }
-    if (!req.body.entry.summary){
+    if (!req.body.entry.summary) {
         req.flash("error", "Please fill in the summary");
         return res.redirect("back");
     }
@@ -80,27 +84,30 @@ router.post("/new-entry", isLoggedIn, isAStaff, function(req, res) {
                     req.flash("success", "Entry successfully created");
                     res.redirect("/students/" + foundStudent._id);
                 }
-            })
+            });
         }
-    })
+    });
 });
 
 // Display the register page
-router.get("/register", isLoggedOut, function(req, res) {
+router.get("/register", middlewareObj.isLoggedOut, function(req, res) {
     res.render("register");
 });
 
-router.post("/register", isLoggedOut, function(req, res) {
+router.post("/register", middlewareObj.isLoggedOut, function(req, res) {
     var username = req.body.username;
     var password = req.body.password;
     var confirm_password = req.body.confirm_password;
     // .find() returns an array (even when there is only 1 object in the database) .findOne() return 1 object
-    EmailList.findOne({name: "All"}, function(err, list){
-        if (err){
+    EmailList.findOne({
+        name: "All"
+    }, function(err, list) {
+        if (err) {
             console.log("There is an error with email database");
             req.flash("error", "Internal error. Please contact admin");
             res.redirect("back");
-        } else {
+        }
+        else {
             console.log("The return list is: \n" + list);
             if (list.emails.indexOf(username) > -1) {
                 if (password !== confirm_password) {
@@ -135,16 +142,15 @@ router.post("/register", isLoggedOut, function(req, res) {
             }
         }
     });
-    
 });
 
 // Register page for staff
-router.get("/register/Iyq8UTvzCU/m1ndFrameStaff", isLoggedOut, function(req, res) {
+router.get("/register/Iyq8UTvzCU/m1ndFrameStaff", middlewareObj.isLoggedOut, function(req, res) {
     res.render("staff_register");
 });
 
 // Register page post request for staff
-router.post("/register/Iyq8UTvzCU/m1ndFrameStaff", isLoggedOut, function(req, res) {
+router.post("/register/Iyq8UTvzCU/m1ndFrameStaff", middlewareObj.isLoggedOut, function(req, res) {
     var password = req.body.password;
     var confirm_password = req.body.confirm_password;
     if (password !== confirm_password) {
@@ -215,7 +221,7 @@ router.post("/change-password", function(req, res) {
 });
 
 // Handle logic for logging out
-router.get("/logout", isLoggedIn, function(req, res) {
+router.get("/logout", middlewareObj.isLoggedIn, function(req, res) {
     req.logout();
     req.flash("success", "You have successfully logged out!");
     res.redirect("/blogs");
@@ -346,44 +352,40 @@ router.post("/reset/:token", function(req, res) {
 // ======================================
 
 // Check if there is a user currently logged in
-function isLoggedOut(req, res, next) {
-    if (req.user) {
-        req.flash("error", "Please log out first");
-        res.redirect("/blogs");
-    }
-    else {
-        next();
-    }
-}
+// function isLoggedOut(req, res, next) {
+//     if (req.user) {
+//         req.flash("error", "Please log out first");
+//         res.redirect("/blogs");
+//     }
+//     else {
+//         next();
+//     }
+// }
 
 // ==========================================
 // Function to check if the user is logged in
 // ==========================================
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    req.flash("error", "You are not logged in!");
-    res.redirect("/login");
-}
+// function isLoggedIn(req, res, next) {
+//     if (req.isAuthenticated()) {
+//         return next();
+//     }
+//     req.flash("error", "You are not logged in!");
+//     res.redirect("/login");
+// }
 
 
 // Function to check if the user is a staff member
-function isAStaff(req, res, next) {
-    if (req.isAuthenticated()) { // If the user is logged in
-        if (req.user.hasAccess('user')) { // If the user is a staff member
-            next();
-        }
-        else {
-            req.flash("error", "Permission denied!");
-            res.redirect("/blogs");
-        }
-    }
-}
-
-router.get("/progress", function(req, res) {
-    res.render("progress");
-});
+// function isAStaff(req, res, next) {
+//     if (req.isAuthenticated()) { // If the user is logged in
+//         if (req.user.hasAccess('user')) { // If the user is a staff member
+//             next();
+//         }
+//         else {
+//             req.flash("error", "Permission denied!");
+//             res.redirect("/blogs");
+//         }
+//     }
+// }
 
 module.exports = router;
 
