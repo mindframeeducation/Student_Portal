@@ -26,8 +26,6 @@ router.get("/new", middlewareObj.isLoggedIn, middlewareObj.isAStaff, function(re
 
 // Create route
 router.post("/", middlewareObj.isLoggedIn, middlewareObj.isAStaff, function(req, res) {
-    // Create a blog
-    // run a re-direct (redirect to index.ejs)
     console.log(req.body); // Before Sanitize
     //req.body.blog.body = req.sanitize(req.body.blog.body); // sanitize the blog's body
     console.log("After sanitization");

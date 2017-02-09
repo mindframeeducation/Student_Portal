@@ -278,6 +278,8 @@ router.get("/courses/assign-course", middlewareObj.isLoggedIn, middlewareObj.isA
     Student.find({}, function(err, students) {
         if (err) {
             console.log("There is an error: " + err);
+            req.flash("error", "There is an error");
+            res.redirect("back");
         }
         else {
             Course.find({

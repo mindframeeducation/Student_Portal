@@ -11,7 +11,8 @@ router.get("/classes", middlewareObj.isLoggedIn, middlewareObj.isAStaff, functio
         name: "All"
     }, function(err, classList) {
         if (err) {
-            console.log("Cannot find class list: " + err);
+            req.flash("error", "Error. Please try again");
+            res.redirect("back");
         }
         else {
             res.render("classes/index", {
@@ -28,6 +29,8 @@ router.post("/classes", middlewareObj.isLoggedIn, middlewareObj.isAStaff, functi
     }, function(err, classList) {
         if (err) {
             console.log("There is an error: " + err);
+            req.flash("error", "Error adding a new class");
+            res.redirect("back");
         }
         else {
             classList.allClasses.push(req.body.class);
@@ -45,6 +48,8 @@ router.delete("/classes/:className", middlewareObj.isLoggedIn, middlewareObj.isA
     }, function(err, classList) {
         if (err) {
             console.log("There is an error : " + err);
+            req.flash("error", "Error. Please try again");
+            res.redirect("back");
         }
         else {
             var pos = classList.allClasses.indexOf(req.params.className);

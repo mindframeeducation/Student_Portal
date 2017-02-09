@@ -14,6 +14,8 @@ router.get("/new", middlewareObj.isLoggedIn, middlewareObj.isAStaff, function(re
     Student.findById(req.params.id, function(err, foundStudent) {
         if (err) {
             console.log("Error " + err);
+            req.flash("error", "Error. Please try again");
+            res.redirect("back");
         }
         else {
             ClassList.findOne({
@@ -21,6 +23,8 @@ router.get("/new", middlewareObj.isLoggedIn, middlewareObj.isAStaff, function(re
             }, function(err, classList) {
                 if (err) {
                     console.log("There is an error");
+                    req.flash("error", "Error. Please try again");
+                    res.redirect("back");
                 }
                 else {
                     res.render("entries/new", {
@@ -39,6 +43,8 @@ router.get("/:entry_id", middlewareObj.isLoggedIn, function(req, res) {
     Entry.findById(req.params.entry_id, function(err, foundEntry) {
         if (err) {
             console.log("No such entry found: " + err);
+            req.flash("error", "Err. Please try again");
+            res.redirect("back");
         }
         else {
             res.render("entries/show", {
@@ -64,12 +70,15 @@ router.post("/", middlewareObj.isLoggedIn, middlewareObj.isAStaff, function(req,
     Student.findById(req.params.id, function(err, foundStudent) {
         if (err) {
             console.log(err);
+            req.flash("error", "Error. Please try again");
             res.redirect("/blogs");
         }
         else {
             Entry.create(req.body.entry, function(err, entry) {
                 if (err) {
                     console.log("there is an error creating the entry for this student");
+                    req.flash("error", "Please try again");
+                    res.redirect("back");
                 }
                 else {
                     console.log("Entry created successfully!");
@@ -91,6 +100,8 @@ router.get("/:entry_id/edit", middlewareObj.isLoggedIn, middlewareObj.checkEntry
     Entry.findById(req.params.entry_id, function(err, foundEntry) {
         if (err) {
             console.log("There is an error looking for the entry: " + err);
+            req.flash("error", "Please try again");
+            res.redirect("back");
         }
         else {
             res.render("entries/edit", {
@@ -125,6 +136,7 @@ router.delete("/:entry_id", middlewareObj.isLoggedIn, middlewareObj.checkEntryOw
     Entry.findByIdAndRemove(req.params.entry_id, function(err) {
         if (err) {
             console.log("There is an error trying to remove!");
+            req.flash("error", "Error");
             res.redirect("back");
         }
         else {
@@ -135,6 +147,8 @@ router.delete("/:entry_id", middlewareObj.isLoggedIn, middlewareObj.checkEntryOw
             }, function(err, data) {
                 if (err) {
                     console.log("There is an error removing this entry from student's entry array");
+                    req.flash("error", "error");
+                    res.redirect("back");
                 }
                 else {
                     req.flash("success", "Entry successfully removed!");
