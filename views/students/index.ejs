@@ -35,7 +35,7 @@
 <!-- Semantic UI table-->
 <!--<div class = "container-fluid" style = "width: 60%; padding-top: 10px; margin-top: 10px;">-->
 <div class = "ui container fluid center aligned" style = "width: 65%; padding-top: 10px; margin: 10px auto 100px;">
-    <table class="ui striped compact large celled blue table sortable unstackable">
+    <table class="ui striped compact celled blue table sortable unstackable">
         <thead>
             <tr class = "text-center" style = "font-size: 100%;">
                 <th style = "width: 18%;" class="sorted descending;">Name</th>
@@ -79,7 +79,7 @@
                             <% if (student.entries.length > 0) { %>
                                 <% var latest_entry = student.entries[student.entries.length - 1] %>
                                 <tr>
-                                    <td>
+                                    <td class = "selectable" style = "color: #0E6EB8;">
                                         <a  href="/students/<%=student._id%>">
                                             <%=student.name.first%> <%=student.name.last %> 
                                         </a>
@@ -102,15 +102,14 @@
                                 </tr>
                             <% } else { %>
                                 <tr>
-                                    <td>
+                                    <td class = "selectable" style = "color: #0E6EB8;">
                                         <a  href="/students/<%=student._id%>">
                                             <%=student.name.first%> <%=student.name.last %> 
                                         </a>
                                     </td>
-                                    <td></td>
-                                    <td>
-                                        
-                                    </td>
+                                    <td>No recent class</td>
+                                    <td>N/A</td>
+                                    <td>N/A</td>
                                 </tr>
                             <% } %>  <!--else-->
                         <% } %>  <!--indexOf(student.id)-->
