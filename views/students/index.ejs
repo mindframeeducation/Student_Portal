@@ -38,9 +38,9 @@
     <table class="ui striped compact celled blue table sortable unstackable">
         <thead>
             <tr class = "text-center" style = "font-size: 100%;">
-                <th style = "width: 18%;" class="sorted descending;">Name</th>
-                <th style = "width: 15%;">Class</th>
-                <th style = "width: 10%;">Date</th>
+                <th class="sorted descending three wide">Name</th>
+                <th class = "two wide">Class</th>
+                <th class = "one wide">Date</th>
                 <th>Latest entry</th>
             </tr>
         </thead>
@@ -49,8 +49,8 @@
                 <!--if the user is a staff, he/she will see all students-->
                 <% if (currentUser && currentUser.hasAccess('user')) { %> 
                     <% if (student.entries.length > 0) { %>
+                        <% var latest_entry = student.entries[student.entries.length - 1] %>
                         <tr>
-                            <% var latest_entry = student.entries[student.entries.length - 1] %>
                             <td class = "selectable" style = "color: #0E6EB8;">
                                 <a  href="/students/<%=student._id%>">
                                     <%=student.fullName %> 
