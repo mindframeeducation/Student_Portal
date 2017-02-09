@@ -30,7 +30,7 @@
                 <% if (currentUser.hasAccess('user')) { %>
                     <% if (foundStudent.notes.length > 0) { %>
                         <p>
-                            <strong>Note:</strong> <%= foundStudent.notes[foundStudent.notes.length -1].body %> | 
+                            <strong>Note:</strong> <%= foundStudent.notes[0].body %> | 
                             <a style = "font-size: 0.8em;" href = "/students/<%=foundStudent.id%>/notes"> View more notes</a>
                         </p>
                     <% } %>
@@ -176,7 +176,6 @@
                                         </div>
                                         <!--Modal to edit entry ends-->
                                         <a id = "edit-entry-button-<%=index%>"style = "color: orange" data-tooltip="Edit" data-position="top center" href = "#"><i class="fa fa-pencil" aria-hidden="true"></i></a> | 
-                                        <!--<a style = "color: orange" data-tooltip="Edit" data-position="top center" href = "/students/<%=foundStudent._id%>/entries/<%=entry._id%>/edit"><i class="fa fa-pencil" aria-hidden="true"></i></a> | -->
                                         <button data-tooltip="Delete" data-position="top center" class="delete-button delete-entry-button-<%=index%>"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                                         <div class = "ui small modal delete entry" id = "delete-entry-<%=index%>"><i class = "close icon"></i>
                                             <div class = "header">

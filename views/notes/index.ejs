@@ -14,27 +14,57 @@
     <div class = "ui top raised segment">
         <div class = "ui divided items">
             <% if (foundStudent.notes.length > 0) { %>
-                <% foundStudent.notes.forEach(function(note) { %>
+                <% foundStudent.notes.forEach(function(note, note_index) { %>
                     <div class = "item">
                         <div class = "content" style = "margin-left: 20px;">
-                            
-                            <div style = "float: right; font-size: 0.75em;">
+                            <div style = "float: right; font-size: 0.9em;">
                                 <% if ((currentUser && currentUser.hasAccess("user") && currentUser._id.equals(note.author.id)) || (currentUser && currentUser.hasAccess("admin"))) { %>
-                                    <a href = "/students/<%=foundStudent.id%>/notes/<%=note.id%>/edit">Edit | </a>
-                                    <form id = "delete" action = "/students/<%=foundStudent.id%>/notes/<%=note.id%>?_method=DELETE" method = "POST">
-                                        <button class = "delete-button">Delete</button>
-                                    </form>
+                                    <a style = "color: orange" href = "#" id = "edit-note-button-<%=note_index%>"><i class="fa fa-pencil" aria-hidden="true"></i></a> |
+                                    <button class = "delete-button" id = "remove-note-button-<%=note_index%>"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                                 <% } %>
-                                
                             </div>
                             
-                            <div class = "meta">
+                            <div class = "meta" style = "display: inline;">
                                 Create by: <%= note.author.username %> | Created on: <%= note.created.toDateString() %>
                             </div>
                                         
                             <div class = "description">
                                 <%= note.body %>
                             </div>
+                            <!--Modal for deleting note starts-->
+                            <div class = "ui small modal remove note" id = "remove-note-modal-<%=note_index%>"><i class = "close icon"></i>
+                                <div class = "header">
+                                    Delete note
+                                </div>
+                                <div class = "content">
+                                    Are you sure you want to remove this note from <%=foundStudent.fullName%>'s profile?
+                                </div>
+                                <div class = "action">
+                                    <form id = "delete" action = "/students/<%=foundStudent.id%>/notes/<%=note.id%>?_method=DELETE" method = "POST">
+                                        <button class = "ui basic positive button" style = "margin: 0px 5px 10px 15px;">Yes</button>
+                                    </form>
+                                    <button class = "ui basic negative button close-modal" style = "margin-top: 0px;vertical-align: top;display: inline">No</button>
+                                </div>
+                            </div>
+                            <!--Modal for deleting note ends-->
+                            
+                            <!--Modal for editing note starts-->
+                            <div class = "ui small modal edit note" id = "edit-note-modal-<%=note_index%>"><i class = "close icon"></i>
+                                <div class = "header">
+                                    Edit note
+                                </div>
+                                <div class = "content">
+                                    <form class = "ui form" action = "/students/<%=foundStudent._id%>/notes/<%=note.id%>?_method=PUT" method = "POST">
+                                        <div class = "field">
+                                            <textarea rows="3" name = "note[body]"><%=note.body%></textarea>
+                                        </div>
+                                        <div class = "field" >
+                                            <input class="ui blue basic button" type = "Submit" value = "Save">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <!--Modal for editing note ends -->
                         </div>
                     </div> <!--Ending of item div-->
                 <% }); %>

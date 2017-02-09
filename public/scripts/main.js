@@ -133,6 +133,20 @@ for (let i = 0; i < $(".ui.small.modal.edit.entry").length; i++) {
 	});
 }
 
+// Initialize modal for deleting note
+for (let i = 0; i < $(".ui.small.modal.remove.note").length; i++) {
+	$("#remove-note-button-" + i).click(function() {
+		$("#remove-note-modal-" + i).modal("show");
+	});
+}
+
+// Initialize modal for editing note
+for (let i = 0; i < $(".ui.small.modal.edit.note").length; i++) {
+	$("#edit-note-button-" + i).click(function() {
+		$("#edit-note-modal-" + i).modal("show");
+	});
+}
+
 $(".close.icon").click(function() {
 	$(".small.modal").modal("hide");
 });

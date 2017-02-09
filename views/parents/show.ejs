@@ -18,21 +18,35 @@
             <div class = "ui divided items">
                 <% if (parent.students) { %>
                     <% if (parent.students.length != 0) { %>
-                        <% parent.students.forEach(function(student) { %>
+                        <% parent.students.forEach(function(student, student_index) { %>
                             <div class = "item">
                                 <div class = "content">
-                                    <div style = "float: right; font-size: 0.75em;">
+                                    <div style = "float: right; font-size: 1em;">
                                         <!--/parents/:id/students/:student_id-->
-                                        <form id = "delete" action = "/parents/<%=parent.id%>/students/<%=student.id%>?_method=DELETE" method = "POST">
-                                            <button class = "delete-button">Remove</button>
+                                        <form id = "delete" action = "/parents/<%=parent.id%>/students/<%=student.id%>?_method=DELETE" title = "Remove" method = "POST">
+                                            <button class = "delete-button"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                                         </form>
                                     </div>
-                                    <div class = "description">
-                                        <strong>Name: </strong><%=student.fullName%> |
-                                        <strong>Grade: </strong><%=student.grade%>
+                                    <div class = "description" style = "display: inline;">
+                                        <p>
+                                            <strong>Name: </strong><%=student.fullName%>
+                                        </p>
+                                        <p>
+                                            <strong>Grade: </strong><%=student.grade%>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
+                            <!--Modal to remove a student starts-->
+                            <div class = "ui small modal divest student" id = "divest-student-modal-<%=student_index%>"><i class = "close icon"></i>
+                                <div class = "header">
+                                    Remove student
+                                </div>
+                                <div class = "content">
+                                    Are you sure you want to remove <%=student.fullName%> from this parent?
+                                </div>
+                            </div>
+                            <!--Modal to remove a student ends -->
                         <% }); %>
                     <% } else { %>
                         No student assigned to this parent
