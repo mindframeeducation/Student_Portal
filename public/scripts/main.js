@@ -1,68 +1,72 @@
 /* global $ */
 
 // var searchBtn = document.querySelector(".search-button");
-$(document).ready(function(){
+$(document).ready(function() {
 	$('.ui.checkbox').checkbox();
 	$('.ui.progress').progress({
 		showActivity: false
 	});
 	$('.ui.accordion').accordion();
-  $('table').tablesort();
-  $('.ui.dropdown').dropdown();
-  $('.ui.form')
-  .form({
-    fields: {
-      email: {
-        identifier: 'username',
-        rules: [
-          {
-            type: 'email',
-            prompt: 'Please enter a valid email address'
-          }
-        ]
-      },
-      
-      password: {
-        identifier: 'password',
-        rules: [
-          {
-            type    : 'empty',
-            prompt  : 'Please enter your password'
-          }
-        ]
-      },
-      
-      confirm_password: {
-        identifier: 'confirm_password',
-        rules: [
-          {
-            type  : 'match[password]',
-            prompt: 'Passwords do not match!'
-          }
-        ]
-      },
-    }
-  });
+	$('table').tablesort();
+	$('.ui.dropdown').dropdown();
+	$('.ui.form')
+		.form({
+			fields: {
+				email: {
+					identifier: 'username',
+					rules: [{
+						type: 'email',
+						prompt: 'Please enter a valid email address'
+					}]
+				},
+
+				password: {
+					identifier: 'password',
+					rules: [{
+						type: 'empty',
+						prompt: 'Please enter your password'
+					}]
+				},
+
+				confirm_password: {
+					identifier: 'confirm_password',
+					rules: [{
+						type: 'match[password]',
+						prompt: 'Passwords do not match!'
+					}]
+				},
+			}
+		});
 });
 
 // Auto timeout messages
 window.setTimeout(function() {
-    $(".ui.success.message.small.overlay").transition();
-    $(".ui.negative.message.small.overlay").transition();
+	$(".ui.success.message.small.overlay").transition();
+	$(".ui.negative.message.small.overlay").transition();
 }, 1500);
 
 $('#ddl').dropdown();
 
 $('.message .close').on('click', function() {
-  $(this).closest('.message').fadeOut();
+	$(this).closest('.message').fadeOut();
 });
 $('.menu.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('attach events', '.item.open.button', 'show');
 
-$(".small.modal.student").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#editStudent", "show");
-$(".small.modal.goal").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#editGoal", "show");
-$(".small.modal.email").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#addEmail", "show");
-$(".small.modal.class").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#addClass", "show");
-$(".small.modal.course").modal('setting', {observeChanges: true} ).modal('setting', 'transition', "Fade Down").modal("attach events", "#addCourse", "show");
+$(".small.modal.student").modal('setting', {
+	observeChanges: true
+}).modal('setting', 'transition', "Fade Down").modal("attach events", "#editStudent", "show");
+$(".small.modal.goal").modal('setting', {
+	observeChanges: true
+}).modal('setting', 'transition', "Fade Down").modal("attach events", "#editGoal", "show");
+$(".small.modal.email").modal('setting', {
+	observeChanges: true
+}).modal('setting', 'transition', "Fade Down").modal("attach events", "#addEmail", "show");
+$(".small.modal.class").modal('setting', {
+	observeChanges: true
+}).modal('setting', 'transition', "Fade Down").modal("attach events", "#addClass", "show");
+$(".small.modal.course").modal('setting', {
+	observeChanges: true
+}).modal('setting', 'transition', "Fade Down").modal("attach events", "#addCourse", "show");
 
 // var deleteModal = $(".ui.small.modal.delete.class").length;
 // console.log("The length is: " + deleteModal);
@@ -77,28 +81,28 @@ $(".small.modal.course").modal('setting', {observeChanges: true} ).modal('settin
 // This will also works (using let, which is a in ES6)
 // Initialize delete class modal
 for (let i = 0; i < $(".ui.small.modal.delete.class").length; i++) {
-	$(".delete-class-button-" + i).click(function(){
+	$(".delete-class-button-" + i).click(function() {
 		$("#delete-class-" + i).modal("show");
 	});
 }
 
 // Initialize delete email modal
 for (let i = 0; i < $(".ui.small.modal.delete.email").length; i++) {
-	$(".delete-email-button-" + i).click(function(){
+	$(".delete-email-button-" + i).click(function() {
 		$("#delete-email-" + i).modal("show");
 	});
 }
 
 // Initialize delete entry modal
-for (let i = 0; i < $(".ui.small.modal.delete.entry").length; i++){
-	$(".delete-entry-button-" + i).click(function(){
+for (let i = 0; i < $(".ui.small.modal.delete.entry").length; i++) {
+	$(".delete-entry-button-" + i).click(function() {
 		$("#delete-entry-" + i).modal("show");
 	});
 }
 
 // Initialize add unit modal
 for (let i = 0; i < $(".ui.small.modal.unit").length; i++) {
-	$("#add-unit-button-" + i).click(function(){
+	$("#add-unit-button-" + i).click(function() {
 		$("#add-unit-modal-" + i).modal("show");
 	});
 	console.log("The total component is: " + $(".ui.small.modal.unit").length);
@@ -107,21 +111,21 @@ for (let i = 0; i < $(".ui.small.modal.unit").length; i++) {
 
 // Initialize change course name modal
 for (let i = 0; i < $(".ui.small.modal.course.name").length; i++) {
-	$("#course-name-button-" + i).click(function(){
+	$("#course-name-button-" + i).click(function() {
 		$("#change-course-name-" + i).modal("show");
 	});
 }
 
 // Initialize the modal for removing courses from the students' profiles
 for (let i = 0; i < $(".ui.small.modal.remove.course.student").length; i++) {
-	$("#remove-course-student-button-" + i).click(function(){
+	$("#remove-course-student-button-" + i).click(function() {
 		$("#remove-course-student-modal-" + i).modal("show");
 	});
 }
 
 // Initiliaze modal for editing entry
-for (let i = 0; i < $(".ui.small.modal.edit.entry").length; i++){
-	$("#edit-entry-button-" + i).click(function(){
+for (let i = 0; i < $(".ui.small.modal.edit.entry").length; i++) {
+	$("#edit-entry-button-" + i).click(function() {
 		$("#edit-entry-modal-" + i).modal({
 			autofocus: false,
 			observeChanges: true
@@ -129,11 +133,11 @@ for (let i = 0; i < $(".ui.small.modal.edit.entry").length; i++){
 	});
 }
 
-$(".close.icon").click(function(){
+$(".close.icon").click(function() {
 	$(".small.modal").modal("hide");
 });
 
-$(".close-modal").click(function(){
+$(".close-modal").click(function() {
 	$(".small.modal").modal("hide");
 });
 
@@ -145,7 +149,7 @@ $(".close-modal").click(function(){
 */
 
 (function($) {
-	$.tablesort = function ($table, settings) {
+	$.tablesort = function($table, settings) {
 		var self = this;
 		this.$table = $table;
 		this.$thead = this.$table.find('thead');
@@ -199,8 +203,7 @@ $(".close-modal").click(function(){
 			// `tablesort:start` callback. Also avoids locking up the browser too much.
 			setTimeout(function() {
 				self.$sortCells.removeClass(self.settings.asc + ' ' + self.settings.desc);
-				for (var i = 0, length = unsortedValues.length; i < length; i++)
-				{
+				for (var i = 0, length = unsortedValues.length; i < length; i++) {
 					sortedMap.push({
 						index: i,
 						cell: cells[i],
@@ -227,7 +230,7 @@ $(".close-modal").click(function(){
 		},
 
 		log: function(msg) {
-			if(($.tablesort.DEBUG || this.settings.debug) && console && console.log) {
+			if (($.tablesort.DEBUG || this.settings.debug) && console && console.log) {
 				console.log('[tablesort] ' + msg);
 			}
 		},
@@ -249,9 +252,11 @@ $(".close-modal").click(function(){
 		compare: function(a, b) {
 			if (a > b) {
 				return 1;
-			} else if (a < b) {
+			}
+			else if (a < b) {
 				return -1;
-			} else {
+			}
+			else {
 				return 0;
 			}
 		}
@@ -262,7 +267,7 @@ $(".close-modal").click(function(){
 		return this.each(function() {
 			table = $(this);
 			previous = table.data('tablesort');
-			if(previous) {
+			if (previous) {
 				previous.destroy();
 			}
 			table.data('tablesort', new $.tablesort(table, settings));
