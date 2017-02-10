@@ -3,8 +3,7 @@
     <a href = "/students/<%=student_id%>/notes"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
 </div>
 
-
-<div class = "ui main text container segment" style = "margin-top: 10px;">
+<div class = "ui main text container segment" style = "margin-top: 10px; margin-bottom: 150px;">
     <form class = "ui form" action = "/students/<%=student_id%>/notes/<%=note.id%>?_method=PUT" method = "POST">
         <div class = "field">
             <textarea rows="3" name = "note[body]"><%=note.body%></textarea>

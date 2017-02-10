@@ -3,7 +3,7 @@
     <a href = "/courses"><i class="fa fa-arrow-left" aria-hidden="true"></i></a>
 </div>
 
-<div class = "ui main text container segment" style = "margin-top: 10px;">
+<div class = "ui main text container segment" style = "margin-top: 10px; margin-bottom: 150px;">
     <form class = "ui form" action = "/courses/<%=course._id%>/units/<%=unit_index%>?_method=PUT" method = "POST">
         <input type = "text" name = "unit_name" value = "<%=course.units[unit_index].name%>"></input>
         <input type = "submit" class = "ui button blue" value = "Save" style = "margin-top: 10px;"></input>
