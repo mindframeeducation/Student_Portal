@@ -99,7 +99,7 @@ p {
 /*Testing stuff*/
 .ui.inverted.vertical.footer.segment {
     /*background-color: rgb(51, 51, 51);*/
-    background-color: #ECECEA;
+    background-color: rgb(219, 219, 214);
 }
 .ui.inverted.segment, .ui.primary.inverted.segment {
     color: rgb(77, 77, 77);
