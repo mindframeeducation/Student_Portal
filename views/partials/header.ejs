@@ -140,6 +140,18 @@
                         </div> <!--right menu-->
                     </div> <!--ui container-->
                 </div> <!--ui top fixed menu-->
+                
+                <% if (error && error.length > 0) { %>
+                    <div class="ui negative message small overlay" role="alert" >
+                        <strong><%=error %></strong>
+                    </div>
+                <% } %>
+                
+                <% if (success && success.length > 0){  %>
+                    <div class="ui success message small overlay center aligned" role="alert" >
+                        <strong><%=success %></strong>
+                    </div>
+                <% } %>
             </div> <!--computer only row-->
             
             
@@ -163,14 +175,4 @@
 
         <!--BEGINNING OF FLASH MESSAGES-->
         
-        <% if (error && error.length > 0) { %>
-            <div class="ui negative message small overlay" role="alert" >
-                <strong><%=error %></strong>
-            </div>
-        <% } %>
-        
-        <% if (success && success.length > 0){  %>
-            <div class="ui success message small overlay center aligned" role="alert" >
-                <strong><%=success %></strong>
-            </div>
-        <% } %>
+        <!--ENDING OF FLASH MESSAGES -->
