@@ -100,3 +100,6 @@ p {
 .ui.inverted.vertical.footer.segment {
     background-color: rgb(51, 51, 51);
 }
+.ui.inverted.segment, .ui.primary.inverted.segment {
+    color: rgb(191, 191, 191);
+}
