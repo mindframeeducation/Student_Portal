@@ -38,6 +38,7 @@ p {
     display: inline;
 }
 
+/*Flash messages for computers */
 .ui.success.message.small.overlay {
     z-index: 100;
     position: absolute;
@@ -56,6 +57,7 @@ p {
     text-align: center;
 }
 
+/*Flash messages for tablet and mobile */
 .ui.success.message.small.overlay.mobile {
     z-index: 100;
     position: absolute;
@@ -78,8 +80,6 @@ p {
     display: inline;    
 }
 
-
-
 .student-list {
     width: 30%;
     margin-top: 20px;
@@ -97,23 +97,3 @@ p {
 }
 
 /*Testing stuff*/
-.hidden{
-    display: none!important;
-}
-
-.semantic-label {
-    position: absolute;
-    width: 100%;
-    font-size: 1em;
-    top: 100%;
-    right: auto;
-    left: 0;
-    bottom: auto;
-    color: rgba(0,0,0,.87);
-    font-weight: 700;
-    text-shadow: none;
-    margin-top: .2em;
-    text-align: center;
-    -webkit-transition: color .4s ease;
-    transition: color .4s ease;
-}
