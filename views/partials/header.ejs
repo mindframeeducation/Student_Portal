@@ -148,7 +148,7 @@
                 <% } %>
                 
                 <% if (success && success.length > 0){  %>
-                    <div class="ui success message small overlay center aligned" role="alert" >
+                    <div class="ui success message small overlay" role="alert" >
                         <strong><%=success %></strong>
                     </div>
                 <% } %>
@@ -169,6 +169,19 @@
                         </div> <!--right menu-->
                     </div> <!--ui container-->
                 </div> <!--ui top fixed menu-->
+                
+                <% if (error && error.length > 0) { %>
+                    <div class="ui negative message small overlay mobile" role="alert" >
+                        <strong><%=error %></strong>
+                    </div>
+                <% } %>
+                
+                <% if (success && success.length > 0){  %>
+                    <div class="ui success message small overlay mobile" role="alert" >
+                        <strong><%=success %></strong>
+                    </div>
+                <% } %>
+                
             </div> <!--mobile tablet only row-->
         </div> <!--ui menu grid-->
         <!--END OF NAV BAR SECTION. BEGINNING OF NEW ENTRY MODAL -->

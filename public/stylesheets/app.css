@@ -47,10 +47,6 @@ p {
     text-align: center;
 }
 
-.ui.form.student-show-page {
-    display: inline;    
-}
-
 .ui.negative.message.small.overlay {
     z-index: 100;
     position: absolute;
@@ -59,6 +55,30 @@ p {
     left: 20vw;
     text-align: center;
 }
+
+.ui.success.message.small.overlay.mobile {
+    z-index: 100;
+    position: absolute;
+    top: 45px;
+    width: 90%;
+    left: 5vw;
+    text-align: center;
+}
+
+.ui.negative.message.small.overlay.mobile {
+    z-index: 100;
+    position: absolute;
+    top: 45px;
+    width: 90%;
+    left: 5vw;
+    text-align: center;
+}
+
+.ui.form.student-show-page {
+    display: inline;    
+}
+
+
 
 .student-list {
     width: 30%;
