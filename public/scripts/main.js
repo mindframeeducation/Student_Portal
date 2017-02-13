@@ -18,7 +18,7 @@ $(document).ready(function() {
 						type: 'email',
 						prompt: 'Please enter a valid email address'
 					}],
-					
+
 				},
 
 				password: {
@@ -36,13 +36,13 @@ $(document).ready(function() {
 						prompt: 'Passwords do not match!'
 					}]
 				},
-			}, 
-			inline : true,
-    		on     : 'blur',
-    		onFailure: function(){
-    			$(this).transition("shake");
-    			return false; // Need to return false, or the form will be submitted
-    		}
+			},
+			inline: true,
+			on: 'blur',
+			onFailure: function() {
+				$(this).transition("shake");
+				return false; // Need to return false, or the form will be submitted
+			}
 		});
 });
 
@@ -151,6 +151,13 @@ for (let i = 0; i < $(".ui.small.modal.remove.note").length; i++) {
 for (let i = 0; i < $(".ui.small.modal.edit.note").length; i++) {
 	$("#edit-note-button-" + i).click(function() {
 		$("#edit-note-modal-" + i).modal("show");
+	});
+}
+
+// Initialize modal for divesting (de-assign) student from parent
+for (let i = 0; i < $(".ui.small.modal.divest.student").length; i++) {
+	$("#divest-student-button-" + i).click(function() {
+		$("#divest-student-modal-" + i).modal("show");
 	});
 }
 

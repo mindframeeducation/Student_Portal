@@ -22,18 +22,11 @@
                             <div class = "item">
                                 <div class = "content">
                                     <div style = "float: right; font-size: 1em;">
-                                        <!--/parents/:id/students/:student_id-->
-                                        <form id = "delete" action = "/parents/<%=parent.id%>/students/<%=student.id%>?_method=DELETE" title = "Remove" method = "POST">
-                                            <button class = "delete-button"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                        </form>
+                                        <button class = "delete-button" id = "divest-student-button-<%=student_index%>"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
                                     </div>
                                     <div class = "description" style = "display: inline;">
-                                        <p>
-                                            <strong>Name: </strong><%=student.fullName%>
-                                        </p>
-                                        <p>
-                                            <strong>Grade: </strong><%=student.grade%>
-                                        </p>
+                                        <p><strong>Name: </strong><%=student.fullName%></p>
+                                        <p><strong>Grade: </strong><%=student.grade%></p>
                                     </div>
                                 </div>
                             </div>
@@ -44,6 +37,12 @@
                                 </div>
                                 <div class = "content">
                                     Are you sure you want to remove <%=student.fullName%> from this parent?
+                                </div>
+                                <div class = "action" style = "float: left;">
+                                    <form id = "delete" action = "/parents/<%=parent.id%>/students/<%=student.id%>?_method=DELETE" title = "Remove" method = "POST">
+                                        <button class = "ui basic positive button" style = "margin: 0px 5px 10px 15px;">Yes</button>
+                                    </form>
+                                    <button class = "ui basic negative button close-modal" style = "margin-top: 0px;vertical-align: top;display: inline">No</button>
                                 </div>
                             </div>
                             <!--Modal to remove a student ends -->
