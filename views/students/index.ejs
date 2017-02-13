@@ -1,7 +1,7 @@
 <% include ../partials/header %>
 <div class = "ui container center aligned" style = "margin-top: 100px;">
     <% if (currentUser && currentUser.hasAccess('user')) { %>
-        <h1 class = "student-title">All entries</h1>
+        <h1 class = "page-title">All Entries</h1>
     <% } else { %>
         <% if (currentUser.students && currentUser.students.length > 1) { %>
             <h1 class = "student-title">Entries for your children</h1>
@@ -9,7 +9,6 @@
             <h1 class = "student-title">Entries for your child</h1>
         <% } %>
     <% } %>
-    
 </div>
 
 <% if (currentUser && currentUser.hasAccess('user')) { %> 

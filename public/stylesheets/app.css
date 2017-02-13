@@ -96,6 +96,10 @@ p {
     color: #ff6666;
 }
 
+.page-title {
+    color: rgb(54, 115, 176) !important;
+}
+
 /*Testing stuff*/
 .ui.inverted.vertical.footer.segment {
     /*background-color: rgb(51, 51, 51);*/
