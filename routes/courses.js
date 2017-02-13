@@ -15,7 +15,7 @@ var middlewareObj = require("../middleware");
     post("/courses/:id/units/:unit_index")      : update a course's unit's name
     get("/courses/assign-course")               : show page for assigning course to a student
     post("/courses/assign-course")              : assign a course to a student
-    delete("/courses/:id")                      : delete a course (generated from a template)
+    delete("/courses/:id")                      : delete a course (template)
     
 */
 
@@ -269,6 +269,20 @@ router.delete("/courses/:id/units/:unit_index", middlewareObj.isLoggedIn, middle
                     res.redirect("/courses");
                 }
             });
+        }
+    });
+});
+
+// Route to delete a course template
+router.delete("/courses/:id", function(req,res){
+    Course.findByIdAndRemove(req.params.id, function(err, deletedCourse){
+        if (err){
+            req.flash("error", "Err: " + err);
+            res.redirect("back");
+        } else {
+            // console.log("Deleted course is: " + deletedCourse);
+            req.flash("success", "Deleted " + deletedCourse.name);
+            res.redirect("/courses");
         }
     });
 });

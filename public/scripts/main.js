@@ -161,6 +161,13 @@ for (let i = 0; i < $(".ui.small.modal.divest.student").length; i++) {
 	});
 }
 
+// Initiliaze modal for deleting course template
+for (let i = 0; i < $(".ui.small.modal.delete.template").length; i++){
+	$("#delete-template-button-" + i).click(function(){
+		$("#delete-template-modal-" + i).modal("show");
+	});
+}
+
 $(".close.icon").click(function() {
 	$(".small.modal").modal("hide");
 });

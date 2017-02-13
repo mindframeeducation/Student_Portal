@@ -4,6 +4,7 @@
     <% if (courses.length !== 0) { %>
         <div class = "ui styled fluid accordion" style = "margin-bottom: 10px;">
             <% var index = 0; %>
+            <% var course_index = 0; %>
             <% courses.sort().forEach(function(course) { %>
                 <% if (course.template) { %>
                     <div class = "title">
@@ -29,14 +30,32 @@
                         <% } %>
                         <div style = "margin-top: 10px;">
                             <button class = "ui blue basic button" id = "add-unit-button-<%=index%>"><i style = "margin-right: 0;" class = "plus icon"></i> Unit</button>
-                            <button class = "ui basic orange button" id = "course-name-button-<%=index%>">Edit course name</button>
+                            <button class = "ui basic orange button" id = "course-name-button-<%=index%>">Edit</button>
+                            <button class = "ui basic negative button" id = "delete-template-button-<%=course_index%>">Delete</button>
+                        </div>
+                    </div>
+                    
+                    <!--Modal for deleting course starts -->
+                    <!--Modal for deleting course ends -->
+                    <div class = "ui small modal delete template" id = "delete-template-modal-<%=course_index%>"><i class = "close icon"></i>
+                        <div class = "header">
+                            Delete course template
+                        </div>
+                        <div class = "content">
+                            Are you sure you want to remove <strong><%=course.name%></strong> from the database?
+                        </div>
+                        <div class = "action">
+                            <form style = "display: inline" action = "/courses/<%=course._id%>?_method=DELETE" method = "POST">
+                                <button class = "ui basic positive button" style = "margin: 0px 5px 10px 15px;">Yes</button>
+                            </form>
+                            <button class = "ui basic negative button close-modal" style = "margin-top: 0px;vertical-align: top;display: inline">No</button>
                         </div>
                     </div>
                     <!--Create a modal for each course starts-->
                     <!--Modal for adding a new unit-->
                     <div class="ui small modal unit" id = "add-unit-modal-<%=index%>"><i class="close icon" ></i>
                         <div class = "header">
-                            Add a new unit to '<%=course.name%>'
+                            Add a new unit to <%=course.name%>
                         </div>
                         <div class="content">
                             <form class = "ui form" action = "/courses/<%=course.id%>/units" method = "POST">
@@ -70,6 +89,7 @@
                     
                     <!--Create a modal for each course ends -->
                     <% index++; %>
+                    <% course_index ++; %>
                 <% } %> <!--if (course.template) -->
             <% }); %> <!--for each function -->
         </div>
