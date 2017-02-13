@@ -140,10 +140,11 @@ router.delete("/students/:id/courses/:course_id", middlewareObj.isLoggedIn, midd
             Course.findByIdAndRemove(req.params.course_id, function(err, deletedCourse) {
                 if (err) {
                     console.log("err: " + err);
+                    req.flash("error", "Err: " + err);
                     res.redirect("back");
                 }
                 else {
-                    console.log("Delete count is: " + deletedCourse);
+                    // console.log("Delete count is: " + deletedCourse);
                     req.flash("success", "Course deleted!");
                     res.redirect("/students/" + req.params.id);
                 }
