@@ -36,9 +36,13 @@ $(document).ready(function() {
 						prompt: 'Passwords do not match!'
 					}]
 				},
-			},
+			}, 
 			inline : true,
-    		on     : 'blur'
+    		on     : 'blur',
+    		onFailure: function(){
+    			$(this).transition("shake");
+    			return false; // Need to return false, or the form will be submitted
+    		}
 		});
 });
 

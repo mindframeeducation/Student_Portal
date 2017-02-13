@@ -108,7 +108,6 @@ router.post("/register", middlewareObj.isLoggedOut, function(req, res) {
             res.redirect("back");
         }
         else {
-            console.log("The return list is: \n" + list);
             if (list.emails.indexOf(username) > -1) {
                 if (password !== confirm_password) {
                     req.flash("error", "Passwords do not match!");
