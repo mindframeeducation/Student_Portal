@@ -17,7 +17,8 @@ $(document).ready(function() {
 					rules: [{
 						type: 'email',
 						prompt: 'Please enter a valid email address'
-					}]
+					}],
+					
 				},
 
 				password: {
@@ -35,7 +36,9 @@ $(document).ready(function() {
 						prompt: 'Passwords do not match!'
 					}]
 				},
-			}
+			},
+			inline : true,
+    		on     : 'blur'
 		});
 });
 
