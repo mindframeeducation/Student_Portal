@@ -28,7 +28,7 @@
         </div>
     </div>
 <% } %>
-
+<button class = "ui positive button show entries">Next</button>
 <!-- Semantic UI table-->
 <div class = "ui container fluid center aligned" style = "width: 70%; padding-top: 10px; margin: 10px auto 150px;">
     <table class="ui striped very compact celled blue table sortable" >
@@ -41,11 +41,12 @@
             </tr>
         </thead>
         <tbody>
+            <% var student_index = 0; %>
             <% students.forEach(function(student) { %>
                 <% if (currentUser && currentUser.hasAccess('user')) { %> 
                     <% if (student.entries.length > 0) { %>
                         <% var latest_entry = student.entries[student.entries.length - 1] %>
-                        <tr>
+                        <tr id = "student-row-<%=student_index%>" class = "student-row-class">
                             <td class = "selectable" style = "color: #0E6EB8;">
                                 <a  href="/students/<%=student._id%>">
                                     <%=student.fullName %> 
@@ -67,7 +68,9 @@
                                 <% } %>
                             </td>
                         </tr>
+                        <% student_index++; %>
                     <% } %>
+                    
                 <% } else { %>
                     <% if (currentUser) { %>
                         <% if (currentUser.students && currentUser.students.indexOf(student.id) > -1) { %>
@@ -114,5 +117,15 @@
             <% }); %> <!--forEach function -->
         </tbody>
     </table>
+    <!--pagination menu starts-->
+    <div class = "ui pagination menu" style = "float: right;">
+        <a class="item">
+            Previous
+        </a>
+        <a class="item">
+            Next
+        </a>
+    </div>
+    <!--pagination menu ends -->
 </div>
 <% include ../partials/footer %>

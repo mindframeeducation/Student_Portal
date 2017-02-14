@@ -2,6 +2,7 @@
 
 // var searchBtn = document.querySelector(".search-button");
 $(document).ready(function() {
+	$(".student-row-class").css("display", "none");
 	$('.ui.checkbox').checkbox();
 	$('.ui.progress').progress({
 		showActivity: false
@@ -167,14 +168,67 @@ for (let i = 0; i < $(".ui.small.modal.delete.template").length; i++){
 		$("#delete-template-modal-" + i).modal("show");
 	});
 }
-
-$(".close.icon").click(function() {
-	$(".small.modal").modal("hide");
+var total_entries = $(".student-row-class").length;
+var entry_per_page = 5;
+var total_page = Math.floor(total_entries/entry_per_page);
+var curr_page = 1;
+$(".ui.show.entries").on("click", function(){
+	curr_page++;
+	if(curr_page === total_page){
+		$(this).addClass("disabled");
+		for (var i = (curr_page - 2)*entry_per_page; i < (curr_page-1)*entry_per_page; i++){
+			$("#student-row-" + i).fadeOut(function(){
+				for (var i = (curr_page - 1).entry_per_page; i < total_entries; i++){
+					$("#student-row-" + i).fadeIn();
+				}
+			});
+		}
+	}
+	else {
+		for (var i = (curr_page-2)*entry_per_page; i < (curr_page-1)*entry_per_page; i++){
+			$("#student-row-" + i).fadeOut(function(){
+				for (var i = (curr_page-1)*entry_per_page; i < curr_page*entry_per_page; i++){
+					$("#student-row-" + i).fadeIn();
+				}
+			});
+		}
+	}
+	
+	console.log("curr page is " + curr_page + "/" + total_page);
 });
+modal_dismiss();
+// table_pagination();
 
-$(".close-modal").click(function() {
-	$(".small.modal").modal("hide");
-});
+
+
+function table_pagination(){
+	$(".ui.show.entries").on("click", function(){
+		for (let i = 0; i < 5; i++){
+			$("#student-row-" + i).fadeToggle();
+		}
+	});
+	
+}
+
+// $(".close.icon").click(function() {
+// 	$(".small.modal").modal("hide");
+// });
+
+// $(".close-modal").click(function() {
+// 	$(".small.modal").modal("hide");
+// });
+
+function modal_dismiss(){
+	$(".close.icon").click(function() {
+		$(".small.modal").modal("hide");
+	});
+	
+	$(".close-modal").click(function() {
+		$(".small.modal").modal("hide");
+	});
+}
+
+
 
 // Sortable starts
 /*
