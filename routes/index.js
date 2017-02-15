@@ -14,7 +14,7 @@ var middlewareObj = require("../middleware");
 
 // Display log-in page
 router.get("/login", middlewareObj.isLoggedOut, function(req, res) {
-    res.render("login");
+    res.render("users/login");
 });
 
 // WORKING VERSION
@@ -228,7 +228,7 @@ router.get("/logout", middlewareObj.isLoggedIn, function(req, res) {
 
 // FORGET PASSWORD ROUTES ==========
 router.get("/forget", function(req, res) {
-    res.render("forget");
+    res.render("users/forget");
 });
 
 router.post("/forget", function(req, res, next) {
@@ -303,7 +303,7 @@ router.get("/reset/:token", function(req, res) {
             res.redirect("/blogs");
         }
         else {
-            res.render("reset", {
+            res.render("users/reset", {
                 token: req.params.token
             });
         }
