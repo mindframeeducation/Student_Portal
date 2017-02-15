@@ -169,10 +169,10 @@ for (let i = 0; i < $(".ui.small.modal.delete.template").length; i++) {
 	});
 }
 
-var total_entries = $(".student-row-class").length;
-var entry_per_page = 10;
-var total_page = Math.ceil(total_entries / entry_per_page);
-var curr_page = 1;
+var total_entries = $(".student-row-class").length,
+	entry_per_page = 10,
+	total_page = Math.ceil(total_entries / entry_per_page),
+	curr_page = 1;
 $("#next-page").on("click", function() {
 	if ($("#prev-page").hasClass("disabled")) {
 		$("#prev-page").removeClass("disabled");
