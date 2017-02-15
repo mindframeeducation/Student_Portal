@@ -2,6 +2,7 @@
 
 // var searchBtn = document.querySelector(".search-button");
 $(document).ready(function() {
+	// $(".student-row-class").css("display", "none");
 	$('.ui.checkbox').checkbox();
 	$('.ui.progress').progress({
 		showActivity: false
@@ -162,19 +163,73 @@ for (let i = 0; i < $(".ui.small.modal.divest.student").length; i++) {
 }
 
 // Initiliaze modal for deleting course template
-for (let i = 0; i < $(".ui.small.modal.delete.template").length; i++){
-	$("#delete-template-button-" + i).click(function(){
+for (let i = 0; i < $(".ui.small.modal.delete.template").length; i++) {
+	$("#delete-template-button-" + i).click(function() {
 		$("#delete-template-modal-" + i).modal("show");
 	});
 }
 
-$(".close.icon").click(function() {
-	$(".small.modal").modal("hide");
+var total_entries = $(".student-row-class").length,
+	entry_per_page = 10,
+	total_page = Math.ceil(total_entries / entry_per_page),
+	curr_page = 1;
+$("#next-page").on("click", function() {
+	if ($("#prev-page").hasClass("disabled")) {
+		$("#prev-page").removeClass("disabled");
+	}
+	curr_page++;
+	for (let i = (curr_page - 2) * entry_per_page; i < (curr_page - 1) * entry_per_page; i++) {
+		$("#student-row-" + i).fadeOut(function() {
+			for (let j = (curr_page - 1) * entry_per_page; j < curr_page * entry_per_page; j++) {
+				$("#student-row-" + j).fadeIn();
+			}
+		});
+	}
+	if (curr_page === total_page) {
+		$(this).addClass("disabled");
+	}
 });
 
-$(".close-modal").click(function() {
-	$(".small.modal").modal("hide");
+$("#prev-page").on("click", function() {
+	if ($("#next-page").hasClass("disabled")) {
+		$("#next-page").removeClass("disabled");
+	}
+	curr_page--;
+	for (let i = curr_page * entry_per_page; i < (curr_page + 1) * entry_per_page; i++) {
+		$("#student-row-" + i).fadeOut(function() {
+			for (let j = (curr_page - 1) * entry_per_page; j < curr_page * entry_per_page; j++) {
+				$("#student-row-" + j).fadeIn();
+			}
+		});
+	}
+	if (curr_page === 1) {
+		$(this).addClass("disabled");
+	}
 });
+modal_dismiss();
+
+// table_pagination();
+
+
+// $(".close.icon").click(function() {
+// 	$(".small.modal").modal("hide");
+// });
+
+// $(".close-modal").click(function() {
+// 	$(".small.modal").modal("hide");
+// });
+
+function modal_dismiss() {
+	$(".close.icon").click(function() {
+		$(".small.modal").modal("hide");
+	});
+
+	$(".close-modal").click(function() {
+		$(".small.modal").modal("hide");
+	});
+}
+
+
 
 // Sortable starts
 /*

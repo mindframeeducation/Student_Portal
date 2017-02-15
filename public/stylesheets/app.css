@@ -1,3 +1,14 @@
+@media (max-width: 766px) {
+    #next-page
+    {
+        display: none;
+    }
+    #prev-page
+    {
+        display: none;
+    }
+}
+
 body {
     /*font-family: 'Roboto', serif;*/
     background-color: #ECECEA;
@@ -111,3 +122,4 @@ p {
 .ui.fitted.divider {
     margin: 5px;
 }
+

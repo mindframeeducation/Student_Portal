@@ -1,19 +1,19 @@
 <% include ../partials/header %>
-<div class = "ui container center aligned" style = "margin-top: 100px;">
+<div class = "ui container center aligned" style = "margin-top: 50px;">
     <% if (currentUser && currentUser.hasAccess('user')) { %>
         <h1 class = "page-title">All Entries</h1>
     <% } else { %>
         <% if (currentUser.students && currentUser.students.length > 1) { %>
-            <h1 class = "student-title">Entries for your children</h1>
+            <h1 class = "page-title">Entries for your children</h1>
         <% } else { %>
-            <h1 class = "student-title">Entries for your child</h1>
+            <h1 class = "page-title">Entries for your child</h1>
         <% } %>
     <% } %>
 </div>
 
 <% if (currentUser && currentUser.hasAccess('user')) { %> 
     <div class = "ui container center aligned" style = "width: 30%; margin-top: 10px;">
-        <div class="ui fluid search selection dropdown">
+        <div class="ui fluid selection dropdown">
             <input type="hidden" name="country">
             <i class="dropdown icon"></i>
             <div class="default text">Select student</div>
@@ -30,7 +30,26 @@
 <% } %>
 
 <!-- Semantic UI table-->
-<div class = "ui container fluid center aligned" style = "width: 70%; padding-top: 10px; margin: 10px auto 150px;">
+<div class = "ui container fluid center aligned" style = "width: 70%; padding-top: 0; margin: 10px auto 150px;">
+    <% var student_index = 0; %>
+    <% var entry_per_page = 10; %>
+    <% if (currentUser && currentUser.hasAccess('user')) { %>
+        <div  class = "ui blue tiny buttons" style = "float: right; margin-bottom: 10px;">
+            <button class = "ui compact icon button disabled" id = "prev-page" style = "margin-right: 5px;">
+                <i class = "left arrow icon"></i>
+            </button>
+            <% if (students.length < entry_per_page) { %>
+                <button class = "ui compact icon button disabled" id = "next-page">
+                    <i class = "right arrow icon"></i>
+                </button>
+            <% } else { %>
+                <button class = "ui compact icon button" id = "next-page">
+                    <i class = "right arrow icon"></i>
+                </button>
+            <% } %>
+            
+        </div>
+    <% } %>
     <table class="ui striped very compact celled blue table sortable" >
         <thead>
             <tr class = "text-center" style = "font-size: 105%;">
@@ -45,7 +64,12 @@
                 <% if (currentUser && currentUser.hasAccess('user')) { %> 
                     <% if (student.entries.length > 0) { %>
                         <% var latest_entry = student.entries[student.entries.length - 1] %>
-                        <tr>
+                        <% if (student_index < entry_per_page) { %>
+                        <tr id = "student-row-<%=student_index%>" class = "student-row-class">
+                        <% } else { %>
+                        <tr id = "student-row-<%=student_index%>" class = "student-row-class" style = "display: none;">   
+                        <% } %>
+                        <!--<tr id = "student-row-<%=student_index%>" class = "student-row-class">-->
                             <td class = "selectable" style = "color: #0E6EB8;">
                                 <a  href="/students/<%=student._id%>">
                                     <%=student.fullName %> 
@@ -67,7 +91,9 @@
                                 <% } %>
                             </td>
                         </tr>
+                        <% student_index++; %>
                     <% } %>
+                    
                 <% } else { %>
                     <% if (currentUser) { %>
                         <% if (currentUser.students && currentUser.students.indexOf(student.id) > -1) { %>
