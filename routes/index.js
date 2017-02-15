@@ -91,7 +91,7 @@ router.post("/new-entry", middlewareObj.isLoggedIn, middlewareObj.isAStaff, func
 
 // Display the register page
 router.get("/register", middlewareObj.isLoggedOut, function(req, res) {
-    res.render("register");
+    res.render("users/register");
 });
 
 router.post("/register", middlewareObj.isLoggedOut, function(req, res) {
@@ -145,7 +145,7 @@ router.post("/register", middlewareObj.isLoggedOut, function(req, res) {
 
 // Register page for staff
 router.get("/register/Iyq8UTvzCU/m1ndFrameStaff", middlewareObj.isLoggedOut, function(req, res) {
-    res.render("staff_register");
+    res.render("users/staff_register");
 });
 
 // Register page post request for staff
@@ -181,7 +181,7 @@ router.post("/register/Iyq8UTvzCU/m1ndFrameStaff", middlewareObj.isLoggedOut, fu
 // CHANGE PASSWORD ROUTES
 router.get("/change-password", function(req, res) {
     if (req.user) {
-        res.render("change-password");
+        res.render("users/change-password");
     }
     else {
         req.flash("error", "Please log in first!");
