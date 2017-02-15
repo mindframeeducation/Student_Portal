@@ -28,9 +28,13 @@
         </div>
     </div>
 <% } %>
-<button class = "ui positive button show entries">Next</button>
+<!--<button class = "ui positive button show entries">Next</button>-->
 <!-- Semantic UI table-->
-<div class = "ui container fluid center aligned" style = "width: 70%; padding-top: 10px; margin: 10px auto 150px;">
+<div class = "ui container fluid center aligned" style = "width: 70%; padding-top: 0; margin: 0 auto 150px;">
+     <div style = "float: right; margin-bottom: 10px;">
+        <button class = "ui button disabled" id = "prev-page">Previous</button>
+        <button class = "ui button" id = "next-page">Next</button>
+    </div>
     <table class="ui striped very compact celled blue table sortable" >
         <thead>
             <tr class = "text-center" style = "font-size: 105%;">
@@ -42,11 +46,17 @@
         </thead>
         <tbody>
             <% var student_index = 0; %>
+            <% var entry_per_page = 8; %>
             <% students.forEach(function(student) { %>
                 <% if (currentUser && currentUser.hasAccess('user')) { %> 
                     <% if (student.entries.length > 0) { %>
                         <% var latest_entry = student.entries[student.entries.length - 1] %>
+                        <% if (student_index < entry_per_page) { %>
                         <tr id = "student-row-<%=student_index%>" class = "student-row-class">
+                        <% } else { %>
+                        <tr id = "student-row-<%=student_index%>" class = "student-row-class" style = "display: none;">   
+                        <% } %>
+                        <!--<tr id = "student-row-<%=student_index%>" class = "student-row-class">-->
                             <td class = "selectable" style = "color: #0E6EB8;">
                                 <a  href="/students/<%=student._id%>">
                                     <%=student.fullName %> 
@@ -118,14 +128,15 @@
         </tbody>
     </table>
     <!--pagination menu starts-->
-    <div class = "ui pagination menu" style = "float: right;">
-        <a class="item">
-            Previous
-        </a>
-        <a class="item">
-            Next
-        </a>
-    </div>
+   
+    <!--<div class = "ui pagination menu" style = "float: right; margin-bottom: 150px;">-->
+    <!--    <a class="item" id = "prev-page">-->
+    <!--        Previous-->
+    <!--    </a>-->
+    <!--    <a class="item" id = "next-page">-->
+    <!--        Next-->
+    <!--    </a>-->
+    <!--</div>-->
     <!--pagination menu ends -->
 </div>
 <% include ../partials/footer %>
