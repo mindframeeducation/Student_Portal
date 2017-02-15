@@ -4,16 +4,16 @@
         <h1 class = "page-title">All Entries</h1>
     <% } else { %>
         <% if (currentUser.students && currentUser.students.length > 1) { %>
-            <h1 class = "student-title">Entries for your children</h1>
+            <h1 class = "page-title">Entries for your children</h1>
         <% } else { %>
-            <h1 class = "student-title">Entries for your child</h1>
+            <h1 class = "page-title">Entries for your child</h1>
         <% } %>
     <% } %>
 </div>
 
 <% if (currentUser && currentUser.hasAccess('user')) { %> 
     <div class = "ui container center aligned" style = "width: 30%; margin-top: 10px;">
-        <div class="ui fluid search selection dropdown">
+        <div class="ui fluid selection dropdown">
             <input type="hidden" name="country">
             <i class="dropdown icon"></i>
             <div class="default text">Select student</div>
@@ -28,13 +28,28 @@
         </div>
     </div>
 <% } %>
-<!--<button class = "ui positive button show entries">Next</button>-->
+
 <!-- Semantic UI table-->
-<div class = "ui container fluid center aligned" style = "width: 70%; padding-top: 0; margin: 0 auto 150px;">
-     <div style = "float: right; margin-bottom: 10px;">
-        <button class = "ui button disabled" id = "prev-page">Previous</button>
-        <button class = "ui button" id = "next-page">Next</button>
-    </div>
+<div class = "ui container fluid center aligned" style = "width: 70%; padding-top: 0; margin: 10px auto 150px;">
+    <% var student_index = 0; %>
+    <% var entry_per_page = 8; %>
+    <% if (currentUser && currentUser.hasAccess('user')) { %>
+        <div  class = "computer only ui blue tiny buttons" style = "float: right; margin-bottom: 10px;">
+            <button class = "ui compact icon button disabled" id = "prev-page">
+                <i class = "left arrow icon"></i>
+            </button>
+            <% if (students.length < entry_per_page) { %>
+                <button class = "ui compact icon button disabled" id = "next-page">
+                    <i class = "right arrow icon"></i>
+                </button>
+            <% } else { %>
+                <button class = "ui compact icon button" id = "next-page">
+                    <i class = "right arrow icon"></i>
+                </button>
+            <% } %>
+            
+        </div>
+    <% } %>
     <table class="ui striped very compact celled blue table sortable" >
         <thead>
             <tr class = "text-center" style = "font-size: 105%;">
@@ -45,8 +60,6 @@
             </tr>
         </thead>
         <tbody>
-            <% var student_index = 0; %>
-            <% var entry_per_page = 8; %>
             <% students.forEach(function(student) { %>
                 <% if (currentUser && currentUser.hasAccess('user')) { %> 
                     <% if (student.entries.length > 0) { %>

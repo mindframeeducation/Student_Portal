@@ -168,6 +168,7 @@ for (let i = 0; i < $(".ui.small.modal.delete.template").length; i++) {
 		$("#delete-template-modal-" + i).modal("show");
 	});
 }
+
 var total_entries = $(".student-row-class").length;
 var entry_per_page = 8;
 var total_page = Math.ceil(total_entries / entry_per_page);
