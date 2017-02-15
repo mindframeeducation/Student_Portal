@@ -1,5 +1,5 @@
 <% include ../partials/header %>
-<div class = "ui container center aligned" style = "margin-top: 100px;">
+<div class = "ui container center aligned" style = "margin-top: 50px;">
     <% if (currentUser && currentUser.hasAccess('user')) { %>
         <h1 class = "page-title">All Entries</h1>
     <% } else { %>
@@ -32,10 +32,10 @@
 <!-- Semantic UI table-->
 <div class = "ui container fluid center aligned" style = "width: 70%; padding-top: 0; margin: 10px auto 150px;">
     <% var student_index = 0; %>
-    <% var entry_per_page = 8; %>
+    <% var entry_per_page = 10; %>
     <% if (currentUser && currentUser.hasAccess('user')) { %>
-        <div  class = "computer only ui blue tiny buttons" style = "float: right; margin-bottom: 10px;">
-            <button class = "ui compact icon button disabled" id = "prev-page">
+        <div  class = "ui blue tiny buttons" style = "float: right; margin-bottom: 10px;">
+            <button class = "ui compact icon button disabled" id = "prev-page" style = "margin-right: 5px;">
                 <i class = "left arrow icon"></i>
             </button>
             <% if (students.length < entry_per_page) { %>
@@ -140,16 +140,5 @@
             <% }); %> <!--forEach function -->
         </tbody>
     </table>
-    <!--pagination menu starts-->
-   
-    <!--<div class = "ui pagination menu" style = "float: right; margin-bottom: 150px;">-->
-    <!--    <a class="item" id = "prev-page">-->
-    <!--        Previous-->
-    <!--    </a>-->
-    <!--    <a class="item" id = "next-page">-->
-    <!--        Next-->
-    <!--    </a>-->
-    <!--</div>-->
-    <!--pagination menu ends -->
 </div>
 <% include ../partials/footer %>

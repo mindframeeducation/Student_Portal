@@ -170,7 +170,7 @@ for (let i = 0; i < $(".ui.small.modal.delete.template").length; i++) {
 }
 
 var total_entries = $(".student-row-class").length;
-var entry_per_page = 8;
+var entry_per_page = 10;
 var total_page = Math.ceil(total_entries / entry_per_page);
 var curr_page = 1;
 $("#next-page").on("click", function() {
