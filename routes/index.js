@@ -235,7 +235,7 @@ router.post("/forget", function(req, res, next) {
     var transporter = nodemailer.createTransport({
         service: "Gmail",
         auth: {
-            user: "mfeducationmail",
+            user: "mindframe.dev.team",
             pass: "mindframeAdm1n"
         }
     });
