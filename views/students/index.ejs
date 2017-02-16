@@ -34,17 +34,17 @@
     <% var student_index = 0; %>
     <% var entry_per_page = 10; %>
     <% if (currentUser && currentUser.hasAccess('user')) { %>
-        <div  class = "ui blue tiny buttons" style = "float: right; margin-bottom: 10px;">
-            <button class = "ui compact icon button disabled" id = "prev-page" style = "margin-right: 5px;">
-                <i class = "left arrow icon"></i>
+        <div  class = "ui primary tiny buttons" style = "float: right; margin-bottom: 10px;">
+            <button title = "Previous" class = "ui compact icon button disabled" id = "prev-page" style = "margin-right: 5px;">
+                <i class = "left chevron icon"></i>
             </button>
             <% if (students.length < entry_per_page) { %>
-                <button class = "ui compact icon button disabled" id = "next-page">
-                    <i class = "right arrow icon"></i>
+                <button title = "Next" class = "ui compact icon button disabled" id = "next-page">
+                    <i class = "chevron right icon"></i>
                 </button>
             <% } else { %>
-                <button class = "ui compact icon button" id = "next-page">
-                    <i class = "right arrow icon"></i>
+                <button title = "Next" class = "ui compact icon button" id = "next-page">
+                    <i class = "right chevron icon"></i>
                 </button>
             <% } %>
             
