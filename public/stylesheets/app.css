@@ -7,6 +7,10 @@
     {
         display: none;
     }
+    .ui.table tbody tr td.selectable>a:not(.ui) 
+    {
+        padding: 0;
+    }
 }
 
 body {
