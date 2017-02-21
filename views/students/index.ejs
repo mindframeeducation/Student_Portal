@@ -19,7 +19,7 @@
             <div class="default text">Select student</div>
             <div class="menu">
                 <% students.forEach(function(student) { %>
-                    <a class="item" href="/students/<%=student._id%>">
+                    <a class="item current student" href="/students/<%=student._id%>">
                         <%= student.fullName %>
                     </a>
                 <% }); %>

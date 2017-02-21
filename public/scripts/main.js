@@ -47,6 +47,13 @@ $(document).ready(function() {
 		});
 });
 
+$(".ui.fluid.search.selection.dropdown").on("keypress", function(event){
+	if (event.which === 13){
+		var URL = $(".item.active.selected.current.student").attr("href");
+		window.location = URL;
+	}
+});
+
 // Auto timeout messages
 window.setTimeout(function() {
 	$(".ui.success.message.small.overlay").transition();
