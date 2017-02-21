@@ -3,15 +3,16 @@
     <h1 class = "ui center aligned header">Sign up</h1>
     <form class = "ui form" action = "/register" method = "POST">
         <div class = "field">
+            <label style = "color: rgb(186, 186, 171);">Please use an email address you have on file with Mindframe!</label>
             <input type = "text" name = "username" placeholder = "Email">
         </div>
         <div class = "field">
-            <input type = "password" name = "password" placeholder = "Password">
+            <input type = "password" name = "password" placeholder = "Create new password">
         </div>
         <div class = "field">
             <input type = "password" name = "confirm_password" placeholder = "Confirm password">
         </div>
-        <button class = "ui blue primary button fluid">Submit</button>
+        <button class = "ui blue primary button fluid">Create account</button>
         <div class="ui error message"></div>
     </form>
     Already have an account? <a href = "/login">Log in</a>
