@@ -55,7 +55,7 @@
             <tr class = "text-center" style = "font-size: 105%;">
                 <th style = "width: 15%;">Name</th>
                 <th style = "width: 12%;">Class</th>
-                <th style = "width: 8%;">Date</th>
+                <th style = "width: 10%;">Date</th>
                 <th>Latest entry</th>
             </tr>
         </thead>
@@ -82,7 +82,14 @@
                                     Not specified
                                 <% } %>
                             </td>
-                            <td><%=latest_entry.created.getMonth() + 1%>/<%=latest_entry.created.getDate()%>/<%=latest_entry.created.getFullYear()%></td>
+                            <td>
+                                <%=latest_entry.created.getMonth() + 1%>/
+                                <% if (latest_entry.created.getDate() < 10) { %>
+                                    0<%=latest_entry.created.getDate()%>
+                                <% } else { %>
+                                    <%=latest_entry.created.getDate()%>
+                                <% } _%>
+                                /<%=latest_entry.created.getFullYear()%></td>
                             <td>
                                 <% if (latest_entry.summary.length > 100) { %>
                                     <%= latest_entry.summary.substring(0,100)%>...
