@@ -1,9 +1,6 @@
 <% include ../partials/header %>
-<div class = "ui container center aligned" style = "margin-top: 50px;">
+<div class = "ui container center aligned" style = "margin-top: 50px; margin-bottom: 150px; width: 30%;">
     <h1 class = "page-title">User management</h1>
-</div>
-
-<div class = "ui container center aligned" style = "margin-top: 15px; margin-bottom: 150px; width: 30%;">
     <table class = "ui striped very compact celled blue sortable table">
         <thead>
             <tr style = "font-size: 105%; text-align: center">
@@ -14,15 +11,15 @@
             </tr>
         </thead>
         <tbody>
-            <% users.forEach(function(user) { %> 
+            <% users.forEach(function(user, user_index) { %> 
                 <tr>
                     <td><%=user.username%></td>
                     <td><%=user.role%>
-                        <div style = "float: right;" class = "ui dropdown">
+                        <div style = "float: right;" class = "ui simple dropdown">
                             <i class="dropdown icon"></i>
                             <div class = "menu">
                                 <div class = "item"><i class="fa fa-pencil" aria-hidden="true"></i> Edit role</div>
-                                <div class = "item"><i class="fa fa-trash" aria-hidden="true"></i> Remove user</div>
+                                <div class = "item user number <%=user_index%>"><i class="fa fa-trash" aria-hidden="true"></i> Remove user</div>
                             </div>
                         </div>
                     </td>

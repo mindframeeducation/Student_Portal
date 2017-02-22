@@ -54,6 +54,13 @@ $(".ui.fluid.search.selection.dropdown").on("keypress", function(event){
 	}
 });
 
+for (let i = 0; i < $(".user.number").length; i++){
+	$(".user.number." + i).on("click", function(event){
+		$(this).html("Delete?");
+		event.stopPropagation();
+	});
+}
+
 // Auto timeout messages
 window.setTimeout(function() {
 	$(".ui.success.message.small.overlay").transition();
