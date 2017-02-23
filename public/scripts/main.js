@@ -54,10 +54,19 @@ $(".ui.fluid.search.selection.dropdown").on("keypress", function(event){
 	}
 });
 
+// Confirmation message for deleting a user
 for (let i = 0; i < $(".user.number").length; i++){
-	$(".user.number." + i).on("click", function(event){
-		$(this).html("Delete?");
-		event.stopPropagation();
+	$(".user.number." + i).on("click", function(){
+		$("#delete-user-modal-" + i).modal("show");
+	});
+}
+
+// Initializing modals for editing user's role
+for (let i = 0; i < $(".ui.small.modal.edit.user").length; i++){
+	$("#edit-user-button-" + i).click(function(){
+		$("#edit-user-modal-" + i).modal({
+			autofocus: false,
+		}).modal("show");
 	});
 }
 

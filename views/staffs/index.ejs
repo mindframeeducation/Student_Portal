@@ -15,10 +15,10 @@
                 <tr>
                     <td><%=user.username%></td>
                     <td><%=user.role%>
-                        <div style = "float: right;" class = "ui simple dropdown">
+                        <div style = "float: right;" class = "ui dropdown">
                             <i class="dropdown icon"></i>
                             <div class = "menu">
-                                <div class = "item"><i class="fa fa-pencil" aria-hidden="true"></i> Edit role</div>
+                                <div class = "item" id = "edit-user-button-<%=user_index%>"><i class="fa fa-pencil" aria-hidden="true"></i> Edit role</div>
                                 <div class = "item user number <%=user_index%>"><i class="fa fa-trash" aria-hidden="true"></i> Remove user</div>
                             </div>
                         </div>
@@ -27,5 +27,47 @@
             <% }); %>
         </tbody>
     </table>
+    <!--For some reasons putting the modals inside the table causes problems-->
+    <% users.forEach(function(user, user_index) { %>
+        <div class = "ui small modal edit user" id = "edit-user-modal-<%=user_index%>"><i class = "close icon"></i>
+            <div class = "header">
+                Editing role for <%=user.username%>
+            </div>
+            <div class = "content">
+                <form class = "ui form" action = "/staff/<%=user._id%>?_method=PUT" method = "POST">
+                    <div class = "field">
+                        <label>Role</label>
+                        <div class = "ui selection dropdown">
+                            <input type = "hidden" name = "user[role]">
+                            <i class = "dropdown icon"></i>
+                            <div class = "text"><%=user.role%></div>
+                            <div class = "menu">
+                                <div class = "item" data-value = "admin">admin (full read and write. Use this for administrator)</div>
+                                <div class = "item" data-value = "user">user (limited read and write. Use this for instructors)</div>
+                                <div class = "item" data-value = "public">public (read only. Use this for parent)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class = "field">
+                        <input class = "ui blue basic button" type = "Submit" value = "Save">
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class = "ui small modal delete user" id = "delete-user-modal-<%=user_index%>"><i class = "close icon"></i>
+            <div class = "header">Remove user</div>
+            <div class = "content">Are you sure you want to remove <strong><%=user.username%></strong>? (this cannot be undone)</div>
+            <div class = "action">
+                <form style = "display: inline" action = '/staff/<%=user._id%>?_method=DELETE' method = 'POST'>
+                    <button style = "margin: 10px 5px 10px 15px;" class = "ui basic positive button">Yes</button>
+                </form>
+                <button class = "ui basic negative button close-modal" style = "margin-top: 10px;">
+                    No
+                </button>
+            </div>
+        </div>
+    <% }); %>
 </div>
+
 <% include ../partials/footer %>
