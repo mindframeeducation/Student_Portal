@@ -1,7 +1,7 @@
 <% include ../partials/header %>
 <div class = "ui container center aligned" style = "margin-top: 50px; margin-bottom: 150px; width: 30%;">
     <h1 class = "page-title">User management</h1>
-    <table class = "ui striped very compact celled blue sortable table">
+    <table class = "ui striped very compact celled blue sortable table unstackable">
         <thead>
             <tr style = "font-size: 105%; text-align: center">
                 <th>Email/Username</th>
@@ -15,13 +15,15 @@
                 <tr>
                     <td><%=user.username%></td>
                     <td><%=user.role%>
-                        <div style = "float: right;" class = "ui dropdown">
-                            <i class="dropdown icon"></i>
-                            <div class = "menu">
-                                <div class = "item" id = "edit-user-button-<%=user_index%>"><i class="fa fa-pencil" aria-hidden="true"></i> Edit role</div>
-                                <div class = "item user number <%=user_index%>"><i class="fa fa-trash" aria-hidden="true"></i> Remove user</div>
+                        <% if (!user.hasAccess('admin')) { %>
+                            <div style = "float: right;" class = "ui floating dropdown">
+                                <i class="dropdown icon"></i>
+                                <div class = "left menu">
+                                    <div class = "item" id = "edit-user-button-<%=user_index%>"><i class="fa fa-pencil" aria-hidden="true"></i> Edit role</div>
+                                    <div class = "item user number <%=user_index%>"><i class="fa fa-trash" aria-hidden="true"></i> Remove user</div>
+                                </div>
                             </div>
-                        </div>
+                        <% } %>
                     </td>
                 </tr>
             <% }); %>
@@ -42,7 +44,6 @@
                             <i class = "dropdown icon"></i>
                             <div class = "text"><%=user.role%></div>
                             <div class = "menu">
-                                <div class = "item" data-value = "admin">admin (full read and write. Use this for administrator)</div>
                                 <div class = "item" data-value = "user">user (limited read and write. Use this for instructors)</div>
                                 <div class = "item" data-value = "public">public (read only. Use this for parent)</div>
                             </div>
