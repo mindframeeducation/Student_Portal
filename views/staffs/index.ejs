@@ -5,15 +5,18 @@
         <thead>
             <tr style = "font-size: 105%; text-align: center">
                 <th>Email/Username</th>
-                <th style = "width: 30%;">
-                    Role
-                </th>
+                <th style = "width: 30%;">Role</th>
             </tr>
         </thead>
         <tbody>
             <% users.forEach(function(user, user_index) { %> 
                 <tr>
-                    <td><%=user.username%></td>
+                    <td>
+                        <%=user.username%>
+                        <% if (currentUser && currentUser.username === user.username) { %>
+                            <i class="fa fa-user page-title" title = "You!" style = "float: right;" aria-hidden="true"></i>
+                        <% } %>
+                    </td>
                     <td><%=user.role%>
                         <% if (!user.hasAccess('admin')) { %>
                             <div style = "float: right;" class = "ui floating dropdown">
