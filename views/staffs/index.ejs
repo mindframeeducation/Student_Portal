@@ -1,6 +1,25 @@
 <% include ../partials/header %>
 <div class = "ui container center aligned" style = "margin-top: 50px; margin-bottom: 150px; width: 30%;">
     <h1 class = "page-title">User management</h1>
+    <button id = "invite-staff-button"class = "ui primary button" style = "float: right; margin-bottom: 10px;">
+        <i class="fa fa-plus" aria-hidden="true"></i> User
+    </button>
+    <div class = "ui small modal invite staff">
+        <div class = "header">Invite staff</div>
+        <div class = "content">
+            <form class = "ui form" action = "/staff_register" method = "POST">
+                <div class = "field">
+                    Please enter the email address for the person you would like to invite.
+                    An email will be sent to them with further instructions on how to activate their account.
+                    <label style = "margin-top: 10px;">Email adress</label>
+                    <input type = "text" name = "username" placeholder = "Email address">
+                </div>
+                <div class = "field">
+                    <input class = "ui primary button" type = "submit" value = "Send">
+                </div>
+            </form>
+        </div>
+    </div>
     <table class = "ui striped very compact celled blue sortable table unstackable">
         <thead>
             <tr style = "font-size: 105%; text-align: center">

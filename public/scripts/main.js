@@ -76,6 +76,10 @@ window.setTimeout(function() {
 	$(".ui.negative.message.small.overlay").transition();
 }, 1500);
 
+$("#invite-staff-button").on("click", function(){
+	$(".ui.small.modal.invite.staff").modal("show");	
+});
+
 $('#ddl').dropdown();
 
 $('.message .close').on('click', function() {

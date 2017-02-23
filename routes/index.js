@@ -148,6 +148,60 @@ router.get("/register/Iyq8UTvzCU/m1ndFrameStaff", middlewareObj.isLoggedOut, fun
     res.render("users/staff_register");
 });
 
+// Sending invitation to user
+router.post("/staff_register", function(req,res){
+    crypto.randomBytes(10, function(err, buff){
+        if (err){
+            console.log("err");
+            req.flash("error", "Error generating byte");
+            return res.redirect("back");
+        } else {
+            // var password = buff.toString("hex");
+            // console.log("The password is: " + password);
+            var newUser = new User({
+                username: req.body.username,
+                email: req.body.username.toLowerCase(),
+                role: "user"
+            });
+            User.register(newUser, buff.toString("hex"), function(err, user){
+                if (err){
+                    console.log("err");
+                    req.flash("error", "Error");
+                    res.redirect("back");
+                } else {
+                    var transporter = nodemailer.createTransport({
+                        service: "Gmail",
+                        auth: {
+                            user: "mindframe.dev.team",
+                            pass: "mindframeAdm1n"
+                        }
+                    });
+                    var mailOptions = {
+                        from: "Mindframe Education",
+                        to: user.email,
+                        subject: "Mindframe Student's Portal Invitation",
+                        text: "You are invited to join the Mindframe Student's Portal Application\n\n" +
+                            "Please use the link and the temporary password below to log in to your account:\n\n" +
+                            "https://" + req.headers.host + "/login" + "\n" + 
+                            "Password: " + buff.toString("hex") + "\n\n" + 
+                            "Upon logging in, you can change your password\n\n\n" + 
+                            "Mindframe Dev. team"
+                    };
+                    
+                    transporter.sendMail(mailOptions, function(err){
+                        if (err){
+                            req.flash("error", "Error sending email");
+                            return res.redirect("back");
+                        }
+                        req.flash("success", "Invitation sent!");
+                        res.redirect("back");
+                    });
+                }
+            });
+        }
+    });
+});
+
 // Register page post request for staff
 router.post("/register/Iyq8UTvzCU/m1ndFrameStaff", middlewareObj.isLoggedOut, function(req, res) {
     var password = req.body.password;
