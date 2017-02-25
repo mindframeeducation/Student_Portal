@@ -4,7 +4,6 @@ var passport = require("passport");
 var User = require("../models/user");
 var nodemailer = require("nodemailer");
 var crypto = require("crypto");
-// var emails = require("../emails");
 var EmailList = require('../models/emailList');
 var Student = require("../models/student");
 var mongoose = require("mongoose");

@@ -47,29 +47,15 @@ $(document).ready(function() {
 		});
 });
 
-$(".ui.fluid.search.selection.dropdown").on("keypress", function(event){
-	if (event.which === 13){
+// Attaching Enter keypress event to student's index page search bar
+$(".ui.fluid.search.selection.dropdown").on("keypress", function(event) {
+	if (event.which === 13) {
 		var URL = $(".item.active.selected.current.student").attr("href");
 		window.location = URL;
 	}
 });
 
-// Confirmation message for deleting a user
-for (let i = 0; i < $(".ui.small.modal.delete.user").length; i++){
-	console.log("i is: " + i);
-	$(".user.number." + i).on("click", function(){
-		$("#delete-user-modal-" + i).modal("show");
-	});
-}
 
-// Initializing modals for editing user's role
-for (let i = 0; i < $(".ui.small.modal.edit.user").length; i++){
-	$("#edit-user-button-" + i).click(function(){
-		$("#edit-user-modal-" + i).modal({
-			autofocus: false,
-		}).modal("show");
-	});
-}
 
 // Auto timeout messages
 window.setTimeout(function() {
@@ -77,8 +63,8 @@ window.setTimeout(function() {
 	$(".ui.negative.message.small.overlay").transition();
 }, 1500);
 
-$("#invite-staff-button").on("click", function(){
-	$(".ui.small.modal.invite.staff").modal("show");	
+$("#invite-staff-button").on("click", function() {
+	$(".ui.small.modal.invite.staff").modal("show");
 });
 
 $('#ddl').dropdown();
@@ -86,8 +72,11 @@ $('#ddl').dropdown();
 $('.message .close').on('click', function() {
 	$(this).closest('.message').fadeOut();
 });
+
+// Initialize sidebar
 $('.menu.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('attach events', '.item.open.button', 'show');
 
+// Initialize modals (unique ones)
 $(".small.modal.student").modal('setting', {
 	observeChanges: true
 }).modal('setting', 'transition', "Fade Down").modal("attach events", "#editStudent", "show");
@@ -113,6 +102,8 @@ $(".small.modal.course").modal('setting', {
 // 		});
 // 	}(i));
 // }
+
+// ALL OTHER MODALS INITIALIZATIONS ================================
 
 // This will also works (using let, which is a in ES6)
 // Initialize delete class modal
@@ -197,6 +188,24 @@ for (let i = 0; i < $(".ui.small.modal.delete.template").length; i++) {
 	});
 }
 
+// Confirmation message for deleting a user
+for (let i = 0; i < $(".ui.small.modal.delete.user").length; i++) {
+	console.log("i is: " + i);
+	$(".user.number." + i).on("click", function() {
+		$("#delete-user-modal-" + i).modal("show");
+	});
+}
+
+// Initializing modals for editing user's role
+for (let i = 0; i < $(".ui.small.modal.edit.user").length; i++) {
+	$("#edit-user-button-" + i).click(function() {
+		$("#edit-user-modal-" + i).modal({
+			autofocus: false,
+		}).modal("show");
+	});
+}
+
+// LOGIC FOR PAGINATING STUDENTS' ENTRIES
 var total_entries = $(".student-row-class").length,
 	entry_per_page = 10,
 	total_page = Math.ceil(total_entries / entry_per_page),
@@ -234,18 +243,8 @@ $("#prev-page").on("click", function() {
 		$(this).addClass("disabled");
 	}
 });
-modal_dismiss();
 
-// table_pagination();
-
-
-// $(".close.icon").click(function() {
-// 	$(".small.modal").modal("hide");
-// });
-
-// $(".close-modal").click(function() {
-// 	$(".small.modal").modal("hide");
-// });
+modal_dismiss(); // Dismissing any modal when clicking cancel or the X button
 
 function modal_dismiss() {
 	$(".close.icon").click(function() {

@@ -274,12 +274,13 @@ router.delete("/courses/:id/units/:unit_index", middlewareObj.isLoggedIn, middle
 });
 
 // Route to delete a course template
-router.delete("/courses/:id", function(req,res){
-    Course.findByIdAndRemove(req.params.id, function(err, deletedCourse){
-        if (err){
+router.delete("/courses/:id", function(req, res) {
+    Course.findByIdAndRemove(req.params.id, function(err, deletedCourse) {
+        if (err) {
             req.flash("error", "Err: " + err);
             res.redirect("back");
-        } else {
+        }
+        else {
             // console.log("Deleted course is: " + deletedCourse);
             req.flash("success", "Deleted " + deletedCourse.name);
             res.redirect("/courses");
@@ -379,19 +380,5 @@ router.post("/courses/assign-course", middlewareObj.isLoggedIn, middlewareObj.is
         }
     });
 });
-
-// function isAStaff(req,res,next){
-//     if(req.isAuthenticated()){ // If the user is logged in
-//         if (req.user.hasAccess('user')){ // If the user is a staff member
-//             next();
-//         } else {
-//             req.flash("error", "Permission denied!");
-//             res.redirect("/blogs");
-//         }
-//     } else {
-//         req.flash("Please log in first!");
-//         res.redirect("/login");
-//     }
-// }
 
 module.exports = router;

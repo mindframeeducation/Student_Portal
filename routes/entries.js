@@ -159,46 +159,4 @@ router.delete("/:entry_id", middlewareObj.isLoggedIn, middlewareObj.checkEntryOw
     });
 });
 
-// Functions
-// function isLoggedIn(req, res, next){
-//     if (req.isAuthenticated()){
-//         return next();
-//     }
-//     req.flash("error", "Please log in first!");
-//     res.redirect("/login");
-// }
-
-// function isAuthorized(req, res, next) {
-//     if(req.isAuthenticated()){
-//         Entry.findById(req.params.entry_id, function(err, foundEntry){
-//             if (err){
-//                 req.flash("error", "Error looking up an entry");
-//                 res.redirect("back");
-//             } else {
-//                 if (foundEntry.author.id.equals(req.user._id) || req.user.hasAccess("admin")){
-//                     next();
-//                 } else {
-//                     req.flash("error", "You do not have permission to do that!");
-//                     res.redirect("/blogs");
-//                 }
-//             }
-//         });
-//     } else {
-//         req.flash("error", "Please log in first!");
-//         res.redirect("/login");
-//     }
-// }
-
-// // Function to check if the user is a staff member
-// function isAStaff(req,res,next){
-//     if(req.isAuthenticated()){ // If the user is logged in
-//         if (req.user.hasAccess('user')){ // If the user is a staff member
-//             next();
-//         } else {
-//             req.flash("error", "Permission denied!");
-//             res.redirect("/blogs");
-//         }
-//     }
-// }
-
 module.exports = router;

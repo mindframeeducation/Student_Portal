@@ -130,40 +130,4 @@ router.delete("/:note_id", middlewareObj.isLoggedIn, middlewareObj.checkNoteOwne
     });
 });
 
-// function isAStaff(req,res,next){
-//     if(req.isAuthenticated()){ // If the user is logged in
-//         if (req.user.hasAccess('user')){ // If the user is a staff member
-//             next();
-//         } else {
-//             req.flash("error", "Permission denied!");
-//             res.redirect("/blogs");
-//         }
-//     } else {
-//         req.flash("Please log in first!");
-//         res.redirect("/login");
-//     }
-// }
-
-// function isAuthorized(req, res, next) {
-//     if(req.isAuthenticated()){
-//         Note.findById(req.params.note_id, function(err, foundNote){
-//             if (err){
-//                 console.log(err);
-//                 req.flash("error", "Error looking up a note");
-//                 res.redirect("back");
-//             } else {
-//                 console.log("The found note is: " + foundNote);
-//                 if (foundNote.author.id.equals(req.user._id) || req.user.hasAccess("admin")){
-//                     next();
-//                 } else {
-//                     req.flash("error", "You do not have permission to do that!");
-//                     res.redirect("/blogs");
-//                 }
-//             }
-//         });
-//     } else {
-//         req.flash("error", "Please log in first!");
-//         res.redirect("back");
-//     }
-// }
 module.exports = router;

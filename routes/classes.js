@@ -67,17 +67,4 @@ router.delete("/classes/:className", middlewareObj.isLoggedIn, middlewareObj.isA
     });
 });
 
-// function isAuthorized(req,res,next){
-//     if (req.isAuthenticated()){
-//         if (req.user.hasAccess('user')) {
-//             next();
-//         } else {
-//             req.flash("error", "You do not have permission!");
-//             res.redirect("back");
-//         }
-//     } else {
-//         req.flash("error", "Please log in first!");
-//         res.redirect("/login");
-//     }
-// }
 module.exports = router;

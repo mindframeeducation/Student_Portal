@@ -153,23 +153,4 @@ router.delete("/students/:id/courses/:course_id", middlewareObj.isLoggedIn, midd
     });
 });
 
-// Extra functions
-// function isLoggedIn(req, res, next){
-//     if (req.isAuthenticated()){
-//         return next();
-//     }
-//     req.flash("error", "Please log in first!");
-//     res.redirect("/login");
-// }
-
-// // Function to check if the user is a staff member
-// function isAStaff(req,res,next){
-//     if (req.user.hasAccess("user")) {
-//         next();
-//     } else {
-//         req.flash("error", "Permission denied");
-//         res.redirect("/students");
-//     }
-// }
-
 module.exports = router;

@@ -107,48 +107,4 @@ router.delete("/:id", middlewareObj.checkBlogOwnership, function(req, res) {
     });
 });
 
-// ==========================================
-// Function to check if the user is logged in
-// ==========================================
-// function isLoggedIn(req, res, next){
-//     if (req.isAuthenticated()){
-//         return next();
-//     }
-//     req.flash("error", "Please log in first!");
-//     res.redirect("/login");
-// }
-
-// ======================================================================
-// Function to check if the user is authorized to edit or delete the blog
-// ======================================================================
-// function isAuthorized(req, res, next){
-//     if (req.isAuthenticated()){ // If the user is logged in
-//         Blog.findById((req.params.id), function(err, foundBlog){
-//             if (err){
-//                 console.log("There is an error looking for the specific blog");
-//             } else {
-//                 // If user IDs matches, or if the user is admin
-//                 if (foundBlog.author.id.equals(req.user._id) || req.user.hasAccess("admin")){ 
-//                     next(); // continue
-//                 } else {
-//                     req.flash("error", "Permission denied");
-//                     res.redirect("/blogs");
-//                 }
-//             }
-//         });
-//     }
-// }
-
-// Function to check if the user is a staff member
-// function isAStaff(req,res,next){
-//     if(req.isAuthenticated()){ // If the user is logged in
-//         if (req.user.hasAccess('user')){ // If the user is a staff member
-//             next();
-//         } else {
-//             req.flash("error", "Permission denied!");
-//             res.redirect("/blogs");
-//         }
-//     }
-// }
-
 module.exports = router;
