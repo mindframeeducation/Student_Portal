@@ -14,7 +14,9 @@ var middlewareObj = require("../middleware");
 
 // Display log-in page
 router.get("/login/:option", middlewareObj.isLoggedOut, function(req, res) {
-    res.render("users/login", {option: req.params.option});
+    res.render("users/login", {
+        option: req.params.option
+    });
 });
 
 // Log-in post request. Now take into accout if the login is a normal one (returning user)
@@ -23,10 +25,11 @@ router.post("/login/:option", passport.authenticate("local", {
     failureRedirect: "/login/:option",
     failureFlash: "Invalid username or password",
 }), function(req, res) {
-    if (req.params.option === "normal" || req.params.option === ":option"){
+    if (req.params.option === "normal" || req.params.option === ":option") {
         req.flash("success", "Welcome back, " + req.user.username);
         res.redirect("/blogs");
-    } else {
+    }
+    else {
         req.flash("success", "Welcome! Please change your password now!");
         res.redirect("/change-password");
     }
@@ -150,19 +153,15 @@ router.post("/register", middlewareObj.isLoggedOut, function(req, res) {
     });
 });
 
-// // Register page for staff
-// router.get("/register/Iyq8UTvzCU/m1ndFrameStaff", middlewareObj.isLoggedOut, function(req, res) {
-//     res.render("users/staff_register");
-// });
-
 // Sending invitation to user
-router.post("/staff_register", function(req,res){
-    crypto.randomBytes(10, function(err, buff){
-        if (err){
+router.post("/staff_register", function(req, res) {
+    crypto.randomBytes(10, function(err, buff) {
+        if (err) {
             console.log("err");
             req.flash("error", "Error generating byte");
             return res.redirect("back");
-        } else {
+        }
+        else {
             // var password = buff.toString("hex");
             // console.log("The password is: " + password);
             var newUser = new User({
@@ -170,12 +169,13 @@ router.post("/staff_register", function(req,res){
                 email: req.body.username.toLowerCase(),
                 role: "user"
             });
-            User.register(newUser, buff.toString("hex"), function(err, user){
-                if (err){
+            User.register(newUser, buff.toString("hex"), function(err, user) {
+                if (err) {
                     console.log("err");
                     req.flash("error", "This user is already in the database!");
                     res.redirect("back");
-                } else {
+                }
+                else {
                     var transporter = nodemailer.createTransport({
                         service: "Gmail",
                         auth: {
@@ -189,14 +189,14 @@ router.post("/staff_register", function(req,res){
                         subject: "Mindframe Student's Portal Invitation",
                         text: "You are invited to join the Mindframe Student's Portal\n\n" +
                             "Please use the link and the temporary password below to log in to your account:\n\n" +
-                            "https://" + req.headers.host + "/login/first_time" + "\n" + 
-                            "Password: " + buff.toString("hex") + "\n\n" + 
-                            "Upon logging in, you can change your password\n\n\n" + 
+                            "https://" + req.headers.host + "/login/first_time" + "\n" +
+                            "Password: " + buff.toString("hex") + "\n\n" +
+                            "Upon logging in, you can change your password\n\n\n" +
                             "Mindframe Dev. team"
                     };
-                    
-                    transporter.sendMail(mailOptions, function(err){
-                        if (err){
+
+                    transporter.sendMail(mailOptions, function(err) {
+                        if (err) {
                             req.flash("error", "Error sending email");
                             return res.redirect("back");
                         }
@@ -208,36 +208,6 @@ router.post("/staff_register", function(req,res){
         }
     });
 });
-
-// Register page post request for staff
-// router.post("/register/Iyq8UTvzCU/m1ndFrameStaff", middlewareObj.isLoggedOut, function(req, res) {
-//     var password = req.body.password;
-//     var confirm_password = req.body.confirm_password;
-//     if (password !== confirm_password) {
-//         console.log("Passwords do not match!");
-//         req.flash("error", "Passwords do not match!");
-//         return res.redirect("/register/Iyq8UTvzCU/m1ndFrameStaff");
-//     }
-//     else {
-//         var newUser = new User({
-//             username: req.body.username,
-//             email: req.body.username.toLowerCase(),
-//             role: 'user'
-//         });
-//         User.register(newUser, req.body.password, function(err, user) {
-//             if (err) {
-//                 console.log("There is an error in registration");
-//                 req.flash("error", err.message);
-//                 return res.redirect("/register/Iyq8UTvzCU/m1ndFrameStaff");
-//             }
-//             passport.authenticate("local")(req, res, function() {
-//                 console.log("Staff signed up successfully!");
-//                 req.flash("success", "Welcome to Mindframe Education!");
-//                 res.redirect("/blogs");
-//             });
-//         });
-//     }
-// });
 
 // CHANGE PASSWORD ROUTES
 router.get("/change-password", function(req, res) {
