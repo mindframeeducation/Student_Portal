@@ -10,7 +10,7 @@
     <body>
         <div class = "ui right vertical menu sidebar">
             <% if(!currentUser) { %>
-                <a href = "/login" class = "item"><i class = "sign in icon"></i>Log in</a>
+                <a href = "/login/normal" class = "item"><i class = "sign in icon"></i>Log in</a>
                 <a href = "/register" class = "item"><i class = "add user icon"></i>Sign up</a>
             <% } else { %>
                 <% if (currentUser.hasAccess('user')) { %>
@@ -124,7 +124,7 @@
                         <!--End of left menu section. Right menu section starts-->
                         <div class = "right menu">
                             <% if (!currentUser) { %>
-                                <a href = "/login" class = "item"><i class = "sign in icon"></i> 
+                                <a href = "/login/normal" class = "item"><i class = "sign in icon"></i> 
                                 Log in</a>
                                 <!--Sign up route removed for now-->
                                 <a href = "/register" class = "item"><i class = "add user icon" style = "margin-right: 3px;"></i>

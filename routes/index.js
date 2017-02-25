@@ -13,17 +13,23 @@ var ClassList = require("../models/classList");
 var middlewareObj = require("../middleware");
 
 // Display log-in page
-router.get("/login", middlewareObj.isLoggedOut, function(req, res) {
-    res.render("users/login");
+router.get("/login/:option", middlewareObj.isLoggedOut, function(req, res) {
+    res.render("users/login", {option: req.params.option});
 });
 
-// WORKING VERSION
-router.post("/login", passport.authenticate("local", {
-    failureRedirect: "/login",
+// Log-in post request. Now take into accout if the login is a normal one (returning user)
+// or a "first-time" one (new user being invite to the system)
+router.post("/login/:option", passport.authenticate("local", {
+    failureRedirect: "/login/:option",
     failureFlash: "Invalid username or password",
 }), function(req, res) {
-    req.flash("success", "Welcome back, " + req.user.username);
-    res.redirect("/blogs");
+    if (req.params.option === "normal" || req.params.option === ":option"){
+        req.flash("success", "Welcome back, " + req.user.username);
+        res.redirect("/blogs");
+    } else {
+        req.flash("success", "Welcome! Please change your password now!");
+        res.redirect("/change-password");
+    }
 });
 
 // Routes for creating entry from the nav bar
@@ -49,6 +55,7 @@ router.get("/new-entry", middlewareObj.isLoggedIn, middlewareObj.isAStaff, funct
     });
 });
 
+// POST request to create a new entry
 router.post("/new-entry", middlewareObj.isLoggedIn, middlewareObj.isAStaff, function(req, res) {
     // console.log("Class name: " + req.body.entry.class);
     if (!req.body.student_id) {
@@ -143,10 +150,10 @@ router.post("/register", middlewareObj.isLoggedOut, function(req, res) {
     });
 });
 
-// Register page for staff
-router.get("/register/Iyq8UTvzCU/m1ndFrameStaff", middlewareObj.isLoggedOut, function(req, res) {
-    res.render("users/staff_register");
-});
+// // Register page for staff
+// router.get("/register/Iyq8UTvzCU/m1ndFrameStaff", middlewareObj.isLoggedOut, function(req, res) {
+//     res.render("users/staff_register");
+// });
 
 // Sending invitation to user
 router.post("/staff_register", function(req,res){
@@ -166,7 +173,7 @@ router.post("/staff_register", function(req,res){
             User.register(newUser, buff.toString("hex"), function(err, user){
                 if (err){
                     console.log("err");
-                    req.flash("error", "Error");
+                    req.flash("error", "This user is already in the database!");
                     res.redirect("back");
                 } else {
                     var transporter = nodemailer.createTransport({
@@ -180,9 +187,9 @@ router.post("/staff_register", function(req,res){
                         from: "Mindframe Education",
                         to: user.email,
                         subject: "Mindframe Student's Portal Invitation",
-                        text: "You are invited to join the Mindframe Student's Portal Application\n\n" +
+                        text: "You are invited to join the Mindframe Student's Portal\n\n" +
                             "Please use the link and the temporary password below to log in to your account:\n\n" +
-                            "https://" + req.headers.host + "/login" + "\n" + 
+                            "https://" + req.headers.host + "/login/first_time" + "\n" + 
                             "Password: " + buff.toString("hex") + "\n\n" + 
                             "Upon logging in, you can change your password\n\n\n" + 
                             "Mindframe Dev. team"
@@ -203,34 +210,34 @@ router.post("/staff_register", function(req,res){
 });
 
 // Register page post request for staff
-router.post("/register/Iyq8UTvzCU/m1ndFrameStaff", middlewareObj.isLoggedOut, function(req, res) {
-    var password = req.body.password;
-    var confirm_password = req.body.confirm_password;
-    if (password !== confirm_password) {
-        console.log("Passwords do not match!");
-        req.flash("error", "Passwords do not match!");
-        return res.redirect("/register/Iyq8UTvzCU/m1ndFrameStaff");
-    }
-    else {
-        var newUser = new User({
-            username: req.body.username,
-            email: req.body.username.toLowerCase(),
-            role: 'user'
-        });
-        User.register(newUser, req.body.password, function(err, user) {
-            if (err) {
-                console.log("There is an error in registration");
-                req.flash("error", err.message);
-                return res.redirect("/register/Iyq8UTvzCU/m1ndFrameStaff");
-            }
-            passport.authenticate("local")(req, res, function() {
-                console.log("Staff signed up successfully!");
-                req.flash("success", "Welcome to Mindframe Education!");
-                res.redirect("/blogs");
-            });
-        });
-    }
-});
+// router.post("/register/Iyq8UTvzCU/m1ndFrameStaff", middlewareObj.isLoggedOut, function(req, res) {
+//     var password = req.body.password;
+//     var confirm_password = req.body.confirm_password;
+//     if (password !== confirm_password) {
+//         console.log("Passwords do not match!");
+//         req.flash("error", "Passwords do not match!");
+//         return res.redirect("/register/Iyq8UTvzCU/m1ndFrameStaff");
+//     }
+//     else {
+//         var newUser = new User({
+//             username: req.body.username,
+//             email: req.body.username.toLowerCase(),
+//             role: 'user'
+//         });
+//         User.register(newUser, req.body.password, function(err, user) {
+//             if (err) {
+//                 console.log("There is an error in registration");
+//                 req.flash("error", err.message);
+//                 return res.redirect("/register/Iyq8UTvzCU/m1ndFrameStaff");
+//             }
+//             passport.authenticate("local")(req, res, function() {
+//                 console.log("Staff signed up successfully!");
+//                 req.flash("success", "Welcome to Mindframe Education!");
+//                 res.redirect("/blogs");
+//             });
+//         });
+//     }
+// });
 
 // CHANGE PASSWORD ROUTES
 router.get("/change-password", function(req, res) {
@@ -309,7 +316,6 @@ router.post("/forget", function(req, res, next) {
                     res.redirect("/forget");
                 }
                 else {
-                    console.log("The user is: " + user);
                     user.resetPasswordToken = token;
                     user.resetPasswordExpires = Date.now() + 36000000; // Password link will expires in 1 hour
                     user.save();
@@ -339,7 +345,6 @@ router.post("/forget", function(req, res, next) {
             });
         }
     });
-
 });
 // =================================
 
@@ -390,7 +395,7 @@ router.post("/reset/:token", function(req, res) {
                     else {
                         user.save();
                         req.flash("success", "Password reset successfully! Please login with your new password!");
-                        res.redirect("/login");
+                        res.redirect("/login/normal");
                     }
                 });
             }
@@ -402,50 +407,4 @@ router.post("/reset/:token", function(req, res) {
     });
 });
 
-// ======================================
-
-// Check if there is a user currently logged in
-// function isLoggedOut(req, res, next) {
-//     if (req.user) {
-//         req.flash("error", "Please log out first");
-//         res.redirect("/blogs");
-//     }
-//     else {
-//         next();
-//     }
-// }
-
-// ==========================================
-// Function to check if the user is logged in
-// ==========================================
-// function isLoggedIn(req, res, next) {
-//     if (req.isAuthenticated()) {
-//         return next();
-//     }
-//     req.flash("error", "You are not logged in!");
-//     res.redirect("/login");
-// }
-
-
-// Function to check if the user is a staff member
-// function isAStaff(req, res, next) {
-//     if (req.isAuthenticated()) { // If the user is logged in
-//         if (req.user.hasAccess('user')) { // If the user is a staff member
-//             next();
-//         }
-//         else {
-//             req.flash("error", "Permission denied!");
-//             res.redirect("/blogs");
-//         }
-//     }
-// }
-
 module.exports = router;
-
-// OLD CODE FOR REFERENCE ======================================================
-// router.post('/login', 
-//   passport.authenticate('local', { failureRedirect: "/login" }),
-//   function(req, res) {
-//       req.flash("success", "Welcome back, " + req.user.username);
-//       res.redirect("/blogs");
-//   });

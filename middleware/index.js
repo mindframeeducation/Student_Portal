@@ -8,7 +8,7 @@ middlewareObj.isLoggedIn = function(req, res, next) {
         return next();
     }
     req.flash("error", "Please log in first!");
-    res.redirect("/login");
+    res.redirect("/login/normal");
 };
 
 middlewareObj.isLoggedOut = function(req, res, next) {

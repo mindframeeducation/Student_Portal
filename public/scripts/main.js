@@ -55,7 +55,8 @@ $(".ui.fluid.search.selection.dropdown").on("keypress", function(event){
 });
 
 // Confirmation message for deleting a user
-for (let i = 0; i < $(".user.number").length; i++){
+for (let i = 0; i < $(".ui.small.modal.delete.user").length; i++){
+	console.log("i is: " + i);
 	$(".user.number." + i).on("click", function(){
 		$("#delete-user-modal-" + i).modal("show");
 	});
