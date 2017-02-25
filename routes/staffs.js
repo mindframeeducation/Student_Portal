@@ -12,7 +12,7 @@ router.get("/staff", middlewareObj.isLoggedIn, middlewareObj.isAdmin, function(r
             res.redirect("back");
         }
         else {
-            res.render("staffs/index", {
+            res.render("users/index", {
                 users: users
             });
         }
