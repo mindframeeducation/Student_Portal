@@ -38,8 +38,8 @@ $(document).ready(function() {
 					}]
 				},
 			},
-			inline: true,
-			on: 'blur',
+			// inline: true,
+			// on: 'blur',
 			onFailure: function() {
 				$(this).transition("shake");
 				return false; // Need to return false, or the form will be submitted
