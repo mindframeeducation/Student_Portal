@@ -253,7 +253,7 @@ router.post("/change-password", function(req, res) {
 router.get("/logout", middlewareObj.isLoggedIn, function(req, res) {
     req.logout();
     req.flash("success", "You have successfully logged out!");
-    res.redirect("/blogs");
+    res.redirect("/register");
 });
 
 // FORGET PASSWORD ROUTES ==========
