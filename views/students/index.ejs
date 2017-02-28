@@ -106,7 +106,7 @@
     <!--Start of a new section -->
     <% if (currentUser) { %>
         <div class = "ui main text container" style = "margin-bottom: 10.0em; margin-top: 1.0em">
-            <div class = "ui segment divided items">
+            <div class = "ui raised segment divided items">
                 <% students.forEach(function(student) { %>
                     <% if (currentUser.students && currentUser.students.indexOf(student._id) > -1) { %>
                         <div class = "item">
