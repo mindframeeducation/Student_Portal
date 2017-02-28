@@ -107,6 +107,9 @@
     <% if (currentUser) { %>
         <div class = "ui main text container" style = "margin-bottom: 10.0em; margin-top: 1.0em">
             <div class = "ui raised segment divided items">
+                <% if (currentUser.students.length === 0) { %>
+                    You do not have any students assigned to you. Please contact the admin!
+                <% } %>
                 <% students.forEach(function(student) { %>
                     <% if (currentUser.students && currentUser.students.indexOf(student._id) > -1) { %>
                         <div class = "item">

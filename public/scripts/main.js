@@ -67,6 +67,10 @@ $("#invite-staff-button").on("click", function() {
 	$(".ui.small.modal.invite.staff").modal("show");
 });
 
+$("#invite-parent-button").on("click", function() {
+	$(".ui.small.modal.invite.parent").modal("show");
+});
+
 $('#ddl').dropdown();
 
 $('.message .close').on('click', function() {

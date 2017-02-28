@@ -1,6 +1,7 @@
 var express = require("express"),
     router = express.Router(),
     User = require("../models/user"),
+    Student = require("../models/student"),
     middlewareObj = require("../middleware");
 
 // Route to display the index page for staff management
@@ -12,8 +13,17 @@ router.get("/staff", middlewareObj.isLoggedIn, middlewareObj.isAdmin, function(r
             res.redirect("back");
         }
         else {
-            res.render("users/index", {
-                users: users
+            Student.find({}, function(err, students){
+                if (err){
+                    console.log("Error" + err);
+                    req.flash("error", "Error! Try again");
+                    res.redirect("back");
+                } else {
+                   res.render("users/index", {
+                        users: users,
+                        students: students
+                    }); 
+                }
             });
         }
     });

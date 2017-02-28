@@ -1,9 +1,40 @@
 <% include ../partials/header %>
 <div class = "ui container center aligned" style = "margin-top: 50px; margin-bottom: 150px; width: 30%;">
     <h1 class = "page-title">User management</h1>
+    <!--Invite staff button -->
     <button id = "invite-staff-button"class = "ui primary button" style = "float: right; margin-bottom: 10px;">
         <i class="fa fa-plus" aria-hidden="true"></i> User
     </button>
+    <!--Invite parent button -->
+    <button id = "invite-parent-button"class = "ui primary button" style = "float: right; margin-bottom: 10px;">
+        <i class="fa fa-plus" aria-hidden="true"></i> Parent
+    </button>
+    
+    <!--Modal for inviting a new parent -->
+    <div class = "ui small modal invite parent"><i class = "close icon"></i>
+        <div class = "header">Invite parent</div>
+        <div class = "content">
+            <form class = "ui form" action = "/parent_register" method = "POST">
+                <div class = "field">
+                    Please enter the email address for the parent you would like to invite, and assign the student(s) to this parent. 
+                    An email will be sent to them with further instructions on how to activate their account.
+                    <label style = "margin-top: 10px;">Email adress</label>
+                    <input type = "text" name = "username" placeholder = "Email address">
+                    <label>Students</label>
+                    <select class = "ui fluid search dropdown" multiple = "" name = "students">
+                        <option value = "">Student</option>
+                        <% students.forEach(function(student) { %>
+                            <option value = "<%=student._id%>"><%=student.fullName%></option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class = "field">
+                    <input class = "ui primary button" type = "submit" value = "Send">
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--Modal for inviting a new staff member -->
     <div class = "ui small modal invite staff"><i class = "close icon"></i>
         <div class = "header">Invite staff</div>
         <div class = "content">

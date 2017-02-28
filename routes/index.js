@@ -152,7 +152,13 @@ router.post("/register", middlewareObj.isLoggedOut, function(req, res) {
     });
 });
 
-// Sending invitation to user
+// Send invitation to parent
+router.post("/parent_register", function(req, res){
+    console.log("The students are:\n" + req.body.students);
+    res.redirect("back");
+});
+
+// Send invitation to user
 router.post("/staff_register", function(req, res) {
     crypto.randomBytes(10, function(err, buff) {
         if (err) {
