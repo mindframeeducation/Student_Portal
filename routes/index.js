@@ -26,7 +26,7 @@ router.post("/login/:option", passport.authenticate("local", {
 }), function(req, res) {
     if (req.params.option === "normal" || req.params.option === ":option") {
         req.flash("success", "Welcome back, " + req.user.username);
-        res.redirect("/blogs");
+        res.redirect("/students");
     }
     else {
         req.flash("success", "Welcome! Please change your password now!");

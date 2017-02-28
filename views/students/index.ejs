@@ -28,12 +28,11 @@
         </div>
     </div>
 <% } %>
-
-<!-- Semantic UI table-->
-<div class = "ui container fluid center aligned" style = "width: 70%; padding-top: 0; margin: 10px auto 150px;">
-    <% var student_index = 0; %>
-    <% var entry_per_page = 10; %>
-    <% if (currentUser && currentUser.hasAccess('user')) { %>
+<% if (currentUser && currentUser.hasAccess('user')) { %>
+    <!-- Semantic UI table-->
+    <div class = "ui container fluid center aligned" style = "width: 70%; padding-top: 0; margin: 10px auto 10.0em;">
+        <% var student_index = 0; %>
+        <% var entry_per_page = 10; %>
         <div  class = "ui primary tiny buttons" style = "float: right; margin-bottom: 10px;">
             <button title = "Previous" class = "ui compact icon button disabled" id = "prev-page" style = "margin-right: 5px;">
                 <i class = "left chevron icon"></i>
@@ -47,22 +46,19 @@
                     <i class = "right chevron icon"></i>
                 </button>
             <% } %>
-            
         </div>
-    <% } %>
-    <table class="ui striped very compact celled blue table sortable" >
-        <thead>
-            <tr class = "text-center" style = "font-size: 105%;">
-                <th style = "width: 15%;">Name</th>
-                <th style = "width: 12%;">Class</th>
-                <th style = "width: 10%;">Date</th>
-                <th>Latest entry</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% students.forEach(function(student) { %>
-                <!--View for showing the entries for for the instructors and admins -->
-                <% if (currentUser && currentUser.hasAccess('user')) { %> 
+        <table class="ui striped very compact celled blue table sortable" >
+            <thead>
+                <tr class = "text-center" style = "font-size: 105%;">
+                    <th style = "width: 15%;">Name</th>
+                    <th style = "width: 12%;">Class</th>
+                    <th style = "width: 10%;">Date</th>
+                    <th>Latest entry</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% students.forEach(function(student) { %>
+                    <!--View for showing the entries for for the instructors and admins -->
                     <% if (student.entries.length > 0) { %>
                         <% var latest_entry = student.entries[student.entries.length - 1] %>
                         <% if (student_index < entry_per_page) { %>
@@ -102,134 +98,103 @@
                         <% student_index++; %>
                     <% } %>
                     <!--View for the parent -->
-                <% } else { %>
-                    <% if (currentUser) { %> <!--if the user is logged in -->
-                        <!--if the current student is assigned to the current parent -->
-                        <% if (currentUser.students && currentUser.students.indexOf(student.id) > -1) { %> 
-                            <% if (student.entries.length > 0) { %>
-                                <% var latest_entry = student.entries[student.entries.length - 1] %>
-                                <tr>
-                                    <td class = "selectable" style = "color: #0E6EB8;">
-                                        <a  href="/students/<%=student._id%>">
-                                            <%=student.name.first%> <%=student.name.last %> 
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <% if (latest_entry.class_name) { %>
-                                            <%=latest_entry.class_name%>
-                                        <% } else { %>
-                                            Not specified
-                                        <% } %>
-                                    </td>
-                                    <td><%=latest_entry.created.getMonth() + 1%>/<%=latest_entry.created.getDate()%>/<%=latest_entry.created.getFullYear()%></td>
-                                    <td>
-                                        <% if (latest_entry.summary.length > 100) { %>
-                                            <%= latest_entry.summary.substring(0,100) %>...
-                                        <% } else { %>
-                                            <%=latest_entry.summary %>
-                                        <% } %>
-                                    </td>
-                                </tr>
-                            <% } else { %>
-                                <tr>
-                                    <td class = "selectable" style = "color: #0E6EB8;">
-                                        <a  href="/students/<%=student._id%>">
-                                            <%=student.name.first%> <%=student.name.last %> 
-                                        </a>
-                                    </td>
-                                    <td>No recent class</td>
-                                    <td>N/A</td>
-                                    <td>N/A</td>
-                                </tr>
-                            <% } %>  <!--else-->
-                        <% } %>  <!--indexOf(student.id)-->
-                    <% } %> <!--if (currentUser) -->
-                    
-                <% } %>
-            <% }); %> <!--forEach function -->
-        </tbody>
-    </table>
-</div>
-
-<!--Start of a new section -->
-<% if (currentUser && !currentUser.hasAccess('user')) { %>
-    <div class = "ui main text container" style = "margin-bottom: 150px;">
-        <div class = "ui raised segment divided items">
-            <% students.forEach(function(student) { %>
-                <% if (currentUser.students && currentUser.students.indexOf(student._id) > -1) { %>
-                    <div class = "item">
-                        <div class = "content">
-                            <p>
-                                <strong>Student's name:</strong> <%=student.fullName%> | 
-                                <strong>Grade:</strong> <%=student.grade%>
-                            </p>
-                            <p>
-                                <strong>Learning goal:</strong>
-                                <% if (student.learning_goal) { %>
-                                    <%=student.learning_goal%>
-                                <% } else { %>
-                                    No learning goal specified
-                                <% } %>
-                            </p>
-                            <div class = "ui styled fluid accordion">
-                                <div class = "title">
-                                    <i class = "dropdown icon"></i>
-                                    Notes
-                                </div>
-                                <div class = "content">
-                                    <div class = "ui divided items">
-                                        <% student.entries.forEach(function(entry) { %>
-                                            <div class = "item">
-                                                <div class = "content">
-                                                    <strong><%=entry.class_name%></strong>
-                                                    <div class = "meta">
-                                                        <%=entry.created.toDateString(); %>
-                                                    </div>
-                                                    <div class = "description">
-                                                        <%=entry.summary%>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        <% }); %>
-                                    </div> <!--ui divided items-->
-                                </div> <!--content -->
-                            </div> <!--ui styled fluid accordion-->
-                            
-                            <div class = "ui styled fluid accordion" style = "margin-top: 10px;">
-                                <div class = "title">
-                                    <i class = "dropdown icon"></i>
-                                    <% if (student.courses.length > 1) { %>
-                                        Courses
-                                    <% } else { %>
-                                        Course
-                                    <% } %>
-                                </div>
-                                <% if (student.courses.length === 0) { %>
-                                    <div class = "content">This student is not taking any course</div>
-                                <% } else { %>
-                                    <div class = "content">
-                                        <% student.courses.forEach(function(course, course_index) { %>
-                                            <div class = "ui fluid accordion">
-                                                <div class = "title">
-                                                    <i class="dropdown icon" style = "margin-right: 0px;"></i>
-                                                    <%=course.name%>
-                                                    <div class = "ui blue progress" data-percent="<%=course.progress%>" id = "example1" style = "width: 90%; margin-left: 5px; margin-bottom: 0; padding-bottom: 0;">
-                                                        <div class = "bar">
-                                                            <div class = "progress"></div>
-                                                        </div>
-                                                    </div> <!--ui blue progress-->
-                                                </div>
-                                            </div>
-                                        <% }); %>
-                                    </div>
-                                <% } %>
-                                
-                            </div> <!--ui styled fluid accordion -->
-                        </div>
-                    </div>
-                <% } %>
-            <% }); %>
-        </div>
+                <% }); %> <!--forEach function -->
+            </tbody>
+        </table>
     </div>
+<% } else { %>
+    <!--Start of a new section -->
+    <% if (currentUser) { %>
+        <div class = "ui main text container" style = "margin-bottom: 10.0em; margin-top: 1.0em">
+            <div class = "ui segment divided items">
+                <% students.forEach(function(student) { %>
+                    <% if (currentUser.students && currentUser.students.indexOf(student._id) > -1) { %>
+                        <div class = "item">
+                            <div class = "content">
+                                <p>
+                                    <strong>Student's name:</strong> <%=student.fullName%> | 
+                                    <strong>Grade:</strong> <%=student.grade%>
+                                </p>
+                                <p>
+                                    <strong>Learning goal:</strong>
+                                    <% if (student.learning_goal) { %>
+                                        <%=student.learning_goal%>
+                                    <% } else { %>
+                                        No learning goal specified
+                                    <% } %>
+                                </p>
+                                <div class = "ui styled fluid accordion">
+                                    <div class = "title">
+                                        <i class = "dropdown icon"></i>
+                                        Notes
+                                    </div>
+                                    <div class = "content">
+                                        <div class = "ui divided items">
+                                            <% student.entries.forEach(function(entry) { %>
+                                                <div class = "item">
+                                                    <div class = "content">
+                                                        <strong><%=entry.class_name%></strong>
+                                                        <div class = "meta">
+                                                            <%=entry.created.toDateString(); %>
+                                                        </div>
+                                                        <div class = "description">
+                                                            <%=entry.summary%>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <% }); %>
+                                        </div> <!--ui divided items-->
+                                    </div> <!--content -->
+                                </div> <!--ui styled fluid accordion-->
+                                
+                                <div class = "ui styled fluid accordion" style = "margin-top: 10px;">
+                                    <div class = "title">
+                                        <i class = "dropdown icon"></i>
+                                        <% if (student.courses.length > 1) { %>
+                                            Courses
+                                        <% } else { %>
+                                            Course
+                                        <% } %>
+                                    </div>
+                                    <% if (student.courses.length === 0) { %>
+                                        <div class = "content">This student is not taking any course</div>
+                                    <% } else { %>
+                                        <div class = "content">
+                                            <% student.courses.forEach(function(course, course_index) { %>
+                                                <div class = "accordion">
+                                                    <div class = "title">
+                                                        <i class="dropdown icon" style = "margin-right: 0px;"></i>
+                                                        <%=course.name%>
+                                                        <div class = "ui blue progress" data-percent="<%=course.progress%>" id = "example1" style = "width: 90%; margin-left: 5px; margin-bottom: 0; padding-bottom: 0;">
+                                                            <div class = "bar">
+                                                                <div class = "progress"></div>
+                                                            </div>
+                                                        </div> <!--ui blue progress-->
+                                                    </div> <!--title -->
+                                                    <div class = "content" style = "margin-left: 5px">
+                                                        <% course.units.forEach(function(unit){ %>
+                                                            <p><%=unit.name%>
+                                                                <% if (unit.completed) { %>
+                                                                    <i class = "checkmark icon" style = "color: green;" title="Completed!"></i>
+                                                                <% } %>
+                                                            </p>
+                                                            
+                                                        <% }); %>
+                                                    </div>
+                                                </div>
+                                            <% }); %>
+                                        </div>
+                                    <% } %>
+                                </div> <!--ui styled fluid accordion -->
+                            </div>
+                        </div>
+                    <% } %>
+                <% }); %>
+            </div>
+        </div>
+    <% } %>
 <% } %>
+
+
+
 <% include ../partials/footer %>

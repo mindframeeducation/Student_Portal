@@ -34,7 +34,7 @@ router.post("/students", middlewareObj.isLoggedIn, middlewareObj.isAStaff, funct
 
 // SHOW SEARCH PAGE FOR THE STUDENTS
 router.get("/students", middlewareObj.isLoggedIn, function(req, res) {
-    Student.find({}).populate("entries").exec(function(err, student_list) {
+    Student.find({}).populate("entries courses").exec(function(err, student_list) {
         if (err) {
             console.log("There is an error fetching students from the DB");
         }
