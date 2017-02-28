@@ -95,7 +95,12 @@ app.use(courseRoutes);
 
 // HOME PAGE. THIS IS REQUIRED SINCE NONE OF THE ROUTES HAVE THIS!
 app.get("/", function(req,res){
-    res.redirect("/blogs");
+    if (req.user){
+        res.redirect("/blogs");
+    } else {
+        res.redirect("/register");
+    }
+    
 });
 
 // =================================================================
