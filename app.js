@@ -98,7 +98,7 @@ app.get("/", function(req,res){
     if (req.user){
         res.redirect("/blogs");
     } else {
-        res.redirect("/register");
+        res.redirect("/login/normal");
     }
     
 });
