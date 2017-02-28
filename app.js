@@ -96,7 +96,7 @@ app.use(courseRoutes);
 // HOME PAGE. THIS IS REQUIRED SINCE NONE OF THE ROUTES HAVE THIS!
 app.get("/", function(req,res){
     if (req.user){
-        res.redirect("/blogs");
+        res.redirect("/students");
     } else {
         res.redirect("/login/normal");
     }
