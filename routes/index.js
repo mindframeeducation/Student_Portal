@@ -197,6 +197,7 @@ router.post("/parent_register", function(req, res) {
                     text: "You are invited to join the Mindframe Student's Portal\n\n" +
                         "Please use the link and the temporary password below to log in to your account:\n\n" +
                         "https://" + req.headers.host + "/login/first_time" + "\n" +
+                        "Username: " + user.email + "\n" +
                         "Password: " + buff.toString("hex") + "\n\n" +
                         "Upon logging in, you can change your password\n\n\n" +
                         "Mindframe Dev. team"
