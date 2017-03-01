@@ -6,6 +6,7 @@ var Entry = require("../models/entry");
 var Student = require("../models/student");
 var ClassList = require("../models/classList");
 var middlewareObj = require("../middleware");
+var Course = require("../models/course");
 
 // The order of routes actually matters. If I put this NEW route before the show route,
 // it works, but not the other way around
@@ -18,9 +19,9 @@ router.get("/new", middlewareObj.isLoggedIn, middlewareObj.isAStaff, function(re
             res.redirect("back");
         }
         else {
-            ClassList.findOne({
-                name: "All"
-            }, function(err, classList) {
+            Course.find({
+                template: true
+            }, function(err, courses) {
                 if (err) {
                     console.log("There is an error");
                     req.flash("error", "Error. Please try again");
@@ -29,7 +30,7 @@ router.get("/new", middlewareObj.isLoggedIn, middlewareObj.isAStaff, function(re
                 else {
                     res.render("entries/new", {
                         foundStudent: foundStudent,
-                        classList: classList
+                        courses: courses
                     });
                 }
             });

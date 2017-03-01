@@ -2,6 +2,7 @@ var express = require("express"),
     router = express.Router(),
     Course = require("../models/course"),
     Student = require("../models/student"),
+    Course = require("../models/course"),
     ClassList = require("../models/classList");
 var middlewareObj = require("../middleware");
 
@@ -73,9 +74,9 @@ router.get("/students/:id", middlewareObj.isLoggedIn, function(req, res) {
                     console.log(err);
                 }
                 else {
-                    ClassList.findOne({
-                        name: "All"
-                    }, function(err, classList) {
+                    Course.find({
+                        template: true
+                    }, function(err, courses) {
                         if (err) {
                             console.log("Err: " + err);
                             res.redirect("back");
@@ -84,7 +85,7 @@ router.get("/students/:id", middlewareObj.isLoggedIn, function(req, res) {
                             res.render("students/show", {
                                 foundStudent: foundStudent,
                                 students: student_list,
-                                classList: classList
+                                courses: courses
                             });
                         }
                     });

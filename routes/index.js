@@ -9,6 +9,7 @@ var Student = require("../models/student");
 var mongoose = require("mongoose");
 var Entry = require("../models/entry");
 var ClassList = require("../models/classList");
+var Course = require("../models/course");
 var middlewareObj = require("../middleware");
 
 // Display log-in page
@@ -42,14 +43,14 @@ router.get("/new-entry", middlewareObj.isLoggedIn, middlewareObj.isAStaff, funct
             res.redirect("/students");
         }
         else {
-            ClassList.findOne({}, function(err, classList) {
+            Course.find({}, function(err, courses) {
                 if (err) {
                     console.log("Error with class list database");
                 }
                 else {
                     res.render("entries/new-from-nav", {
                         students: students,
-                        classList: classList
+                        courses: courses
                     });
                 }
             });

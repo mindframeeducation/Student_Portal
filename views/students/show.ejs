@@ -157,8 +157,8 @@
                                                             <!--<div class="default text">Class</div>-->
                                                             <div class = "text"><%=entry.class_name%></div>
                                                             <div class="menu">
-                                                                <% classList.allClasses.sort().forEach(function(eachClass) { %>
-                                                                    <div class = "item" data-value = "<%=eachClass%>"><%=eachClass%></div>
+                                                                <% courses.sort().forEach(function(course) { %>
+                                                                    <div class = "item" data-value = "<%=course.name%>"><%=course.name%></div>
                                                                 <% }); %>
                                                             </div>
                                                         </div>
