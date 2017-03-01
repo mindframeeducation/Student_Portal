@@ -59,8 +59,10 @@ $(".ui.fluid.search.selection.dropdown").on("keypress", function(event) {
 
 // Auto timeout messages
 window.setTimeout(function() {
-	$(".ui.success.message.small.overlay").transition();
-	$(".ui.negative.message.small.overlay").transition();
+	// $(".ui.success.message.small.overlay").transition();
+	// $(".ui.negative.message.small.overlay").transition();
+	$(".ui.success.message.small.overlay").addClass("hidden");
+	$(".ui.negative.message.small.overlay").addClass("hidden");
 }, 1500);
 
 $("#invite-staff-button").on("click", function() {

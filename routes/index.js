@@ -201,7 +201,6 @@ router.post("/parent_register", function(req, res) {
                         "Upon logging in, you can change your password\n\n\n" +
                         "Mindframe Dev. team"
                 };
-
                 transporter.sendMail(mailOptions, function(err) {
                     if (err) {
                         req.flash("error", "Error sending email");
@@ -300,7 +299,7 @@ router.post("/change-password", function(req, res) {
                     else {
                         foundUser.save();
                         req.flash("success", "Password changed successfully!");
-                        res.redirect("/blogs");
+                        res.redirect("/students");
                     }
                 });
             }
