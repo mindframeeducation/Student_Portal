@@ -153,9 +153,66 @@ router.post("/register", middlewareObj.isLoggedOut, function(req, res) {
 });
 
 // Send invitation to parent
-router.post("/parent_register", function(req, res){
-    console.log("The students are:\n" + req.body.students);
-    res.redirect("back");
+router.post("/parent_register", function(req, res) {
+    var students = req.body.students;
+    crypto.randomBytes(5, function(err, buff) {
+        if (err) {
+            console.log("err");
+            req.flash("error", "Error generating byte");
+            return res.redirect("back");
+        }
+        var newUser = new User({
+            username: req.body.username,
+            email: req.body.username.toLowerCase(),
+            role: "public"
+        });
+        User.register(newUser, buff.toString("hex"), function(err, user) {
+            if (err) {
+                req.flash("error", err.message);
+                res.redirect("back");
+            }
+            else {
+                // Assign the students to this parent
+                // var students = req.body.students;
+                if (typeof students === 'string') {
+                    user.students.push(mongoose.Types.ObjectId(students));
+                }
+                else if (typeof students === 'object') {
+                    students.forEach(function(student_id) {
+                        user.students.push(mongoose.Types.ObjectId(student_id));
+                    });
+                }
+                user.save();
+                var transporter = nodemailer.createTransport({
+                    service: "Gmail",
+                    auth: {
+                        user: "mindframe.dev.team",
+                        pass: "mindframeAdm1n"
+                    }
+                });
+                var mailOptions = {
+                    from: "Mindframe Education",
+                    to: user.email,
+                    subject: "Mindframe Student's Portal Invitation",
+                    text: "You are invited to join the Mindframe Student's Portal\n\n" +
+                        "Please use the link and the temporary password below to log in to your account:\n\n" +
+                        "https://" + req.headers.host + "/login/first_time" + "\n" +
+                        "Password: " + buff.toString("hex") + "\n\n" +
+                        "Upon logging in, you can change your password\n\n\n" +
+                        "Mindframe Dev. team"
+                };
+
+                transporter.sendMail(mailOptions, function(err) {
+                    if (err) {
+                        req.flash("error", "Error sending email");
+                        return res.redirect("back");
+                    }
+                    req.flash("success", "Invitation sent!");
+                    res.redirect("back");
+                });
+            }
+        });
+    });
 });
 
 // Send invitation to user
