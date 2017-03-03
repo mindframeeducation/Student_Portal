@@ -150,7 +150,7 @@
                                             <div class = "content">
                                                 <form class = "ui form" action = "/students/<%=foundStudent._id%>/entries/<%=entry._id%>?_method=PUT" method = "POST">
                                                     <div class="field" style = "width: 40%;">
-                                                        <label>Class name</label>
+                                                        <label>Course name</label>
                                                         <div class="ui selection dropdown">
                                                             <input type="hidden" name="entry[class_name]">
                                                             <i class="dropdown icon"></i>
@@ -196,7 +196,7 @@
                                         
                                     </div>
                                 <% } %>
-                                <p> <strong>Class: <%= entry.class_name %></strong> </p>
+                                <p> <strong>Course: <%= entry.class_name %></strong> </p>
                                 
                                 <div class = "meta">
                                     <% if (currentUser && currentUser.hasAccess('user')) { %>

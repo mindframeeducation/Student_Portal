@@ -56,13 +56,13 @@
                             </div>
                         </div>
                     </div>
-                <% } else { %> <!--user -->
+                <% } else { %> <!--End of user. Else is for parent -->
                     <div class = "item">
                         <div class = "header">
                             <i class = "user icon" style = "margin-right: 3px;"></i>
                             <%=currentUser.username %>
                         </div>
-                        <a class = "item" href = "/students">Students' entries</a>
+                        <a class = "item" href = "/students">My Students</a>
                         <a class = "item" href = "/change-password">Change password</a>
                         <a href = "/logout" class = "item"><i class="fa fa-sign-out" aria-hidden="true"></i>Log out</a>
                     </div>
@@ -80,7 +80,7 @@
                         <!--    <i class="sidebar icon"></i>-->
                         <!--</a>-->
                         <div class = "header item">
-                            <img class = "ui small image" style = "width: 20px; height: 20px; margin-right: 3px;" src = "/img/Mindframe-logo.png">
+                            <img class = "ui small image" style = "width: 16px; height: 16px; margin-right: 3px;" src = "/img/Mindframe-logo.png">
                             <a href = "/">Mindframe Education</a>
                         </div>
                         <% if (currentUser) { %>
@@ -94,7 +94,7 @@
                                     </div>
                                 </div>
                             <% } else if (currentUser.hasAccess('public')) { %>
-                                <a href = "/students" class = "item">Students' entries</a>
+                                <a href = "/students" class = "item">My Students</a>
                                 <!--<a class = "item" href = "/courses/assign-course">Assign course</a>-->
                             <% } %>
                             <% if (currentUser.hasAccess('user')) { %>

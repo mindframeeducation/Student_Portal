@@ -1,6 +1,6 @@
 <% include ../partials/header %>
 <div class = "ui container center aligned" style = "margin-top: 50px; margin-bottom: 150px; width: 30%;">
-    <h1 class = "page-title">User Management</h1>
+    <h1 class = "page-title">Manage Users</h1>
     <!--Invite staff button -->
     <button id = "invite-staff-button"class = "ui primary button" style = "float: right; margin-bottom: 10px;">
         <i class="fa fa-plus" aria-hidden="true"></i> Staff
@@ -67,7 +67,15 @@
                             <i class="fa fa-user page-title" title = "You!" style = "float: right;" aria-hidden="true"></i>
                         <% } %>
                     </td>
-                    <td><%=user.role%>
+                    <td>
+                        <% if (user.role === "public") { %>
+                            Parent
+                        <% } else if (user.role === "user") { %>
+                            Staff
+                        <% } else if (user.role === "admin") { %>
+                            Admin
+                        <% } %>
+                        
                         <% if (!user.hasAccess('admin')) { %>
                             <div style = "float: right" class = "ui pointing dropdown top right">
                                 <i class="dropdown icon"></i>
@@ -95,10 +103,18 @@
                         <div class = "ui selection dropdown">
                             <input type = "hidden" name = "user[role]">
                             <i class = "dropdown icon"></i>
-                            <div class = "text"><%=user.role%></div>
+                            <div class = "text">
+                                <% if (user.role === "public") { %>
+                                    Parent
+                                <% } else if (user.role === "user") { %>
+                                    Staff
+                                <% } else if (user.role === "admin") { %>
+                                    Admin
+                                <% } %>
+                            </div>
                             <div class = "menu">
-                                <div class = "item" data-value = "user">user (limited read and write. Use this for instructors)</div>
-                                <div class = "item" data-value = "public">public (read only. Use this for parent)</div>
+                                <div class = "item" data-value = "user">Staff (limited read and write. Use this for instructors)</div>
+                                <div class = "item" data-value = "public">Parent (read only. Use this for parent)</div>
                             </div>
                         </div>
                     </div>
