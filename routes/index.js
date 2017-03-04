@@ -187,24 +187,29 @@ router.post("/parent_register", function(req, res) {
                 var transporter = nodemailer.createTransport({
                     service: "Gmail",
                     auth: {
-                        user: "mindframe.dev.team",
-                        pass: "mindframeAdm1n"
+                        user: "mindframeeducation",
+                        pass: "mindframe2015"
                     }
                 });
                 var mailOptions = {
                     from: "Mindframe Education",
                     to: user.email,
                     subject: "Mindframe Student's Portal Invitation",
-                    text: "You are invited to join the Mindframe Student's Portal\n\n" +
-                        "Please use the link and the temporary password below to log in to your account:\n\n" +
+                    text:
+                        "Hi,\n\n" + 
+                        "You are invited to join the Mindframe STEM Academy Portal. In this " +  
+                        "Portal, you can view your child's goals and progress in the STEM classes.\n\n" +
+                        "To access the portal, please use the link and the temporary password below to log in to your account:\n\n" +
                         "https://" + req.headers.host + "/login/first_time" + "\n" +
                         "Username: " + user.email + "\n" +
                         "Password: " + buff.toString("hex") + "\n\n" +
-                        "Upon logging in, you can change your password\n\n\n" +
-                        "Mindframe Dev. team"
+                        "After logging in, you can change your password.\n\n\n" +
+                        "Let us know if you have any questions or need assistance with accessing the portal.\n\n" + 
+                        "Thanks,\n\n" + "Mindframe Team"
                 };
                 transporter.sendMail(mailOptions, function(err) {
                     if (err) {
+                        console.log(err);
                         req.flash("error", "Error sending email");
                         return res.redirect("back");
                     }
