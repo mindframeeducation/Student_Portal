@@ -125,7 +125,7 @@
                                 
                                 <!--accordion for course progress starts-->
                                 <div class = "ui styled fluid accordion" style = "margin-bottom: 10px;">
-                                    <div class = "title">
+                                    <div class = "title active">
                                         <i class = "dropdown icon"></i>
                                         <% if (student.courses.length > 1) { %>
                                             Student Courses
@@ -134,12 +134,12 @@
                                         <% } %>
                                     </div>
                                     <% if (student.courses.length === 0) { %>
-                                        <div class = "content">This student is not taking any course</div>
+                                        <div class = "content active">This student is not taking any course</div>
                                     <% } else { %>
-                                        <div class = "content">
+                                        <div class = "content active">
                                             <% student.courses.forEach(function(course, course_index) { %>
                                                 <div class = "accordion">
-                                                    <div class = "title">
+                                                    <div class = "title active">
                                                         <i class="dropdown icon" style = "margin-right: 0px;"></i>
                                                         <%=course.name%>
                                                         <div class = "ui blue progress" data-percent="<%=course.progress%>" id = "example1" style = "width: 90%; margin-left: 5px; margin-bottom: 0; padding-bottom: 0;">
@@ -148,7 +148,7 @@
                                                             </div>
                                                         </div> <!--ui blue progress-->
                                                     </div> <!--title -->
-                                                    <div class = "content" style = "margin-left: 5px">
+                                                    <div class = "content active" style = "margin-left: 5px">
                                                         <% course.units.forEach(function(unit){ %>
                                                             <p><%=unit.name%>
                                                                 <% if (unit.completed) { %>
@@ -167,11 +167,11 @@
                                 
                                 <!--accordion for student entry starts-->
                                 <div class = "ui styled fluid accordion">
-                                    <div class = "title">
+                                    <div class = "title active">
                                         <i class = "dropdown icon"></i>
                                         Student progress entry
                                     </div>
-                                    <div class = "content">
+                                    <div class = "content active">
                                         <div class = "ui divided items">
                                             <% if (student.entries.length === 0) {%>
                                                 This student does not have any notes
