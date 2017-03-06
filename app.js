@@ -116,21 +116,22 @@ app.get("/", function(req,res){
 //     }
 // });
 
-Student.find({}).populate("entries").exec(function(err, students){
-    if (err){
-        console.log(err);
-    }
-    else {
-        students.forEach(function(student){
-            if (student.entries.length > 0) {
-                // console.log("Latest entry created on: " + student.entries[student.entries.length - 1].created);
-                student.latest_entry_date = student.entries[student.entries.length - 1].created;
-                student.save();
-                // console.log("The student is: " + student);
-            }
-        });
-    }
-});
+// Scripts to add the latest_entry_date. Only call once!
+// Student.find({}).populate("entries").exec(function(err, students){
+//     if (err){
+//         console.log(err);
+//     }
+//     else {
+//         students.forEach(function(student){
+//             if (student.entries.length > 0) {
+//                 // console.log("Latest entry created on: " + student.entries[student.entries.length - 1].created);
+//                 student.latest_entry_date = student.entries[student.entries.length - 1].created;
+//                 student.save();
+//                 // console.log("The student is: " + student);
+//             }
+//         });
+//     }
+// });
 
 app.listen(process.env.PORT, process.env.IP, function(){
    console.log("Blog app is running!");
