@@ -1,15 +1,5 @@
 <% include ../partials/header %>
-<div class = "ui container center aligned" style = "margin-top: 50px; margin-bottom: 150px; width: 30%;">
-    <h1 class = "page-title">Manage Users</h1>
-    <!--Invite staff button -->
-    <button id = "invite-staff-button"class = "ui primary button" style = "float: right; margin-bottom: 10px;">
-        <i class="fa fa-plus" aria-hidden="true"></i> Staff
-    </button>
-    <!--Invite parent button -->
-    <button id = "invite-parent-button"class = "ui primary button" style = "float: right; margin-bottom: 10px;">
-        <i class="fa fa-plus" aria-hidden="true"></i> Parent
-    </button>
-    
+<div class = "ui container center aligned" style = "margin-top: 50px; margin-bottom: 150px; width: 60%;">
     <!--Modal for inviting a new parent -->
     <div class = "ui small modal invite parent"><i class = "close icon"></i>
         <div class = "header">Invite parent</div>
@@ -51,45 +41,110 @@
             </form>
         </div>
     </div>
-    <table class = "ui striped very compact celled blue sortable table unstackable">
-        <thead>
-            <tr style = "font-size: 105%; text-align: center">
-                <th>Email/Username</th>
-                <th style = "width: 30%;">Role</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% users.forEach(function(user, user_index) { %> 
-                <tr>
-                    <td>
-                        <%=user.username%>
-                        <% if (currentUser && currentUser.username === user.username) { %>
-                            <i class="fa fa-user page-title" title = "You!" style = "float: right;" aria-hidden="true"></i>
-                        <% } %>
-                    </td>
-                    <td>
-                        <% if (user.role === "public") { %>
-                            Parent
-                        <% } else if (user.role === "user") { %>
-                            Staff
-                        <% } else if (user.role === "admin") { %>
-                            Admin
+    
+    <div class = "ui stackable equal width grid">
+        <!--displaying staff -->
+        <div class = "column">
+            <!--Invite staff button -->
+            <h1 class = "ui header page-title">Manage Staff</h1>
+            <table class = "ui striped very compact celled blue sortable table unstackable">
+                <thead>
+                    <tr style = "font-size: 105%; text-align: center">
+                        <th>Email/Username</th>
+                        <th style = "width: 20%;">Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(function(user, user_index) { %> 
+                        <% if (user.hasAccess("user")) { %>
+                            <tr>
+                                <td>
+                                    <%=user.username%>
+                                    <% if (currentUser && currentUser.username === user.username) { %>
+                                        <i class="fa fa-user page-title" title = "You!" style = "float: right;" aria-hidden="true"></i>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <% if (user.role === "public") { %>
+                                        Parent
+                                    <% } else if (user.role === "user") { %>
+                                        Staff
+                                    <% } else if (user.role === "admin") { %>
+                                        Admin
+                                    <% } %>
+                                    
+                                    <% if (!user.hasAccess('admin')) { %>
+                                        <div style = "float: right" class = "ui pointing dropdown top right">
+                                            <i class="dropdown icon"></i>
+                                            <div class = "left menu">
+                                                <div class = "item" id = "edit-user-button-<%=user_index%>"><i class="fa fa-pencil" aria-hidden="true"></i> Edit role</div>
+                                                <div class = "item user number <%=user_index%>"><i class="fa fa-trash" aria-hidden="true"></i> Remove user</div>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                </td>
+                            </tr>
                         <% } %>
                         
-                        <% if (!user.hasAccess('admin')) { %>
-                            <div style = "float: right" class = "ui pointing dropdown top right">
-                                <i class="dropdown icon"></i>
-                                <div class = "left menu">
-                                    <div class = "item" id = "edit-user-button-<%=user_index%>"><i class="fa fa-pencil" aria-hidden="true"></i> Edit role</div>
-                                    <div class = "item user number <%=user_index%>"><i class="fa fa-trash" aria-hidden="true"></i> Remove user</div>
-                                </div>
-                            </div>
+                    <% }); %>
+                </tbody>
+            </table>
+            <button id = "invite-staff-button"class = "ui primary button" style = "float: right; margin-bottom: 10px;">
+                <i class="fa fa-plus" aria-hidden="true"></i> Staff
+            </button>
+            
+        </div> <!--column-->
+        
+        <!--Displaying parents -->
+        <div class = "column">
+            <h1 class = "ui header page-title">Manage Parents</h1>
+            <table class = "ui striped very compact celled blue sortable table unstackable">
+                <thead>
+                    <tr style = "font-size: 105%; text-align: center">
+                        <th>Email/Username</th>
+                        <th style = "width: 20%;">Role</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(function(user, user_index) { %> 
+                        <% if (!user.hasAccess("user")) { %>
+                            <tr>
+                                <td>
+                                    <%=user.username%>
+                                    <% if (currentUser && currentUser.username === user.username) { %>
+                                        <i class="fa fa-user page-title" title = "You!" style = "float: right;" aria-hidden="true"></i>
+                                    <% } %>
+                                </td>
+                                <td>
+                                    <% if (user.role === "public") { %>
+                                        Parent
+                                    <% } else if (user.role === "user") { %>
+                                        Staff
+                                    <% } else if (user.role === "admin") { %>
+                                        Admin
+                                    <% } %>
+                                    
+                                    <% if (!user.hasAccess('admin')) { %>
+                                        <div style = "float: right" class = "ui pointing dropdown top right">
+                                            <i class="dropdown icon"></i>
+                                            <div class = "left menu">
+                                                <div class = "item" id = "edit-user-button-<%=user_index%>"><i class="fa fa-pencil" aria-hidden="true"></i> Edit role</div>
+                                                <div class = "item user number <%=user_index%>"><i class="fa fa-trash" aria-hidden="true"></i> Remove user</div>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                </td>
+                            </tr>
                         <% } %>
-                    </td>
-                </tr>
-            <% }); %>
-        </tbody>
-    </table>
+                    <% }); %>
+                </tbody>
+            </table>
+            <button id = "invite-parent-button"class = "ui primary button" style = "float: right; margin-bottom: 10px;">
+                <i class="fa fa-plus" aria-hidden="true"></i> Parent
+            </button>
+        </div>
+    </div>
+    
     <!--For some reasons putting the modals inside the table causes problems-->
     <% users.forEach(function(user, user_index) { %>
         <div class = "ui small modal edit user" id = "edit-user-modal-<%=user_index%>"><i class = "close icon"></i>
@@ -138,6 +193,6 @@
             </div>
         </div>
     <% }); %>
-</div>
+</div> <!--ui container center aligned-->
 
 <% include ../partials/footer %>
