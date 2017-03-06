@@ -11,7 +11,9 @@ var Entry = require("../models/entry");
 var ClassList = require("../models/classList");
 var Course = require("../models/course");
 var middlewareObj = require("../middleware");
-
+var SparkPost = require('sparkpost');
+var client = new SparkPost('2afe8ebd209e291dd49293dd6d6bf68759bff883');
+// Sparkpost API key: 2afe8ebd209e291dd49293dd6d6bf68759bff883
 // Display log-in page
 router.get("/login/:option", middlewareObj.isLoggedOut, function(req, res) {
     res.render("users/login", {
@@ -184,38 +186,61 @@ router.post("/parent_register", function(req, res) {
                     });
                 }
                 user.save();
-                var transporter = nodemailer.createTransport({
-                    service: "Gmail",
-                    auth: {
-                        user: "mindframeeducation",
-                        pass: "mindframe2015"
-                    }
+                client.transmissions.send({
+                    options: {
+                      sandbox: true
+                    },
+                    content: {
+                        from: 'no-reply@mindframeeducation.com',
+                        subject: 'Hello, World!',
+                        html:'<html><body><p>Testing SparkPost - the world\'s most awesomest email service!</p></body></html>'
+                    },
+                    recipients: [
+                        {address: 'blacklist2412@gmail.com'}
+                    ]
+                }).then(data => {
+                    console.log('Woohoo! You just sent your first mailing!');
+                    console.log(data);
+                }).catch(err => {
+                    console.log('Whoops! Something went wrong');
+                    console.log(err);
                 });
-                var mailOptions = {
-                    from: "Mindframe Education",
-                    to: user.email,
-                    subject: "Mindframe Student's Portal Invitation",
-                    text:
-                        "Hi,\n\n" + 
-                        "You are invited to join the Mindframe STEM Academy Portal. In this " +  
-                        "Portal, you can view your child's goals and progress in the STEM classes.\n\n" +
-                        "To access the portal, please use the link and the temporary password below to log in to your account:\n\n" +
-                        "https://" + req.headers.host + "/login/first_time" + "\n" +
-                        "Username: " + user.email + "\n" +
-                        "Password: " + buff.toString("hex") + "\n\n" +
-                        "After logging in, you can change your password.\n\n\n" +
-                        "Let us know if you have any questions or need assistance with accessing the portal.\n\n" + 
-                        "Thanks,\n\n" + "Mindframe Team"
-                };
-                transporter.sendMail(mailOptions, function(err) {
-                    if (err) {
-                        console.log(err);
-                        req.flash("error", "Error sending email");
-                        return res.redirect("back");
-                    }
-                    req.flash("success", "Invitation sent!");
-                    res.redirect("back");
-                });
+                res.redirect("back");
+                
+                // Nodemailer starts 
+                // var transporter = nodemailer.createTransport({
+                //     service: "Gmail",
+                //     auth: {
+                //         user: "mindframeeducation",
+                //         pass: "mindframe2015"
+                //     }
+                // });
+                // var mailOptions = {
+                //     from: "Mindframe Education",
+                //     to: user.email,
+                //     subject: "Mindframe Student's Portal Invitation",
+                //     text:
+                //         "Hi,\n\n" + 
+                //         "You are invited to join the Mindframe STEM Academy Portal. In this " +  
+                //         "Portal, you can view your child's goals and progress in the STEM classes.\n\n" +
+                //         "To access the portal, please use the link and the temporary password below to log in to your account:\n\n" +
+                //         "https://" + req.headers.host + "/login/first_time" + "\n" +
+                //         "Username: " + user.email + "\n" +
+                //         "Password: " + buff.toString("hex") + "\n\n" +
+                //         "After logging in, you can change your password.\n\n\n" +
+                //         "Let us know if you have any questions or need assistance with accessing the portal.\n\n" + 
+                //         "Thanks,\n\n" + "Mindframe Team"
+                // };
+                // transporter.sendMail(mailOptions, function(err) {
+                //     if (err) {
+                //         console.log(err);
+                //         req.flash("error", "Error sending email");
+                //         return res.redirect("back");
+                //     }
+                //     req.flash("success", "Invitation sent!");
+                //     res.redirect("back");
+                // });
+                // Nodemailer ends 
             }
         });
     });
