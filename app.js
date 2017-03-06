@@ -126,7 +126,7 @@ Student.find({}).populate("entries").exec(function(err, students){
                 // console.log("Latest entry created on: " + student.entries[student.entries.length - 1].created);
                 student.latest_entry_date = student.entries[student.entries.length - 1].created;
                 student.save();
-                console.log("The student is: " + student);
+                // console.log("The student is: " + student);
             }
         });
     }
