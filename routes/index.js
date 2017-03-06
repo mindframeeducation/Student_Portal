@@ -88,8 +88,10 @@ router.post("/new-entry", middlewareObj.isLoggedIn, middlewareObj.isAStaff, func
                 else {
                     entry.author.id = req.user.id;
                     entry.author.username = req.user.username;
+                    entry.created = Date.now();
                     entry.save();
                     foundStudent.entries.push(entry);
+                    foundStudent.latest_entry_date = entry.created;
                     foundStudent.save();
                     req.flash("success", "Entry successfully created");
                     res.redirect("/students/" + foundStudent._id);

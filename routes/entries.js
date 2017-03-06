@@ -85,8 +85,10 @@ router.post("/", middlewareObj.isLoggedIn, middlewareObj.isAStaff, function(req,
                     console.log("Entry created successfully!");
                     entry.author.id = req.user._id;
                     entry.author.username = req.user.username;
+                    entry.created = Date.now();
                     entry.save(); // save the created entry to the database
                     foundStudent.entries.push(entry);
+                    foundStudent.latest_entry_date = entry.created;
                     foundStudent.save(); // save the student
                     req.flash("success", "Entry successfully created!");
                     res.redirect("/students/" + foundStudent._id);

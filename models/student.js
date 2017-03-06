@@ -28,7 +28,8 @@ var studentSchema = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Course"
         }
-    ]
+    ],
+    latest_entry_date: Date
 });
 
 studentSchema.virtual("fullName").get(function(){
