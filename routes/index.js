@@ -192,21 +192,29 @@ router.post("/parent_register", function(req, res) {
                     },
                     content: {
                         from: 'no-reply@mindframeeducation.com',
-                        subject: 'Hello, World!',
-                        text: "",
+                        subject: 'STEM Academy Portal Invitation',
+                        text: 
+                        "Hi,\n\n" + 
+                        "You are invited to join the Mindframe STEM Academy Portal. In this " +  
+                        "Portal, you can view your child's goals and progress in the STEM classes.\n\n" +
+                        "To access the portal, please use the link and the temporary password below to log in to your account:\n\n" +
+                        "https://" + req.headers.host + "/login/first_time" + "\n" +
+                        "Username: " + user.email + "\n" +
+                        "Password: " + buff.toString("hex") + "\n\n" +
+                        "After logging in, you can change your password.\n\n\n" +
+                        "Let us know if you have any questions or need assistance with accessing the portal.\n\n" + 
+                        "Thanks,\n\n" + "Mindframe Team",
                     },
                     recipients: [
-                        {address: 'tim@mindframeeducation.com'}
+                        {address: user.email}
                     ]
                 }).then(data => {
-                    console.log('Woohoo! You just sent your first mailing!');
-                    console.log(data);
+                    req.flash("success", "Invitation sent!");
+                    res.redirect("back");
                 }).catch(err => {
-                    console.log('Whoops! Something went wrong');
-                    console.log(err);
+                    req.flash("error", "Error sending invitation: " + err.message);
+                    res.redirect("back");
                 });
-                res.redirect("back");
-                
                 // Nodemailer starts 
                 // var transporter = nodemailer.createTransport({
                 //     service: "Gmail",
