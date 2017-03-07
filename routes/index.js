@@ -188,15 +188,15 @@ router.post("/parent_register", function(req, res) {
                 user.save();
                 client.transmissions.send({
                     options: {
-                      sandbox: true
+                      sandbox: false
                     },
                     content: {
                         from: 'no-reply@mindframeeducation.com',
                         subject: 'Hello, World!',
-                        html:'<html><body><p>Testing SparkPost - the world\'s most awesomest email service!</p></body></html>'
+                        text: "",
                     },
                     recipients: [
-                        {address: 'blacklist2412@gmail.com'}
+                        {address: 'tim@mindframeeducation.com'}
                     ]
                 }).then(data => {
                     console.log('Woohoo! You just sent your first mailing!');
