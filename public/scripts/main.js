@@ -55,6 +55,10 @@ $(".ui.fluid.search.selection.dropdown").on("keypress", function(event) {
 	}
 });
 
+$("#editStudent").on("click", function(){
+	$("#edit-student-info-form").toggle();
+});
+
 
 
 // Auto timeout messages
@@ -83,9 +87,7 @@ $('.message .close').on('click', function() {
 $('.menu.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('attach events', '.item.open.button', 'show');
 
 // Initialize modals (unique ones)
-$(".small.modal.student").modal('setting', {
-	observeChanges: true
-}).modal('setting', 'transition', "Fade Down").modal("attach events", "#editStudent", "show");
+
 $(".small.modal.goal").modal('setting', {
 	observeChanges: true
 }).modal('setting', 'transition', "Fade Down").modal("attach events", "#editGoal", "show");

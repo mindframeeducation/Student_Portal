@@ -11,6 +11,26 @@
                         <i class="fa fa-pencil" aria-hidden="true"></i>
                     </a>
                 <% } %>
+                <form id = "edit-student-info-form" class = "ui form" action = "/students/<%=foundStudent.id%>?_method=PUT" method = "POST" style = "display: none;">
+                    <div class = "field">
+                        <label>First name</label>
+                        <input type ="text" name = "first_name" value = "<%=foundStudent.name.first %>">
+                    </div>
+                    
+                    <div class = "field">
+                        <label>Last name</label>
+                        <input type ="text" name = "last_name" value = "<%=foundStudent.name.last %>">
+                    </div>
+                    
+                    <div class = "field">
+                        <label>Grade</label>
+                        <input type ="text" name = "grade" value = "<%=foundStudent.grade %>">
+                    </div>
+                    
+                    <div class = "field">
+                        <input class="ui blue basic button" type = "Submit" value = "Save">
+                    </div>
+                </form>
             </p>
             <% if (currentUser) { %>
                 <p>
@@ -234,34 +254,6 @@
     </div> <!--Ending of ui main text container div-->
     <!--Third segment ends-->
 
-<!--Modal to update student's info-->
-<div class="ui small modal student"> <i class="close icon" ></i>
-    <div class = "header">
-        Editing <%=foundStudent.fullName%>'s info
-    </div>
-    <div class="content">
-        <form class = "ui form" action = "/students/<%=foundStudent.id%>?_method=PUT" method = "POST">
-            <div class = "field">
-                <label>First name</label>
-                <input type ="text" name = "first_name" value = "<%=foundStudent.name.first %>">
-            </div>
-            
-            <div class = "field">
-                <label>Last name</label>
-                <input type ="text" name = "last_name" value = "<%=foundStudent.name.last %>">
-            </div>
-            
-            <div class = "field">
-                <label>Grade</label>
-                <input type ="text" name = "grade" value = "<%=foundStudent.grade %>">
-            </div>
-            
-            <div class = "field">
-                <input class="ui blue basic button" type = "Submit" value = "Save">
-            </div>
-        </form>
-    </div>
-</div> <!--ui small modal-->
 
 <!--Modal to update learning goal-->
 <div class="ui small modal goal"> <i class="close icon" ></i>
