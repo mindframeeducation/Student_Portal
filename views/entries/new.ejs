@@ -13,7 +13,13 @@
                 <i class="dropdown icon"></i>
                 <div class="default text">Class</div>
                     <div class="menu">
-                        <% courses.sort().forEach(function(course) { %>
+                        <% courses.sort(function(a,b) { %>
+                            <% var nameA = a.name.toLowerCase(); %>
+                            <% var nameB = b.name.toLowerCase(); %>
+                            <% if (nameA < nameB) { return -1 } %>
+                            <% if (nameA > nameB) { return 1 } %>
+                            <% return 0;%>
+                        <% }).forEach(function(course) { %>
                             <div class = "item" data-value = "<%=course.name%>"><%=course.name%></div>
                         <% }); %>
                     </div>
