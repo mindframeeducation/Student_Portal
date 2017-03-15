@@ -54,7 +54,6 @@
             </thead>
             <tbody>
                 <% students.forEach(function(student) { %>
-                    <!--View for showing the entries for for the instructors and admins -->
                     <% if (student.entries.length > 0) { %>
                         <% var latest_entry = student.entries[student.entries.length - 1] %>
                         <% if (student_index < entry_per_page) { %>
@@ -62,7 +61,6 @@
                         <% } else { %>
                         <tr id = "student-row-<%=student_index%>" class = "student-row-class" style = "display: none;">   
                         <% } %>
-                        <!--<tr id = "student-row-<%=student_index%>" class = "student-row-class">-->
                             <td class = "selectable" style = "color: #0E6EB8;">
                                 <a  href="/students/<%=student._id%>">
                                     <%=student.fullName %> 
@@ -93,7 +91,6 @@
                         </tr>
                         <% student_index++; %>
                     <% } %>
-                    <!--View for the parent -->
                 <% }); %> <!--forEach function -->
             </tbody>
         </table>
@@ -208,7 +205,4 @@
         </div>
     <% } %>
 <% } %>
-
-
-
 <% include ../partials/footer %>
