@@ -216,7 +216,7 @@ router.post("/parent_register", function(req, res) {
                     req.flash("error", "Error sending invitation: " + err.message);
                     res.redirect("back");
                 });
-            }
+            } // else block
         });
     });
 });
@@ -244,31 +244,30 @@ router.post("/staff_register", function(req, res) {
                     res.redirect("back");
                 }
                 else {
-                    var transporter = nodemailer.createTransport({
-                        service: "Gmail",
-                        auth: {
-                            user: "mindframe.dev.team",
-                            pass: "mindframeAdm1n"
-                        }
-                    });
-                    var mailOptions = {
-                        from: "Mindframe Education",
-                        to: user.email,
-                        subject: "Mindframe Student's Portal Invitation",
-                        text: "You are invited to join the Mindframe Student's Portal\n\n" +
-                            "Please use the link and the temporary password below to log in to your account:\n\n" +
-                            "https://" + req.headers.host + "/login/first_time" + "\n" +
-                            "Password: " + buff.toString("hex") + "\n\n" +
-                            "Upon logging in, you can change your password\n\n\n" +
-                            "Mindframe Dev. team"
-                    };
-
-                    transporter.sendMail(mailOptions, function(err) {
-                        if (err) {
-                            req.flash("error", "Error sending email");
-                            return res.redirect("back");
-                        }
+                    client.transmissions.send({
+                        options: {
+                            sandbox: false
+                        },
+                        content: {
+                            from: "no-reply@mindframeeducation.com",
+                            subject: "STEM Academy Portal Invitation",
+                            text: "Hi,\n\n" +
+                                "You are invited to join the Mindframe Student's Portal\n\n" +
+                                "To access the portal, please use the link and the temporary password below to log in to your account:\n\n" +
+                                "https://" + req.headers.host + "/login/first_time" + "\n\n" +
+                                "Username: " + user.email + "\n" +
+                                "Password: " + buff.toString("hex") + "\n\n" +
+                                "After logging in, you can change your password.\n\n\n" +
+                                "Thanks,\n\n" + "Mindframe Team",
+                        },
+                        recipients: [{
+                            address: user.email
+                        }]
+                    }).then(data => {
                         req.flash("success", "Invitation sent!");
+                        res.redirect("back");
+                    }).catch(err => {
+                        req.flash("error", "Error sending invitation: " + err.message);
                         res.redirect("back");
                     });
                 }
@@ -357,27 +356,32 @@ router.post("/forget", function(req, res, next) {
                     user.resetPasswordToken = token;
                     user.resetPasswordExpires = Date.now() + 36000000; // Password link will expires in 1 hour
                     user.save();
-                    var mailOptions = {
-                        from: "Mindframe Education",
-                        to: user.email,
-                        subject: "Password reset",
-                        text: "You are receiving this because you (or someone else) " +
-                            "have requested a password reset for the username " + req.body.username +
-                            ". Please click on the following link, or paste this into your browser " +
-                            "to complete the password reset process: \n" +
-                            "https://" + req.headers.host + "/reset/" + token + "\n\n" +
-                            "If you did not request this, please ignore this email and your password will " +
-                            "remain unchanged." + "\n\n\n" +
-                            "Mindframe Dev. team"
-                    };
 
-                    transporter.sendMail(mailOptions, function(err, info) {
-                        if (err) {
-                            return console.log("Error: " + err);
-                        }
-                        console.log("Success!");
-                        req.flash("success", "An email with detailed instructions has been sent to: " + user.email);
+                    client.transmissions.send({
+                        options: {
+                            sandbox: false
+                        },
+                        content: {
+                            from: "no-reply@mindframeeducation.com",
+                            subject: "STEM Academy Portal Password Reset",
+                            text: "Hi,\n\n" +
+                                "You are receiving this email because you (or someone else) " +
+                                "have requested a password reset for the username " + req.body.username + ". " +
+                                "To complete the password reset process, please click on the following link, " +
+                                "or copy and paste it into your browser's address bar: \n\n" +
+                                "https://" + req.headers.host + "/reset/" + token + "\n\n" +
+                                "If you did not request a password reset, please ignore this email and your password " +
+                                "will remain unchanged.\n\n\n" + "Thanks,\n\n" + "Mindframe Team"
+                        },
+                        recipients: [{
+                            address: user.email
+                        }]
+                    }).then(data => {
+                        req.flash("success", "Instruction on how to reset your password has been sent to: " + user.email);
                         res.redirect("/blogs");
+                    }).catch(err => {
+                        req.flash("error", "Error sending invitation: " + err.message);
+                        res.redirect("back");
                     });
                 }
             });
@@ -422,7 +426,7 @@ router.post("/reset/:token", function(req, res) {
         else {
             if (req.body.password === req.body.confirm_password) {
                 // Nullify the reset password fields. Making them undefined will have
-                // them now showing up when showing the database
+                // them not showing up when showing the database
                 user.resetPasswordToken = undefined;
                 user.resetPasswordExpires = undefined;
                 user.setPassword(req.body.password, function(err) {
