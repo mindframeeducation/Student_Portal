@@ -111,6 +111,14 @@ p {
     color: #ff6666;
 }
 
+.delete-comment-button {
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    color: rgba(0,0,0,.4);
+    font-size: .875em;
+}
+
 .page-title {
     color: rgb(54, 115, 176) !important;
 }
@@ -126,4 +134,3 @@ p {
 .ui.fitted.divider {
     margin: 5px;
 }
-

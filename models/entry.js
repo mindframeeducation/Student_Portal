@@ -9,6 +9,12 @@ var entrySchema = mongoose.Schema({
         },
         username: String
     },
+    comments: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Comment"
+        }
+    ],
     created: { type: Date, default: Date.now}
 });
 

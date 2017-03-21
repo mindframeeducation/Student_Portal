@@ -3,7 +3,8 @@ var express = require("express"),
     Course = require("../models/course"),
     Student = require("../models/student"),
     Course = require("../models/course"),
-    ClassList = require("../models/classList");
+    ClassList = require("../models/classList"),
+    Comment = require("../models/comment");
 var middlewareObj = require("../middleware");
 
 // ROUTES TO ADD A NEW STUDENT
@@ -55,11 +56,15 @@ router.get("/students/:id", middlewareObj.isLoggedIn, function(req, res) {
     // Student.findById(req.params.id).populate("entries notes").exec(function(err, foundStudent){
     Student.findById(req.params.id).populate({
         path: 'entries notes courses',
+        populate : {
+            path: "comments",
+            model: "Comment"
+        },
         options: {
             sort: {
                 created: -1
             }
-        }
+        },
     }).exec(function(err, foundStudent) {
         if (err) {
             console.log("Error: " + err);

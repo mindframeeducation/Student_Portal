@@ -241,13 +241,54 @@
                                     </div>
                                 <% } %>
                             </div> <!--class = content -->
+                            
                         </div> <!--Ending of item div-->
+                        <div class = "ui accordion" style = "margin-left: 20px; padding-top: 0! important">
+                            <div class = "title">
+                                <i class="dropdown icon" style = "margin-right: 0"></i>
+                                Comments (<%=entry.comments.length%>) <span>
+                            </div>
+                            <div class = "content">
+                                <div class = "ui comments">
+                                    <% entry.comments.forEach(function(comment) { %>
+                                        <div class = "comment">
+                                            <div class = "content">
+                                                <a class = "author"><%=comment.author.username%></a>
+                                                <div class = "metadata">
+                                                    <span class = "date">Created time</span>
+                                                </div>
+                                                <div class = "text">
+                                                    <%=comment.text%>
+                                                </div>
+                                                <div class="actions">
+                                                    <a class="reply" style = "display: inline;" >Edit</a>
+                                                    <form class = "ui form reply" style = "display: inline;" action = "/entries/<%=entry._id%>/comments/<%=comment._id%>?_method=DELETE" method = "POST">
+                                                        <div class = "field" style = "display: inline;">
+                                                            <button class = "reply delete-comment-button">Delete</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% }); %>
+                                </div>
+                                <form class = "ui form" action = "/entries/<%=entry._id%>/comments" method = "POST">
+                                    <div class = "field">
+                                        <textarea rows = "2" name = "comment[text]" placeholder = "New comment"></textarea>
+                                    </div>
+                                    <div class = "field">
+                                        <input class = "ui basic primary button" type = "submit" value = "Add comment">
+                                    </div>
+                                </form>
+                            </div> <!--content-->
+                        </div> <!--ui accordion-->
                     <% }); %>
                 <% } else {%> 
                     <div class = "item">
                         This student does not have any entry yet :(
                     </div>
                 <% } %>
+                
                 
             </div> <!--ui divided items-->
         </div> <!--ui top raised segment-->
