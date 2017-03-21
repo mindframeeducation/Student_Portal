@@ -195,11 +195,12 @@
                                             </div>
                                         </div>
                                         <!--Modal to edit entry ends-->
-                                        <button class = "ui mini circular icon button" id = "add-comment-button-<%=index%>" title = "Add comment">
-                                            <i class="fa fa-comments-o" aria-hidden="true"></i>
+                                        <button style = "color: rgb(102, 153, 255);" class = "ui mini circular icon button" id = "add-comment-button-<%=index%>" title = "Add comment">
+                                            <i class="fa fa-comment" aria-hidden="true"></i>
                                         </button>
                                         
                                         <div class = "ui small modal add comment" id = "add-comment-modal-<%=index%>">
+                                            <i class = "close icon"></i>
                                             <div class = "header">
                                                 New comment
                                             </div>
@@ -240,9 +241,32 @@
                                                 </button>
                                             </div>
                                         </div>
+                                    </div> <!--style = float: right -->
+                                <% } else {%>
+                                    <div style = "float: right; font-size: 0.8em;">
+                                        <button style = "color: rgb(102, 153, 255);" class = "ui mini circular icon button" id = "add-comment-button-<%=index%>" title = "Add comment">
+                                            <i class="fa fa-comment" aria-hidden="true"></i>
+                                        </button>
                                         
+                                        <div class = "ui small modal add comment" id = "add-comment-modal-<%=index%>">
+                                            <i class = "close icon"></i>
+                                            <div class = "header">
+                                                New comment
+                                            </div>
+                                            <div class = "content">
+                                                <form class = "ui form" action = "/entries/<%=entry._id%>/comments" method = "POST">
+                                                    <div class = "field">
+                                                        <textarea rows = "3" name = "comment[text]" placeholder = "Comment"></textarea>
+                                                    </div>
+                                                    <div class = "field">
+                                                        <button class = "ui primary basic button">Add comment</button>
+                                                    </div>
+                                                </form>
+                                            </div> <!--content-->
+                                        </div> <!--ui small modal add comment -->
                                     </div>
                                 <% } %>
+                                
                                 <p> <strong>Course: <%= entry.class_name %></strong> </p>
                                 
                                 <div class = "meta">
@@ -282,9 +306,9 @@
                                             <div class = "comment">
                                                 <div class = "content">
                                                     <a class = "author"><%=comment.author.username%></a>
-                                                    <div class = "metadata">
-                                                        <span class = "date">Created time</span>
-                                                    </div>
+                                                    <!--<div class = "metadata">-->
+                                                    <!--    <span class = "date">Created time</span>-->
+                                                    <!--</div>-->
                                                     <div class = "text comment-text-field" id = "comment-<%=comment_index%>">
                                                         <%=comment.text%>
                                                     </div>
