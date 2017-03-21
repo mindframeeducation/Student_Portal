@@ -195,8 +195,35 @@
                                             </div>
                                         </div>
                                         <!--Modal to edit entry ends-->
-                                        <a id = "edit-entry-button-<%=index%>"style = "color: orange" data-tooltip="Edit" data-position="top center" href = "#"><i class="fa fa-pencil" aria-hidden="true"></i></a> | 
-                                        <button data-tooltip="Delete" data-position="top center" class="delete-button delete-entry-button-<%=index%>"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                        <button class = "ui mini circular icon button" id = "add-comment-button-<%=index%>" title = "Add comment">
+                                            <i class="fa fa-comments-o" aria-hidden="true"></i>
+                                        </button>
+                                        
+                                        <div class = "ui small modal add comment" id = "add-comment-modal-<%=index%>">
+                                            <div class = "header">
+                                                New comment
+                                            </div>
+                                            <div class = "content">
+                                                <form class = "ui form" action = "/entries/<%=entry._id%>/comments" method = "POST">
+                                                    <div class = "field">
+                                                        <textarea rows = "3" name = "comment[text]" placeholder = "Comment"></textarea>
+                                                    </div>
+                                                    <div class = "field">
+                                                        <button class = "ui primary basic button">Add comment</button>
+                                                    </div>
+                                                </form>
+                                            </div> <!--content-->
+                                        </div> <!--ui small modal add comment -->
+                                        
+                                        
+                                        <button class = "ui mini circular icon button" id = "edit-entry-button-<%=index%>" title = "Edit" style = "color: orange">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </button>
+                                        
+                                        <button title = "Delete" class="ui mini circular icon button delete-entry-button-<%=index%>" style = "color: rgb(255, 128, 128);">
+                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                        </button>
+                                        
                                         <div class = "ui small modal delete entry" id = "delete-entry-<%=index%>"><i class = "close icon"></i>
                                             <div class = "header">
                                                 Delete entry
@@ -243,45 +270,55 @@
                             </div> <!--class = content -->
                             
                         </div> <!--Ending of item div-->
-                        <div class = "ui accordion" style = "margin-left: 20px; padding-top: 0! important">
-                            <div class = "title">
-                                <i class="dropdown icon" style = "margin-right: 0"></i>
-                                Comments (<%=entry.comments.length%>) <span>
-                            </div>
-                            <div class = "content">
-                                <div class = "ui comments">
-                                    <% entry.comments.forEach(function(comment) { %>
-                                        <div class = "comment">
-                                            <div class = "content">
-                                                <a class = "author"><%=comment.author.username%></a>
-                                                <div class = "metadata">
-                                                    <span class = "date">Created time</span>
-                                                </div>
-                                                <div class = "text">
-                                                    <%=comment.text%>
-                                                </div>
-                                                <div class="actions">
-                                                    <a class="reply" style = "display: inline;" >Edit</a>
-                                                    <form class = "ui form reply" style = "display: inline;" action = "/entries/<%=entry._id%>/comments/<%=comment._id%>?_method=DELETE" method = "POST">
-                                                        <div class = "field" style = "display: inline;">
-                                                            <button class = "reply delete-comment-button">Delete</button>
+                        <% if (entry.comments && entry.comments.length > 0) { %>
+                            <div class = "ui accordion" style = "margin-left: 20px; padding-top: 0! important">
+                                <div class = "title">
+                                    <i class="dropdown icon" style = "margin-right: 0"></i>
+                                    Comments (<%=entry.comments.length%>) <span>
+                                </div>
+                                <div class = "content">
+                                    <div class = "ui comments">
+                                        <% entry.comments.forEach(function(comment, comment_index) { %>
+                                            <div class = "comment">
+                                                <div class = "content">
+                                                    <a class = "author"><%=comment.author.username%></a>
+                                                    <div class = "metadata">
+                                                        <span class = "date">Created time</span>
+                                                    </div>
+                                                    <div class = "text comment-text-field" id = "comment-<%=comment_index%>">
+                                                        <%=comment.text%>
+                                                    </div>
+                                                    <form class = "ui form" id = "comment-<%=comment_index%>-edit-form" action = "/entries/<%=entry._id%>/comments/<%=comment._id%>?_method=PUT" method = "POST" style = "display: none; margin-top: 3px;">  
+                                                        <div class = "field">
+                                                            <textarea rows = "2" name = "comment[text]"><%=comment.text%></textarea>
+                                                        </div>
+                                                        <div class = "field">
+                                                            <button class = "ui basic primary button" type = "submit">Save</button>
                                                         </div>
                                                     </form>
+                                                    <div class="actions">
+                                                        <a class="reply" style = "display: inline;" id = "edit-comment-button-<%=comment_index%>">Edit</a>
+                                                        <form class = "ui form reply" style = "display: inline;" action = "/entries/<%=entry._id%>/comments/<%=comment._id%>?_method=DELETE" method = "POST">
+                                                            <div class = "field" style = "display: inline;">
+                                                                <button class = "reply delete-comment-button">Delete</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
+                                        <% }); %>
+                                    </div>
+                                    <form class = "ui form" action = "/entries/<%=entry._id%>/comments" method = "POST">
+                                        <div class = "field">
+                                            <textarea rows = "2" name = "comment[text]" placeholder = "New comment"></textarea>
                                         </div>
-                                    <% }); %>
-                                </div>
-                                <form class = "ui form" action = "/entries/<%=entry._id%>/comments" method = "POST">
-                                    <div class = "field">
-                                        <textarea rows = "2" name = "comment[text]" placeholder = "New comment"></textarea>
-                                    </div>
-                                    <div class = "field">
-                                        <input class = "ui basic primary button" type = "submit" value = "Add comment">
-                                    </div>
-                                </form>
-                            </div> <!--content-->
-                        </div> <!--ui accordion-->
+                                        <div class = "field">
+                                            <input class = "ui basic primary button" type = "submit" value = "Add comment">
+                                        </div>
+                                    </form>
+                                </div> <!--content-->
+                            </div> <!--ui accordion-->
+                        <% }%>
                     <% }); %>
                 <% } else {%> 
                     <div class = "item">

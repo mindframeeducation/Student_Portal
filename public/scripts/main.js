@@ -168,6 +168,13 @@ for (let i = 0; i < $(".ui.small.modal.edit.entry").length; i++) {
 	});
 }
 
+// Initialize modal for adding comment
+for (let i = 0; i < $(".ui.small.modal.add.comment").length; i++){
+	$("#add-comment-button-" + i).click(function(){
+		$("#add-comment-modal-" + i).modal("show");
+	});
+}
+
 // Initialize modal for deleting note
 for (let i = 0; i < $(".ui.small.modal.remove.note").length; i++) {
 	$("#remove-note-button-" + i).click(function() {
@@ -263,6 +270,22 @@ function modal_dismiss() {
 		$(".small.modal").modal("hide");
 	});
 }
+
+// for (let i = 0; i < $(".ui.small.modal.edit.user").length; i++) {
+// 	$("#edit-user-button-" + i).click(function() {
+// 		$("#edit-user-modal-" + i).modal({
+// 			autofocus: false,
+// 		}).modal("show");
+// 	});
+// }
+
+for (let i = 0; i < $(".comment-text-field").length; i++){
+	$("#edit-comment-button-" + i).on("click", function(){
+		$("#comment-" + i).toggle();
+		$("#comment-" + i + "-edit-form").toggle();
+	});
+}
+
 
 
 

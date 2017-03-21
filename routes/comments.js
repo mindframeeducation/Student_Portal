@@ -28,6 +28,22 @@ router.post("/", function(req,res){
     });
 });
 
+router.put("/:comment_id", function(req,res){
+    if (req.body.comment.text.length === 0) {
+        req.flash("error", "Your comment cannot be empty!");
+        return res.redirect("back");
+    }
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, {new: true}, function(err, updatedComment){
+        if (err){
+            req.flash("Cannot update comment");
+            res.redirect("back");
+        } else {
+            req.flash("Comment updated successfully!");
+            res.redirect("back");
+        }
+    });
+});
+
 router.delete("/:comment_id", function(req,res){
     Comment.findByIdAndRemove(req.params.comment_id, function(err, removedComment) {
         if (err){
@@ -43,8 +59,9 @@ router.delete("/:comment_id", function(req,res){
                     res.redirect("back");
                     
                 }
-            })
+            });
         }
-    })
+    });
 });
+
 module.exports = router;
