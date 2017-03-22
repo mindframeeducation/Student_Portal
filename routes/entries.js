@@ -7,6 +7,7 @@ var Student = require("../models/student");
 var ClassList = require("../models/classList");
 var middlewareObj = require("../middleware");
 var Course = require("../models/course");
+var Comment = require("../models/comment");
 
 // The order of routes actually matters. If I put this NEW route before the show route,
 // it works, but not the other way around
@@ -136,7 +137,7 @@ router.put("/:entry_id", middlewareObj.isLoggedIn, middlewareObj.checkEntryOwner
 
 // DELETE ROUTE
 router.delete("/:entry_id", middlewareObj.isLoggedIn, middlewareObj.checkEntryOwnership, function(req, res) {
-    Entry.findByIdAndRemove(req.params.entry_id, function(err) {
+    Entry.findByIdAndRemove(req.params.entry_id, function(err, removedEntry) {
         if (err) {
             console.log("There is an error trying to remove!");
             req.flash("error", "Error");
@@ -154,8 +155,16 @@ router.delete("/:entry_id", middlewareObj.isLoggedIn, middlewareObj.checkEntryOw
                     res.redirect("back");
                 }
                 else {
-                    req.flash("success", "Entry successfully removed!");
-                    res.redirect("/students/" + req.params.id);
+                    Comment.remove({_id: {$in: removedEntry.comments}}, function(err){
+                        if (err){
+                            req.flash("error", "Cannot remove comments from this entry");
+                            res.redirect("back");
+                        }
+                        else {
+                            req.flash("success", "Entry successfully removed!");
+                            res.redirect("/students/" + req.params.id);
+                        }
+                    });
                 }
             });
         }

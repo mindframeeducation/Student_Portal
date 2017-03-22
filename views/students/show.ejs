@@ -271,7 +271,7 @@
                                 
                                 <div class = "meta">
                                     <% if (currentUser && currentUser.hasAccess('user')) { %>
-                                        Created by: <%= entry.author.username %> | Created on: 
+                                        Created by <%= entry.author.username %>, on 
                                     <% } %>
                                     <%= entry.created.toDateString() %>
                                 </div>
