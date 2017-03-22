@@ -8,7 +8,7 @@ var ClassList = require("../models/classList");
 var middlewareObj = require("../middleware");
 var Course = require("../models/course");
 var Comment = require("../models/comment");
-
+var async = require("async");
 // The order of routes actually matters. If I put this NEW route before the show route,
 // it works, but not the other way around
 // Create new entry (GET request)
@@ -136,39 +136,73 @@ router.put("/:entry_id", middlewareObj.isLoggedIn, middlewareObj.checkEntryOwner
 });
 
 // DELETE ROUTE
-router.delete("/:entry_id", middlewareObj.isLoggedIn, middlewareObj.checkEntryOwnership, function(req, res) {
-    Entry.findByIdAndRemove(req.params.entry_id, function(err, removedEntry) {
-        if (err) {
-            console.log("There is an error trying to remove!");
-            req.flash("error", "Error");
-            res.redirect("back");
-        }
-        else {
-            Student.findByIdAndUpdate(req.params.id, {
-                $pull: {
-                    entries: req.params.entry_id
-                }
-            }, function(err, data) {
-                if (err) {
-                    console.log("There is an error removing this entry from student's entry array");
-                    req.flash("error", "error");
-                    res.redirect("back");
-                }
-                else {
-                    Comment.remove({_id: {$in: removedEntry.comments}}, function(err){
-                        if (err){
-                            req.flash("error", "Cannot remove comments from this entry");
-                            res.redirect("back");
-                        }
-                        else {
-                            req.flash("success", "Entry successfully removed!");
-                            res.redirect("/students/" + req.params.id);
-                        }
-                    });
-                }
+
+router.delete("/:entry_id", middlewareObj.isLoggedIn, middlewareObj.checkEntryOwnership, function(req,res){
+    async.waterfall([
+        function(callback) {
+            Entry.findByIdAndRemove(req.params.entry_id, function(err, removedEntry){
+                callback(err, removedEntry);
             });
+        },
+        
+        function(removedEntry, callback){
+            Student.findByIdAndUpdate(req.params.id, {$pull: {entries: req.params.entry_id}}, function(err){
+                callback(err, removedEntry);
+            });
+        },
+        
+        function(removedEntry, callback){
+            Comment.remove({_id: {$in: removedEntry.comments}}, function(err){
+                callback(err, "done");
+            });
+        }
+    ], function(err, result){
+        if (err){
+            req.flash("error", "Something went wrong");
+            res.redirect("back");
+        } else {
+            console.log("The result is: " + result);
+            console.log("The error is: " + err);
+            req.flash("success", "Entry removed!");
+            res.redirect("back");
         }
     });
 });
+
+// Working delete route with callback hell ===============
+// router.delete("/:entry_id", middlewareObj.isLoggedIn, middlewareObj.checkEntryOwnership, function(req, res) {
+//     Entry.findByIdAndRemove(req.params.entry_id, function(err, removedEntry) {
+//         if (err) {
+//             console.log("There is an error trying to remove!");
+//             req.flash("error", "Error");
+//             res.redirect("back");
+//         }
+//         else {
+//             Student.findByIdAndUpdate(req.params.id, {
+//                 $pull: {
+//                     entries: req.params.entry_id
+//                 }
+//             }, function(err, data) {
+//                 if (err) {
+//                     console.log("There is an error removing this entry from student's entry array");
+//                     req.flash("error", "error");
+//                     res.redirect("back");
+//                 }
+//                 else {
+                    // Comment.remove({_id: {$in: removedEntry.comments}}, function(err){
+                    //     if (err){
+                    //         req.flash("error", "Cannot remove comments from this entry");
+                    //         res.redirect("back");
+                    //     }
+                    //     else {
+                    //         req.flash("success", "Entry successfully removed!");
+                    //         res.redirect("/students/" + req.params.id);
+                    //     }
+                    // });
+//                 }
+//             });
+//         }
+//     });
+// });
 
 module.exports = router;
