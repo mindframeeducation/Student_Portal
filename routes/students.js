@@ -38,6 +38,11 @@ router.post("/students", middlewareObj.isLoggedIn, middlewareObj.isAStaff, funct
 router.get("/students", middlewareObj.isLoggedIn, function(req, res) {
     Student.find({}).populate({
         path: "entries courses",
+        options: {
+            sort: {
+                created: -1
+            }
+        },
     }).sort({latest_entry_date: -1}).exec(function(err, student_list) {
         if (err) {
             console.log("There is an error fetching students from the DB");
