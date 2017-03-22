@@ -161,43 +161,77 @@
                                     <% } %>
                                 </div> <!--ui styled fluid accordion -->
                                 <!--accordion for course progress ends-->
-                                
-                                <!--accordion for student entry starts-->
-                                <div class = "ui styled fluid accordion">
-                                    <div class = "title active">
-                                        <i class = "dropdown icon"></i>
-                                        Student progress entry
+                                <h5 class="ui header" style = "margin-top: 5px;">Latest Progress Entry</h5>
+                                <div class="ui divider"></div>
+                                <div class = "item">
+                                    <div class = "content">
+                                        <div class = "header">
+                                            <strong><%=student.entries[0].class_name%></strong>
+                                        </div>
+                                        <div class = "meta">
+                                            <%=student.entries[0].created.toDateString()%>
+                                        </div>
+                                        <div class = "description">
+                                            <%=student.entries[0].summary%>
+                                        </div>
                                     </div>
-                                    <div class = "content active" style = "padding-top: 0;">
-                                        <div class = "ui divided items">
-                                            <% if (student.entries.length === 0) {%>
-                                                This student does not have any notes
-                                            <% } %>
-                                            
-                                            
-                                            <% for (var i = 0; i < student.entries.length; i++) { %>
-                                                <% if (i<3) { %>
-                                                    <div class = "item" style = "padding-bottom: 0; padding-top: 0;">
+                                </div>
+                                <% var current_entry = student.entries[0]; %>
+                                <% if (current_entry.comments && current_entry.comments.length > 0) { %>
+                                    <div class = "ui accordion">
+                                        <div class="title">
+                                            <i class="dropdown icon"></i>
+                                            Comments (<%=current_entry.comments.length%>)
+                                        </div>
+                                        <div class = "content" style = "margin-left: 10px;">
+                                            <div class = "ui comments">
+                                                <% current_entry.comments.forEach(function(comment, comment_index) { %>
+                                                    <div class = "comment">
                                                         <div class = "content">
-                                                            <strong><%=student.entries[i].class_name%></strong>
-                                                            <div class = "meta">
-                                                                <%=student.entries[i].created.toDateString(); %>
+                                                            <a class = "author"><%=comment.author.username%></a>
+                                                            <div class = "metadata">
+                                                                <span class = "date"><%=comment.created.toDateString()%></span>
                                                             </div>
-                                                            <div class = "description">
-                                                                <%=student.entries[i].summary%>
+                                                            <div class = "text comment-text-field" id = "comment-<%=comment_index%>">
+                                                                <%=comment.text%>
                                                             </div>
+                                                            <% if (currentUser && currentUser._id.equals(comment.author.id)) { %>
+                                                                <!--Inline form for editing comment -->
+                                                                <form class = "ui form" id = "comment-<%=comment_index%>-edit-form" action = "/entries/<%=current_entry._id%>/comments/<%=comment._id%>?_method=PUT" method = "POST" style = "display: none; margin-top: 3px;">  
+                                                                    <div class = "field">
+                                                                        <textarea rows = "2" name = "comment[text]"><%=comment.text%></textarea>
+                                                                    </div>
+                                                                    <div class = "field">
+                                                                        <button class = "ui basic primary button" type = "submit">Save</button>
+                                                                    </div>
+                                                                </form>
+                                                                <!--Edit and delete buttons -->
+                                                                <div class = "actions">
+                                                                    <a class="reply" style = "display: inline;" id = "edit-comment-button-<%=comment_index%>">Edit</a>
+                                                                    <form class = "ui form reply" style = "display: inline;" action = "/entries/<%=current_entry._id%>/comments/<%=comment._id%>?_method=DELETE" method = "POST">
+                                                                        <div class = "field" style = "display: inline;">
+                                                                            <button class = "reply delete-comment-button">Delete</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                                
+                                                            <% } %>
                                                         </div>
                                                     </div>
-                                                <% } %>
-                                            <% } %>
-                                            <% if (student.entries.length > 3) { %>
-                                                <span style = "margin-left: 1em;">
-                                                    <a href = "/students/<%=student._id%>">See more entries</a>
-                                                </span>
-                                            <% } %>
-                                        </div> <!--ui divided items-->
-                                    </div> <!--content -->
-                                </div> <!--ui styled fluid accordion-->
+                                                <% }); %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% } %>
+                                
+                                <div style = "margin-top: 20px;">
+                                    <a href = "/students/<%=student._id%>">See all entries</a>
+                                </div>
+                                
+                                
+                                
+                                <!--accordion for student entry starts-->
+                                
                                 <!--accordion for student entry ends-->
                             </div>
                         </div>

@@ -300,15 +300,15 @@
                                     <i class="dropdown icon" style = "margin-right: 0"></i>
                                     Comments (<%=entry.comments.length%>) <span>
                                 </div>
-                                <div class = "content">
+                                <div class = "content" style = "margin-left: 10px;">
                                     <div class = "ui comments">
                                         <% entry.comments.forEach(function(comment, comment_index) { %>
                                             <div class = "comment">
                                                 <div class = "content">
                                                     <a class = "author"><%=comment.author.username%></a>
-                                                    <!--<div class = "metadata">-->
-                                                    <!--    <span class = "date">Created time</span>-->
-                                                    <!--</div>-->
+                                                    <div class = "metadata">
+                                                        <span class = "date"><%=comment.created.toDateString()%></span>
+                                                    </div>
                                                     <div class = "text comment-text-field" id = "comment-<%=comment_index%>">
                                                         <%=comment.text%>
                                                     </div>

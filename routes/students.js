@@ -36,8 +36,15 @@ router.post("/students", middlewareObj.isLoggedIn, middlewareObj.isAStaff, funct
 
 // SHOW SEARCH PAGE FOR THE STUDENTS
 router.get("/students", middlewareObj.isLoggedIn, function(req, res) {
+    // if (!req.user.hasAccess("user") && req.user.students.length == 1) {
+    //     return res.redirect("/students/" + req.user.students[0].toString());
+    // }
     Student.find({}).populate({
         path: "entries courses",
+        populate : {
+            path: "comments",
+            model: "Comment"
+        },
         options: {
             sort: {
                 created: -1
