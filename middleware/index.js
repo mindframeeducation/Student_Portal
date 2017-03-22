@@ -1,6 +1,7 @@
 var Blog = require("../models/blog");
 var Note = require("../models/note");
 var Entry = require("../models/entry");
+var Comment = require("../models/comment");
 var middlewareObj = {};
 
 middlewareObj.isLoggedIn = function(req, res, next) {
@@ -87,9 +88,27 @@ middlewareObj.checkEntryOwnership = function(req, res, next) {
             }
             else {
                 req.flash("error", "You do not have permission to do that!");
-                res.redirect("/blogs");
+                res.redirect("back");
             }
         }
     });
 };
+
+middlewareObj.checkCommentOwnership = function(req, res, next){
+    Comment.findById(req.params.comment_id, function(err, foundComment){
+        if (err){
+            req.flash("error", "No such comment exists");
+            res.redirect("back");
+        }
+        else {
+            if (foundComment.author.id.equals(req.user._id) || req.user.hasAccess("admin")) {
+                next();
+            } else {
+                req.flash("error", "You do not have permission to do that!");
+                res.redirect("back");
+            }
+        }
+    });
+};
+
 module.exports = middlewareObj;

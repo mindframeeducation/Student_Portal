@@ -4,7 +4,7 @@ var express         = require("express"),
     Entry           = require("../models/entry"),
     Comment         = require("../models/comment"); 
 
-router.post("/", function(req,res){
+router.post("/", middlewareObj.isLoggedIn, function(req,res){
     Entry.findById(req.params.id, function(err, foundEntry){
         if (err){
             req.flash("error", "Cannot find entry");
@@ -28,7 +28,7 @@ router.post("/", function(req,res){
     });
 });
 
-router.put("/:comment_id", function(req,res){
+router.put("/:comment_id", middlewareObj.isLoggedIn, middlewareObj.checkCommentOwnership, function(req,res){
     if (req.body.comment.text.length === 0) {
         req.flash("error", "Your comment cannot be empty!");
         return res.redirect("back");
@@ -44,7 +44,7 @@ router.put("/:comment_id", function(req,res){
     });
 });
 
-router.delete("/:comment_id", function(req,res){
+router.delete("/:comment_id", middlewareObj.isLoggedIn, middlewareObj.checkCommentOwnership, function(req,res){
     Comment.findByIdAndRemove(req.params.comment_id, function(err, removedComment) {
         if (err){
             req.flash("error", "Error removing comment");

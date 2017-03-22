@@ -320,14 +320,17 @@
                                                             <button class = "ui basic primary button" type = "submit">Save</button>
                                                         </div>
                                                     </form>
-                                                    <div class="actions">
-                                                        <a class="reply" style = "display: inline;" id = "edit-comment-button-<%=comment_index%>">Edit</a>
-                                                        <form class = "ui form reply" style = "display: inline;" action = "/entries/<%=entry._id%>/comments/<%=comment._id%>?_method=DELETE" method = "POST">
-                                                            <div class = "field" style = "display: inline;">
-                                                                <button class = "reply delete-comment-button">Delete</button>
-                                                            </div>
-                                                        </form>
-                                                    </div>
+                                                    <% if ((currentUser && currentUser.hasAccess("admin")) || (currentUser && currentUser._id.equals(comment.author.id))) { %>
+                                                        <div class="actions">
+                                                            <a class="reply" style = "display: inline;" id = "edit-comment-button-<%=comment_index%>">Edit</a>
+                                                            <form class = "ui form reply" style = "display: inline;" action = "/entries/<%=entry._id%>/comments/<%=comment._id%>?_method=DELETE" method = "POST">
+                                                                <div class = "field" style = "display: inline;">
+                                                                    <button class = "reply delete-comment-button">Delete</button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    <% } %>
+                                                    
                                                 </div>
                                             </div>
                                         <% }); %>
