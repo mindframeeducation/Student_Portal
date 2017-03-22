@@ -161,8 +161,6 @@ router.delete("/:entry_id", middlewareObj.isLoggedIn, middlewareObj.checkEntryOw
             req.flash("error", "Something went wrong");
             res.redirect("back");
         } else {
-            console.log("The result is: " + result);
-            console.log("The error is: " + err);
             req.flash("success", "Entry removed!");
             res.redirect("back");
         }
