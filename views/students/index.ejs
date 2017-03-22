@@ -163,7 +163,30 @@
                                 <!--accordion for course progress ends-->
                                 <h5 class="ui header" style = "margin-top: 5px;">Latest Progress Entry</h5>
                                 <div class="ui divider"></div>
+                                
+                                <!--Modal for adding a new comment starts -->
+                                <div class = "ui small modal add comment" id = "add-comment-modal-0">
+                                    <i class = "close icon"></i>
+                                    <div class = "header">
+                                        New comment
+                                    </div>
+                                    <div class = "content">
+                                        <form class = "ui form" action = "/entries/<%=student.entries[0]._id%>/comments" method = "POST">
+                                            <div class = "field">
+                                                <textarea rows = "3" name = "comment[text]" placeholder = "Comment"></textarea>
+                                            </div>
+                                            <div class = "field">
+                                                <button class = "ui primary basic button">Add comment</button>
+                                            </div>
+                                        </form>
+                                    </div> <!--content-->
+                                </div> <!--ui small modal add comment -->
+                                <!--Modal for adding comment ends -->
+                                
                                 <div class = "item">
+                                    <button style = "color: rgb(102, 153, 255); float: right" class = "ui mini circular icon button" id = "add-comment-button-0" title = "Add comment">
+                                        <i class="fa fa-comment" aria-hidden="true"></i>
+                                    </button>
                                     <div class = "content">
                                         <div class = "header">
                                             <strong><%=student.entries[0].class_name%></strong>
