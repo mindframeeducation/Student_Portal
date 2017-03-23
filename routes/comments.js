@@ -17,6 +17,7 @@ router.post("/", middlewareObj.isLoggedIn, function(req,res){
                 } else {
                     comment.author.username = req.user.username;
                     comment.author.id = req.user._id;
+                    comment.author.role = req.user.role;
                     comment.save();
                     foundEntry.comments.push(comment);
                     foundEntry.save();

@@ -300,10 +300,17 @@
                                     <i class="dropdown icon" style = "margin-right: 0"></i>
                                     Comments (<%=entry.comments.length%>) <span>
                                 </div>
-                                <div class = "content" style = "margin-left: 10px;">
+                                <div class = "content">
                                     <div class = "ui comments">
                                         <% entry.comments.forEach(function(comment, comment_index) { %>
                                             <div class = "comment">
+                                                <a class="avatar">
+                                                    <% if (comment.author.role === "admin" || comment.author.role === "user") { %>
+                                                        <img style = "width: 15px; height: 15px;" src="/img/Mindframe-logo.png">
+                                                    <% } else { %>
+                                                        <img style = "width: 15px; height: 15px;" src="/img/account-icon.png">
+                                                    <% } %>
+                                                </a>
                                                 <div class = "content">
                                                     <a class = "author"><%=comment.author.username%></a>
                                                     <div class = "metadata">
