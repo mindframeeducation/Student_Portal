@@ -245,13 +245,20 @@
                                                                     <a class="reply" style = "display: inline;" id = "parent-edit-comment-button-<%=comment_index%>">Edit</a>
                                                                     <a class="reply" style = "display: inline;" id = "parent-delete-comment-button-<%=comment_index%>">Delete</a>
                                                                 </div>
-                                                                
                                                             <% } %>
                                                         </div>
                                                     </div>
                                                 <% }); %>
-                                            </div>
-                                        </div>
+                                            </div> <!--ui comments -->
+                                            <form class = "ui form" action = "/entries/<%=current_entry._id%>/comments" method = "POST">
+                                                <div class = "field">
+                                                    <input type = "text" name = "comment[text]" placeholder = "Write a comment...">
+                                                </div>
+                                                <div class = "field">
+                                                    <input class = "ui basic primary button" type = "submit" value = "Add comment">
+                                                </div>
+                                            </form>
+                                        </div> <!--content -->
                                     </div>
                                 <% } %>
                                 
