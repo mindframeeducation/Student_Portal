@@ -35,10 +35,10 @@ router.put("/:comment_id", middlewareObj.isLoggedIn, middlewareObj.checkCommentO
     }
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, {new: true}, function(err, updatedComment){
         if (err){
-            req.flash("Cannot update comment");
+            req.flash("error", "Cannot update comment");
             res.redirect("back");
         } else {
-            req.flash("Comment updated successfully!");
+            req.flash("success", "Comment updated successfully!");
             res.redirect("back");
         }
     });

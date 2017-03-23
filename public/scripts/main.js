@@ -2,7 +2,6 @@
 
 // var searchBtn = document.querySelector(".search-button");
 $(document).ready(function() {
-	// $(".student-row-class").css("display", "none");
 	$('.ui.checkbox').checkbox();
 	$('.ui.progress').progress({
 		showActivity: false
@@ -55,11 +54,9 @@ $(".ui.fluid.search.selection.dropdown").on("keypress", function(event) {
 	}
 });
 
-$("#editStudent").on("click", function(){
+$("#editStudent").on("click", function() {
 	$("#edit-student-info-form").toggle();
 });
-
-
 
 // Auto timeout messages
 window.setTimeout(function() {
@@ -169,8 +166,8 @@ for (let i = 0; i < $(".ui.small.modal.edit.entry").length; i++) {
 }
 
 // Initialize modal for adding comment
-for (let i = 0; i < $(".ui.small.modal.add.comment").length; i++){
-	$("#add-comment-button-" + i).click(function(){
+for (let i = 0; i < $(".ui.small.modal.add.comment").length; i++) {
+	$("#add-comment-button-" + i).click(function() {
 		$("#add-comment-modal-" + i).modal("show");
 	});
 }
@@ -279,15 +276,44 @@ function modal_dismiss() {
 // 	});
 // }
 
-for (let i = 0; i < $(".comment-text-field").length; i++){
-	$("#edit-comment-button-" + i).on("click", function(){
-		$("#comment-" + i).toggle();
-		$("#comment-" + i + "-edit-form").toggle();
+// Edit and delete comment logic for parent
+for (let i = 0; i < $(".parent-comment-text-field").length; i++) {
+	$("#parent-edit-comment-button-" + i).on("click", function() {
+		$("#parent-comment-" + i).toggle();
+		$("#parent-comment-" + i + "-edit-form").toggle();
+	});
+	$("#parent-delete-comment-button-" + i).on("click", function() {
+		$("#parent-edit-comment-button-" + i).toggle();
+		$("#parent-delete-confirm-" + i).toggle();
+		$(this).toggle();
+	});
+	$("#parent-cancel-delete-comment-button-" + i).on("click", function() {
+		$("#parent-edit-comment-button-" + i).toggle();
+		$("#parent-delete-comment-button-" + i).toggle();
+		$("#parent-delete-confirm-" + i).toggle();
 	});
 }
 
+// Edit and delete comment logic for admin
+for (let i = 0; i < $(".ui.small.modal.add.comment").length; i++) {
+	for (let j = 0; j < $(".comment-text-field").length; j++) {
+		$("#edit-comment-button-" + i + "-" + j).on("click", function() {
+			$("#comment-" + i + "-" + j).toggle();
+			$("#comment-" + i + "-" + j + "-edit-form").toggle();
+		});
 
-
+		$("#delete-comment-button-" + i + "-" + j).on("click", function() {
+			$("#edit-comment-button-" + i + "-" + j).toggle();
+			$("#delete-confirm-" + i + "-" + j).toggle();
+			$(this).toggle();
+		});
+		$("#cancel-delete-comment-button-" + i + "-" + j).on("click", function() {
+			$("#edit-comment-button-" + i + "-" + j).toggle();
+			$("#delete-comment-button-" + i + "-" + j).toggle();
+			$("#delete-confirm-" + i + "-" + j).toggle();
+		});
+	}
+}
 
 // Sortable starts
 /*

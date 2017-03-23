@@ -1,14 +1,11 @@
 @media (max-width: 766px) {
-    #next-page
-    {
+    #next-page {
         display: none;
     }
-    #prev-page
-    {
+    #prev-page {
         display: none;
     }
-    .ui.table tbody tr td.selectable>a:not(.ui) 
-    {
+    .ui.table tbody tr td.selectable>a:not(.ui) {
         padding: 0;
     }
 }
@@ -18,6 +15,7 @@ body {
     background-color: #ECECEA;
     font-family: 'Noto Sans', sans-serif !important;
 }
+
 .ui {
     font-family: 'Noto Sans', sans-serif !important;
 }
@@ -53,7 +51,9 @@ p {
     display: inline;
 }
 
+
 /*Flash messages for computers */
+
 .ui.success.message.small.overlay {
     z-index: 100;
     position: absolute;
@@ -72,7 +72,9 @@ p {
     text-align: center;
 }
 
+
 /*Flash messages for tablet and mobile */
+
 .ui.success.message.small.overlay.mobile {
     z-index: 100;
     position: absolute;
@@ -92,7 +94,7 @@ p {
 }
 
 .ui.form.student-show-page {
-    display: inline;    
+    display: inline;
 }
 
 .student-list {
@@ -115,7 +117,7 @@ p {
     background: none!important;
     border: none;
     padding: 0!important;
-    color: rgba(0,0,0,.4);
+    color: rgba(0, 0, 0, .4);
     font-size: .875em;
 }
 
@@ -127,10 +129,19 @@ p {
     /*background-color: rgb(51, 51, 51);*/
     background-color: rgb(232, 232, 227);
 }
-.ui.inverted.segment, .ui.primary.inverted.segment {
+
+.ui.inverted.segment,
+.ui.primary.inverted.segment {
     color: rgb(77, 77, 77);
 }
 
 .ui.fitted.divider {
     margin: 5px;
+}
+
+
+/*Change color of delete comment button on hover */
+
+input[type="submit"]:hover {
+    color: rgb(255, 51, 51);
 }

@@ -207,7 +207,7 @@
                                             <div class = "content">
                                                 <form class = "ui form" action = "/entries/<%=entry._id%>/comments" method = "POST">
                                                     <div class = "field">
-                                                        <textarea rows = "3" name = "comment[text]" placeholder = "Comment"></textarea>
+                                                        <input type = "text" name = "comment[text]" placeholder = "Write a comment...">
                                                     </div>
                                                     <div class = "field">
                                                         <button class = "ui primary basic button">Add comment</button>
@@ -256,7 +256,7 @@
                                             <div class = "content">
                                                 <form class = "ui form" action = "/entries/<%=entry._id%>/comments" method = "POST">
                                                     <div class = "field">
-                                                        <textarea rows = "3" name = "comment[text]" placeholder = "Comment"></textarea>
+                                                        <input type = "text" name = "comment[text]" placeholder = "Write a comment...">
                                                     </div>
                                                     <div class = "field">
                                                         <button class = "ui primary basic button">Add comment</button>
@@ -309,25 +309,44 @@
                                                     <div class = "metadata">
                                                         <span class = "date"><%=comment.created.toDateString()%></span>
                                                     </div>
-                                                    <div class = "text comment-text-field" id = "comment-<%=comment_index%>">
+                                                    <div class = "text comment-text-field" id = "comment-<%=index%>-<%=comment_index%>">
                                                         <%=comment.text%>
                                                     </div>
-                                                    <form class = "ui form" id = "comment-<%=comment_index%>-edit-form" action = "/entries/<%=entry._id%>/comments/<%=comment._id%>?_method=PUT" method = "POST" style = "display: none; margin-top: 3px;">  
+                                                    <form class = "ui form" id = "comment-<%=index%>-<%=comment_index%>-edit-form" action = "/entries/<%=entry._id%>/comments/<%=comment._id%>?_method=PUT" method = "POST" style = "display: none; margin-top: 3px;">  
                                                         <div class = "field">
-                                                            <textarea rows = "2" name = "comment[text]"><%=comment.text%></textarea>
+                                                            <input type = "text" name = "comment[text]" value = "<%=comment.text%>">
                                                         </div>
                                                         <div class = "field">
                                                             <button class = "ui basic primary button" type = "submit">Save</button>
                                                         </div>
                                                     </form>
                                                     <% if ((currentUser && currentUser.hasAccess("admin")) || (currentUser && currentUser._id.equals(comment.author.id))) { %>
-                                                        <div class="actions">
-                                                            <a class="reply" style = "display: inline;" id = "edit-comment-button-<%=comment_index%>">Edit</a>
-                                                            <form class = "ui form reply" style = "display: inline;" action = "/entries/<%=entry._id%>/comments/<%=comment._id%>?_method=DELETE" method = "POST">
-                                                                <div class = "field" style = "display: inline;">
-                                                                    <button class = "reply delete-comment-button">Delete</button>
-                                                                </div>
-                                                            </form>
+                                                        
+                                                        <!--Inline form for editing comment -->
+                                                        <form class = "ui form" id = "comment-<%=index%>-<%=comment_index%>-edit-form" action = "/entries/<%=entry._id%>/comments/<%=comment._id%>?_method=PUT" method = "POST" style = "display: none; margin-top: 3px;">  
+                                                            <div class = "field">
+                                                                <input type = "text" name = "comment[text]" value = "<%=comment.text%>">
+                                                            </div>
+                                                            <div class = "field">
+                                                                <button class = "ui basic primary button" type = "submit">Save</button>
+                                                            </div>
+                                                        </form>
+                                                        <div style = "color: red; display: none;" id = "delete-confirm-<%=index%>-<%=comment_index%>">
+                                                            Are you sure you want to delete?
+                                                            <div class = "actions">
+                                                                <a class="reply" style = "display: inline;" id = "cancel-delete-comment-button-<%=index%>-<%=comment_index%>">NO</a>
+                                                                <form class = "ui form reply" style = "display: inline;" action = "/entries/<%=entry._id%>/comments/<%=comment._id%>?_method=DELETE" method = "POST">
+                                                                    <div class = "field" style = "display: inline;">
+                                                                        <input class = "delete-comment-button" type = "submit" value = "YES">
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                        
+                                                        <!--Edit and delete buttons -->
+                                                        <div class = "actions">
+                                                            <a class="reply" style = "display: inline;" id = "edit-comment-button-<%=index%>-<%=comment_index%>">Edit</a>
+                                                            <a class="reply" style = "display: inline;" id = "delete-comment-button-<%=index%>-<%=comment_index%>">Delete</a>
                                                         </div>
                                                     <% } %>
                                                     
@@ -337,7 +356,7 @@
                                     </div>
                                     <form class = "ui form" action = "/entries/<%=entry._id%>/comments" method = "POST">
                                         <div class = "field">
-                                            <textarea rows = "2" name = "comment[text]" placeholder = "New comment"></textarea>
+                                            <input type = "text" name = "comment[text]" placeholder = "Write a comment...">
                                         </div>
                                         <div class = "field">
                                             <input class = "ui basic primary button" type = "submit" value = "Add comment">
@@ -352,13 +371,10 @@
                         This student does not have any entry yet :(
                     </div>
                 <% } %>
-                
-                
             </div> <!--ui divided items-->
         </div> <!--ui top raised segment-->
     </div> <!--Ending of ui main text container div-->
     <!--Third segment ends-->
-
 
 <!--Modal to update learning goal-->
 <div class="ui small modal goal"> <i class="close icon" ></i>
@@ -373,7 +389,6 @@
                 <% } else { %>
                     <textarea rows="4" name = "learning_goal" placeholder = "Learning goal"></textarea>
                 <% } %>
-                
             </div>
             <div class = "field">
                 <input class="ui blue basic button" type = "Submit" value = "Save">
