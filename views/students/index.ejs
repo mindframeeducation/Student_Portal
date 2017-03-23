@@ -213,7 +213,7 @@
                                                         <div class = "content">
                                                             <a class = "author"><%=comment.author.username%></a>
                                                             <div class = "metadata">
-                                                                <span class = "date"><%=comment.created.toDateString()%></span>
+                                                                <span class = "date"><%=moment(comment.created).utcOffset(-4).fromNow()%></span>
                                                             </div>
                                                             <div class = "text parent-comment-text-field" id = "parent-comment-<%=comment_index%>">
                                                                 <%=comment.text%>

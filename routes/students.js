@@ -6,7 +6,7 @@ var express = require("express"),
     ClassList = require("../models/classList"),
     Comment = require("../models/comment");
 var middlewareObj = require("../middleware");
-
+var moment = require('moment');
 // ROUTES TO ADD A NEW STUDENT
 router.get("/students/new", middlewareObj.isLoggedIn, middlewareObj.isAStaff, function(req, res) {
     res.render("students/new");
@@ -41,7 +41,7 @@ router.get("/students", middlewareObj.isLoggedIn, function(req, res) {
     // }
     Student.find({}).populate({
         path: "entries courses",
-        populate : {
+        populate: {
             path: "comments",
             model: "Comment"
         },
@@ -50,13 +50,16 @@ router.get("/students", middlewareObj.isLoggedIn, function(req, res) {
                 created: -1
             }
         },
-    }).sort({latest_entry_date: -1}).exec(function(err, student_list) {
+    }).sort({
+        latest_entry_date: -1
+    }).exec(function(err, student_list) {
         if (err) {
             console.log("There is an error fetching students from the DB");
         }
         else {
             res.render("students/index", {
-                students: student_list
+                students: student_list,
+                moment: moment
             });
         }
     });
@@ -68,7 +71,7 @@ router.get("/students/:id", middlewareObj.isLoggedIn, function(req, res) {
     // Student.findById(req.params.id).populate("entries notes").exec(function(err, foundStudent){
     Student.findById(req.params.id).populate({
         path: 'entries notes courses',
-        populate : {
+        populate: {
             path: "comments",
             model: "Comment"
         },
@@ -99,6 +102,7 @@ router.get("/students/:id", middlewareObj.isLoggedIn, function(req, res) {
                             res.render("students/show", {
                                 foundStudent: foundStudent,
                                 students: student_list,
+                                moment: moment,
                                 courses: courses
                             });
                         }
