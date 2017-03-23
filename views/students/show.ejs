@@ -308,7 +308,9 @@
                                                     <a class = "author"><%=comment.author.username%></a>
                                                     <div class = "metadata">
                                                         <!--moment(comment.created.toDateString()).fromNow()-->
-                                                        <span class = "date"><%=moment(comment.created).utcOffset(-4).fromNow()%></span>
+                                                        <!--moment(comment.created).utcOffset(-4).fromNow()-->
+                                                        
+                                                        <span class = "date"><%=moment(comment.created).zone("-05:00").fromNow()%></span>
                                                     </div>
                                                     <div class = "text comment-text-field" id = "comment-<%=index%>-<%=comment_index%>">
                                                         <%=comment.text%>
