@@ -183,7 +183,7 @@
                                 </div> <!--ui small modal add comment -->
                                 <!--Modal for adding comment ends -->
                                 
-                                <div class = "item">
+                                <div class = "item" style = "margin-left: 10px;">
                                     <button style = "color: rgb(102, 153, 255); float: right" class = "ui mini circular icon button" id = "add-comment-button-0" title = "Add comment">
                                         <i class="fa fa-comment" aria-hidden="true"></i>
                                     </button>
@@ -257,7 +257,7 @@
                                                     </div>
                                                 <% }); %>
                                             </div> <!--ui comments -->
-                                            <form class = "ui form" action = "/entries/<%=current_entry._id%>/comments" method = "POST">
+                                            <form style = "margin-left: 10px;" class = "ui form" action = "/entries/<%=current_entry._id%>/comments" method = "POST">
                                                 <div class = "field">
                                                     <input type = "text" name = "comment[text]" placeholder = "Write a comment...">
                                                 </div>
