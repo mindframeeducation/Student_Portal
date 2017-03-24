@@ -14,6 +14,7 @@ router.post("/", middlewareObj.isLoggedIn, function(req,res){
             req.flash("error", "Cannot find entry");
             res.redirect("back");
         } else {
+            req.body.comment.text = req.sanitize(req.body.comment.text);
             Comment.create(req.body.comment, function(err, comment){
                 if (err){
                     req.flash("error", "Error creating comment");
@@ -38,6 +39,7 @@ router.put("/:comment_id", middlewareObj.isLoggedIn, middlewareObj.checkCommentO
         req.flash("error", "Your comment cannot be empty!");
         return res.redirect("back");
     }
+    req.body.comment.text = req.sanitize(req.body.comment.text);
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, {new: true}, function(err, updatedComment){
         if (err){
             req.flash("error", "Cannot update comment");
