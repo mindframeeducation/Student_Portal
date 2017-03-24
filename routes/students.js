@@ -45,13 +45,6 @@ router.get("/students", middlewareObj.isLoggedIn, function(req, res) {
             path: "comments",
             model: "Comment"
         },
-        options: {
-            sort: {
-                created: -1
-            }
-        },
-    }).sort({
-        latest_entry_date: -1
     }).exec(function(err, student_list) {
         if (err) {
             console.log("There is an error fetching students from the DB");
