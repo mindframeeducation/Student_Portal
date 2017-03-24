@@ -5,6 +5,10 @@ var express         = require("express"),
     Comment         = require("../models/comment"); 
 
 router.post("/", middlewareObj.isLoggedIn, function(req,res){
+    if (req.body.comment.text.length === 0) {
+        req.flash("error", "Comment cannot be blank");
+        return res.redirect("back");
+    }
     Entry.findById(req.params.id, function(err, foundEntry){
         if (err){
             req.flash("error", "Cannot find entry");
