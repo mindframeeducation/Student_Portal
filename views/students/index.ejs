@@ -118,6 +118,7 @@
                     You do not have any students assigned to you. Please contact the admin!
                 <% } %>
                 <% students.forEach(function(student) { %>
+                <% var latest_entry = student.entries[student.entries.length - 1] %>
                     <% if (currentUser.students && currentUser.students.indexOf(student._id) > -1) { %>
                         <div class = "item">
                             <div class = "content">
@@ -185,7 +186,8 @@
                                         New comment
                                     </div>
                                     <div class = "content">
-                                        <form class = "ui form" action = "/entries/<%=student.entries[0]._id%>/comments" method = "POST">
+                                        <%  %>
+                                        <form class = "ui form" action = "/entries/<%=latest_entry._id%>/comments" method = "POST">
                                             <div class = "field">
                                                 <input type = "text" name = "comment[text]" placeholder = "Write a comment...">
                                             </div>
@@ -203,17 +205,17 @@
                                     </button>
                                     <div class = "content">
                                         <div class = "header">
-                                            <strong><%=student.entries[0].class_name%></strong>
+                                            <strong><%=latest_entry.class_name%></strong>
                                         </div>
                                         <div class = "meta">
-                                            <%=student.entries[0].created.toDateString()%>
+                                            <%=latest_entry.created.toDateString()%>
                                         </div>
                                         <div class = "description">
-                                            <%=student.entries[0].summary%>
+                                            <%=latest_entry.summary%>
                                         </div>
                                     </div>
                                 </div>
-                                <% var current_entry = student.entries[0]; %>
+                                <% var current_entry = latest_entry; %>
                                 <% if (current_entry.comments && current_entry.comments.length > 0) { %>
                                     <div class = "ui accordion">
                                         <div class="title">
