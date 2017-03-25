@@ -117,6 +117,7 @@
                 <% if (currentUser.students.length === 0) { %>
                     You do not have any students assigned to you. Please contact the admin!
                 <% } %>
+                <% var student_index = 0; %>
                 <% students.forEach(function(student) { %>
                 <% var latest_entry = student.entries[student.entries.length - 1] %>
                     <% if (currentUser.students && currentUser.students.indexOf(student._id) > -1) { %>
@@ -180,7 +181,7 @@
                                 <div class="ui divider"></div>
                                 
                                 <!--Modal for adding a new comment starts -->
-                                <div class = "ui small modal add comment" id = "add-comment-modal-0">
+                                <div class = "ui small modal add comment" id = "add-comment-modal-<%=student_index%>">
                                     <i class = "close icon"></i>
                                     <div class = "header">
                                         New comment
@@ -200,7 +201,7 @@
                                 <!--Modal for adding comment ends -->
                                 
                                 <div class = "item" style = "margin-left: 10px;">
-                                    <button style = "color: rgb(102, 153, 255); float: right" class = "ui mini circular icon button" id = "add-comment-button-0" title = "Add comment">
+                                    <button style = "color: rgb(102, 153, 255); float: right" class = "ui mini circular icon button" id = "add-comment-button-<%=student_index%>" title = "Add comment">
                                         <i class="fa fa-comment" aria-hidden="true"></i>
                                     </button>
                                     <div class = "content">
@@ -288,16 +289,12 @@
                                 <div style = "margin-top: 20px;">
                                     <a href = "/students/<%=student._id%>">See all entries</a>
                                 </div>
-                                
-                                
-                                
-                                <!--accordion for student entry starts-->
-                                
-                                <!--accordion for student entry ends-->
                             </div>
                         </div>
+                        <% student_index++; %>
                     <% } %>
-                <% }); %>
+                    
+                <% }); %> <!--students forEach loop -->
             </div>
         </div>
     <% } %>
