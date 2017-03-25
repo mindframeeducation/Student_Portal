@@ -118,6 +118,7 @@
                     You do not have any students assigned to you. Please contact the admin!
                 <% } %>
                 <% var student_index = 0; %>
+                <% var comment_index = 0;%>
                 <% students.forEach(function(student) { %>
                 <% var latest_entry = student.entries[student.entries.length - 1] %>
                     <% if (currentUser.students && currentUser.students.indexOf(student._id) > -1) { %>
@@ -225,7 +226,7 @@
                                         </div>
                                         <div class = "content">
                                             <div class = "ui comments">
-                                                <% current_entry.comments.forEach(function(comment, comment_index) { %>
+                                                <% current_entry.comments.forEach(function(comment) { %>
                                                     <div class = "comment">
                                                         <a class="avatar">
                                                             <% if (comment.author.role === "admin" || comment.author.role === "user") { %>
@@ -272,7 +273,9 @@
                                                             <% } %>
                                                         </div>
                                                     </div>
-                                                <% }); %>
+                                                    <% comment_index++ %>
+                                                <% }); %> <!--comments.forEach -->
+                                                
                                             </div> <!--ui comments -->
                                             <form style = "margin-left: 10px;" class = "ui form" action = "/entries/<%=current_entry._id%>/comments" method = "POST">
                                                 <div class = "field">

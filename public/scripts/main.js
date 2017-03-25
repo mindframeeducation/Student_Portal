@@ -278,6 +278,7 @@ function modal_dismiss() {
 
 // Edit and delete comment logic for parent
 for (let i = 0; i < $(".parent-comment-text-field").length; i++) {
+	console.log("i is: " + i);
 	$("#parent-edit-comment-button-" + i).on("click", function() {
 		$("#parent-comment-" + i).toggle();
 		$("#parent-comment-" + i + "-edit-form").toggle();
