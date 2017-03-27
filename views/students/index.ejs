@@ -219,12 +219,12 @@
                                 </div>
                                 <% var current_entry = latest_entry; %>
                                 <% if (current_entry.comments && current_entry.comments.length > 0) { %>
-                                    <div class = "ui accordion">
-                                        <div class="title">
-                                            <i class="dropdown icon"></i>
+                                    <div class = "ui accordion" style = "margin-left: 5px;">
+                                        <div class="active title">
+                                            <i class="dropdown icon" style = "margin-right: 0"></i>
                                             Comments (<%=current_entry.comments.length%>)
                                         </div>
-                                        <div class = "content">
+                                        <div class = "active content">
                                             <div class = "ui comments">
                                                 <% current_entry.comments.forEach(function(comment) { %>
                                                     <div class = "comment">
@@ -235,7 +235,7 @@
                                                                 <img style = "width: 15px; height: 15px;" src="/img/account-icon.png">
                                                             <% } %>
                                                         </a>
-                                                        <div class = "content">
+                                                        <div class = "active content">
                                                             <a class = "author"><%=comment.author.username%></a>
                                                             <div class = "metadata">
                                                                 <span class = "date"><%=moment(comment.created).utcOffset("-05:00").fromNow()%></span>
