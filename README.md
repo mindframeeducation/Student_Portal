@@ -23,9 +23,7 @@ A simple application that allows parents to track their child/children's progres
 * Clone the repository using:
 
 ```
-
 git clone https://github.com/mindframeeducation/Student_Portal.git
-
 ```
 * To test run this app:
   * Clone the repository to your workspace
@@ -33,14 +31,12 @@ git clone https://github.com/mindframeeducation/Student_Portal.git
   * Have 2 terminal tabs opened
   * In the first terminal tab (where you have your MongoDB setup), run: 
 ```
-
 ./mongod
 ```
   * In the second terminal (where your cloned directory is), run:
 
 ```
 export ENV_VAR="mongodb://localhost/blogData"
-
 nodemon
 ```
   * You should be up and running. If you see an error saying "There is an error connecting to the database", check the previous steps on how to configure your MongoDB database
@@ -54,7 +50,6 @@ To develop a new feature, please follow the following procedure:
   4. When you are done, stage and commit your changes in that branch, then push it to the remote repository with:
 
 ```
-
 git push <remote> <your-branch-name>
 ```
 
