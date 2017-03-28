@@ -23,7 +23,6 @@ A simple application that allows parents to track their child/children's progres
 * Clone the repository using:
 
 ```
-#!git
 
 git clone https://github.com/mindframeeducation/Student_Portal.git
 
@@ -34,14 +33,12 @@ git clone https://github.com/mindframeeducation/Student_Portal.git
   * Have 2 terminal tabs opened
   * In the first terminal tab (where you have your MongoDB setup), run: 
 ```
-#!git
 
 ./mongod
 ```
   * In the second terminal (where your cloned directory is), run:
 
 ```
-#!git
 export ENV_VAR="mongodb://localhost/blogData"
 
 nodemon
@@ -57,7 +54,6 @@ To develop a new feature, please follow the following procedure:
   4. When you are done, stage and commit your changes in that branch, then push it to the remote repository with:
 
 ```
-#!git
 
 git push <remote> <your-branch-name>
 ```
