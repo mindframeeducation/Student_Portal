@@ -25,7 +25,7 @@ A simple application that allows parents to track their child/children's progres
 ```
 #!git
 
-git clone git@bitbucket.org:mindframeeducation/studentportal.git
+git clone https://github.com/mindframeeducation/Student_Portal.git
 
 ```
 * To test run this app:
@@ -44,7 +44,7 @@ git clone git@bitbucket.org:mindframeeducation/studentportal.git
 #!git
 export ENV_VAR="mongodb://localhost/blogData"
 
-node app.js
+nodemon
 ```
   * You should be up and running. If you see an error saying "There is an error connecting to the database", check the previous steps on how to configure your MongoDB database
 
@@ -62,4 +62,4 @@ To develop a new feature, please follow the following procedure:
 git push <remote> <your-branch-name>
 ```
 
-Finally, go to BitBucket and create a pull request for your branch
+Finally, go to Github and create a pull request for your branch
